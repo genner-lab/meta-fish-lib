@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 # script to load up reference libraries and clean them up
 # load
-source("scripts/load-libs.R")
+source("https://raw.githubusercontent.com/genner-lab/meta-fish-lib/main/scripts/load-libs.R")
 
 # start timer
 start_time <- Sys.time()
@@ -22,7 +22,6 @@ uk.species.table.common <- uk.species.table %>% filter(commonSpecies==TRUE)
 
 ## load up the reference library
 reflib.orig <- vroom::vroom("https://github.com/genner-lab/meta-fish-lib/raw/main/reports/reference-library-master.csv.gz",delim=",",num_threads=1,guess_max=99999,col_types=cols())
-
 
 ## clean
 # load up the exclusions file to clean the data
