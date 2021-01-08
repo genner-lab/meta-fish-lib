@@ -63,3 +63,4 @@ tibble(
 
 # write encouraging words
 writeLines(paste("\n", dim(reflib.orig)[1], "reference sequences loaded and filtered in", round(end_time-start_time,digits=1), "seconds"))
+writeLines("\nA reference library object 'reflib.orig' is now in your memory")

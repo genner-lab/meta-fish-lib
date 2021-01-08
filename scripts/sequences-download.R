@@ -157,4 +157,4 @@ stats <- tibble(
 writeLines("\nPrinting stats ...\n")
 print(stats,n=Inf)
 write_csv(stats,file="reports/stats.csv")
-writeLines("\nAll operations completed!\nPlease read previous messages in case of error\n")
+writeLines("\nAll operations completed!\nPlease read previous messages in case of error")
