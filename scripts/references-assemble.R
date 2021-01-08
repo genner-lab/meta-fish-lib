@@ -177,6 +177,6 @@ glimpse(dbs.merged.final)
 #dbs.merged.final %>% filter(!dbid %in% pull(old,dbid)) %>% select(dbid,sciNameOrig,sciNameBinomen,sciNameValid) %>% print(n=Inf)
 
 # write out a gzipped file (orig is too big for github)
-writeLines("\nWriting out reference library to 'reports/reference-library-master.csv.gz' ...")
-write_csv(dbs.merged.final, file=gzfile("reports/reference-library-master.csv.gz"), na="")
+writeLines("\nWriting out reference library to 'assets/reference-library-master.csv.gz' ...")
+write_csv(dbs.merged.final, file=gzfile("assets/reference-library-master.csv.gz"), na="")
 writeLines("\nAll operations completed!\nPlease read previous messages in case of error\n")

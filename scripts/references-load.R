@@ -21,7 +21,7 @@ uk.species.table.common <- uk.species.table %>% filter(commonSpecies==TRUE)
 
 
 ## load up the reference library
-reflib.orig <- vroom::vroom("https://github.com/genner-lab/meta-fish-lib/raw/main/reports/reference-library-master.csv.gz",delim=",",num_threads=1,guess_max=99999,col_types=cols())
+reflib.orig <- vroom::vroom("https://github.com/genner-lab/meta-fish-lib/raw/main/assets/reference-library-master.csv.gz",delim=",",num_threads=1,guess_max=99999,col_types=cols())
 
 ## clean
 # load up the exclusions file to clean the data
