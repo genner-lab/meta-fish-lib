@@ -214,7 +214,7 @@ phylogenize <- function(fas,prefix,binLoc,version){
     fas <- ips::mafft(fas,exec="mafft",method="retree 2",maxiterate=2)
     tr <- ips::raxml(fas, file=paste0("fromR-",prefix), m="GTRCAT", f="d", p=42, exec=binLoc, N=1)
     tr <- tr$bestTree
-    tmp.path <- paste0("temp/qc_v",version,"_",paste(month(ymd(Sys.Date()),label=TRUE),year(ymd(Sys.Date())),sep="-"))
+    tmp.path <- paste0("qc_v",version,"_",paste(month(ymd(Sys.Date()),label=TRUE),year(ymd(Sys.Date())),sep="-"))
     dir.create(path=tmp.path)
     flist <- list.files(pattern=prefix)
     file.copy(flist, paste0(tmp.path,"/",flist))
@@ -233,7 +233,8 @@ plot_trees <- function(tr,df,prefix,version){
     cols <- rep("gray20",length(tr$tip.label))
     cols[which(allmono==FALSE)] <- "hotpink"
     cols[match(df$noms[which(df$nMatches>1)], tr$tip.label)] <- "green3"
-    tmp.path <- paste0("temp/qc_v",version,"_",paste(month(ymd(Sys.Date()),label=TRUE),year(ymd(Sys.Date())),sep="-"))
+    tmp.path <- paste0("reports/qc_v",version,"_",paste(month(ymd(Sys.Date()),label=TRUE),year(ymd(Sys.Date())),sep="-"))
+    dir.create(path=tmp.path)
     dfs <- df %>% summarise(nSeqs=sum(nHaps),nHaps=length(nHaps),nSpp=length(unique(sciNameValid)))
     tit <- paste0(str_replace_all(prefix,"\\.noprimers",""),"\n(n=",pull(dfs,nSeqs),", n haps=",pull(dfs,nHaps),", n spp.=",pull(dfs,nSpp),")\npink = non-monophyletic species\ngreen = shared haplotypes\nscroll down for tree ...")
     pdf(file=paste0(tmp.path,"/RAxML_bestTree.",prefix,".pdf"), width=15, height=length(tr$tip.label)/10)
