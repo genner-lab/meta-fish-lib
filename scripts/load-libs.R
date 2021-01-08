@@ -241,3 +241,6 @@ plot_trees <- function(tr,df,prefix,version){
     title(tit, line=-10)
     dev.off()
 }
+
+# message
+writeLines("\nPackages and functions loaded\n")
