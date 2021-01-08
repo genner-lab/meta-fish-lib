@@ -6,7 +6,7 @@ source("https://raw.githubusercontent.com/genner-lab/meta-fish-lib/main/scripts/
 # start timer
 start_time <- Sys.time()
 
-writeLines("\nLoading reference library ...\n")
+writeLines("\nLoading reference library ...")
 
 ## load up the species info table
 # species data
@@ -51,12 +51,12 @@ reflib.orig %<>%
 # end timer
 end_time <- Sys.time()
 
-# write encouraging words
-writeLines(paste(dim(reflib.orig)[1], "references loaded and filtered in", round(end_time-start_time,digits=1), "seconds ...\n"))
-
 # alert taxonomic changes
 writeLines("\nThe following taxonomic changes were made:\n")
 tibble(
 	scientificName=c("Pungitius laevis","Cottus perifretum","Atherina presbyter"),
 	ammendedName=c("Pungitius pungitius","Cottus gobio","Atherina boyeri")
 	) %>% print(n=Inf)
+
+# write encouraging words
+writeLines(paste(dim(reflib.orig)[1], "\nReference library loaded and filtered in", round(end_time-start_time,digits=1), "seconds ...\n"))

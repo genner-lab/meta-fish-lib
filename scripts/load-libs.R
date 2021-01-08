@@ -243,4 +243,4 @@ plot_trees <- function(tr,df,prefix,version){
 }
 
 # message
-writeLines("\nPackages and functions loaded\n")
+writeLines("\nPackages and functions loaded")
