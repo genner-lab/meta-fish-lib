@@ -1,7 +1,10 @@
 #!/usr/bin/env Rscript
 # script to load up reference libraries and clean them up
-# load
-source("https://raw.githubusercontent.com/genner-lab/meta-fish-lib/main/scripts/load-libs.R")
+# load libs
+suppressMessages({
+    library("tidyverse")
+    library("vroom")
+})
 
 # start timer
 start_time <- Sys.time()
@@ -59,4 +62,4 @@ tibble(
 	) %>% print(n=Inf)
 
 # write encouraging words
-writeLines(paste(dim(reflib.orig)[1], "\nReference library loaded and filtered in", round(end_time-start_time,digits=1), "seconds ...\n"))
+writeLines(paste("\n", dim(reflib.orig)[1], "reference sequences loaded and filtered in", round(end_time-start_time,digits=1), "seconds"))

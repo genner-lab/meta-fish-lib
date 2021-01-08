@@ -2,11 +2,10 @@
 # script to quality control the reference libraries and identify erroneous sequences.
 
 # load functions and libs
-source("scripts/references-load.R")
 source("scripts/load-libs.R")
-#source("https://raw.githubusercontent.com/genner-lab/meta-fish-lib/main/scripts/references-load.R")
+source("scripts/references-load.R")
 # load stats
-stats <-suppressMessages(read_csv("temp/stats.csv"))
+stats <-suppressMessages(read_csv("reports/stats.csv"))
 gb.version <- stats %>% filter(stat=="genbankVersion") %>% pull(n)
 
 # set cores
