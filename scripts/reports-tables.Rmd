@@ -1,0 +1,164 @@
+---
+title: "Reference library coverage report"
+author: "Rupert A. Collins"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: github_document
+---
+
+
+##### Methods and description
+This document describes the contents of the UK fish reference library, generated from public databases. 
+The document is a dynamic knitr document and can be updated quickly using the Makefile in `scripts/`.
+A list of species from the UK was generated from three sources: GBIF, FishBase, and the Water Framework Directive list of transitional species.
+This list was filtered to identify synonyms and duplicates, and annotated with FishBase taxonomic classification and FishBase common names.
+Next a sub-list of "common" species was generated. 
+These were species that we believe are likely to be encountered in eDNA surveys of inshore and transitional waters of the UK, and comprise most of the species in Henderson (2015).
+Most of the remaining are either introduced species, rarely encountered migrants, oceanic pelagics, or deep sea organisms.
+
+
+The search was performed on the GenBank nt and BOLD sequences databases. 
+Because of inconsistencies in how researchers annotate their GenBank submissions and the differing internal coverage of primer pairs for particular gene fragments, we performed a search requesting all mitochondrial DNA.
+Then we pulled out fragments of interest using a hidden markov model. This enabled us to have greater confidence that useful sequences had not been missed.
+For the resulting sequences we then tabulated all their metadata from GenBank in order to allow us the capability to curate a custom reference library according to various criteria (e.g. must have reference specimen or locality data).
+
+
+```{r load_libs, include=FALSE}
+# load up libs
+source("load-libs.R")
+# source("scripts/load-libs.R")
+```
+
+
+```{r load_data, include=FALSE}
+# load up the data
+source("references-load.R")
+# source("scripts/references-load.R")
+genbank.df <- reflib.orig
+activity.df <- read_csv(file="../reports/stats.csv")
+# activity.df <- read_csv(file="reports/stats.csv")#../
+```
+
+
+```{r activities, include=FALSE}
+# get dates and genbank version
+gb.version <- activity.df %>% filter(stat=="genbankVersion") %>% pull(n)
+gb.date <- activity.df %>% filter(stat=="date") %>% pull(n)
+```
+
+
+```{r genbank_clean, include=FALSE}
+# clean up the GenBank data
+genbank.df %<>% filter(!is.na(nucleotidesFrag.12s.miya.noprimers))
+gb.dim <- genbank.df %>% summarise(n=n())
+#
+genbank.sp <- genbank.df %>%
+    select(sciNameValid) %>%
+    count(sciNameValid) %>%
+    rename(genbankCount=n)
+```
+
+
+```{r species_clean, include=FALSE}
+# clean up the species data
+uk.species.table.val <- uk.species.table %>%
+    rename(sciNameValid=validName)
+```
+
+
+```{r split_df, include=FALSE}
+# split df into marker frags
+reflib <- reflib.orig
+prefixes <- reflib.orig %>% select(starts_with("nucleotidesFrag")) %>% names() %>% str_replace_all("nucleotidesFrag\\.","")
+reflibs.sub <- mcmapply(function(x) subset_nucs(pref=x,df=reflib), prefixes, SIMPLIFY=FALSE,USE.NAMES=TRUE,mc.cores=1)
+# count
+reflib.by.marker <- reflib.orig %>% 
+    select(sciNameValid,starts_with("nucleotidesFrag")) %>% 
+    pivot_longer(cols=!sciNameValid,names_to="marker",values_to="nucleotides") %>%
+    mutate(hasSeq=if_else(is.na(nucleotides),0,1)) %>% 
+    group_by(marker,sciNameValid) %>%
+    summarise(genbankCount=sum(hasSeq)) %>%
+    ungroup() %>%
+    mutate(marker=str_replace_all(marker,"nucleotidesFrag.",""), marker=str_replace_all(marker,".noprimers",""))
+#  join
+summary.table <- dplyr::left_join(uk.species.table.val, reflib.by.marker, by="sciNameValid") %>% 
+    select(class, order, family, sciNameValid, commonSpecies, commonName, marker, genbankCount) %>%
+    pivot_wider(names_from=marker,values_from=genbankCount,values_fill=0)
+```
+
+
+
+```{r tables_join, include=FALSE}
+# join to the uk species table
+combined.df <- dplyr::left_join(uk.species.table.val, genbank.sp, by="sciNameValid") %>%
+    mutate(genbankCount=as.integer(replace_na(genbankCount,0)))
+```
+
+
+```{r common_subset, include=FALSE}
+# subset the common species
+common.df <- combined.df %>%
+    filter(commonSpecies==TRUE) %>%
+    arrange(class, order, family, sciNameValid) %>%
+    select(family, sciNameValid, commonName, genbankCount)
+```
+
+
+```{r rare_subset, include=FALSE}
+# subset the rare species
+rare.df <- combined.df %>%
+    filter(commonSpecies==FALSE) %>%
+    arrange(class, order, family, sciNameValid) %>%
+    select(family, sciNameValid, commonName, genbankCount)
+```
+
+
+```{r percentages, include=FALSE}
+# calculate percentages for each group
+uk.all <- combined.df %>% count()
+got.com <- combined.df %>% filter(commonSpecies==TRUE) %>% filter(genbankCount>0) %>% count()
+tot.com <- combined.df %>% filter(commonSpecies==TRUE) %>% count()
+got.com.prop <- paste0(round(((got.com$n/tot.com$n)*100), digits=0), "%")
+#
+got.all <- combined.df %>% filter(commonSpecies==FALSE) %>% filter(genbankCount>0) %>% count()
+tot.all <- combined.df %>% filter(commonSpecies==FALSE) %>% count()
+got.all.prop <- paste0(round(((got.all$n/tot.all$n)*100), digits=0), "%")
+#
+med.com <- combined.df %>% filter(commonSpecies==TRUE) %>% mutate(tots=genbankCount) %>% summarise(m=median(tots))
+singles <- combined.df %>% filter(commonSpecies==TRUE) %>% mutate(tots=genbankCount) %>% filter(tots==1) %>% count()
+singles.prop <- paste0(round(((singles$n/tot.com$n)*100), digits=0), "%")
+```
+
+
+##### Results
+
+The total number of UK species is estimated to be around `r uk.all`.
+GenBank and BOLD were searched on `r gb.date` (GenBank version `r gb.version`).
+A total of `r gb.dim` records were recovered.
+Combined with the GenBank sequence data, `r got.com.prop` of the `r tot.com` common species have been sampled (Table 2), and `r got.all.prop` of the `r tot.all` rare species (Table 3).
+For the common species, the median number of GenBank sequences per species is `r med.com`, while `r singles` (`r singles.prop`) are represented by only one tissue or sequence.
+Table 1 lists the common species currently missing from reference library, i.e. those of highest priority to source.
+
+
+###### Table 2. All common UK species with counts for sequence data obtained from GenBank (number of individuals).
+```{r print_common, echo=FALSE, results="asis"}
+options(knitr.kable.NA="")
+# print the common species table
+common.df %>%
+    mutate(sciNameValid=str_replace_all(sciNameValid, pattern="$|^", replacement="*")) %>%
+    mutate(genbankCount=replace(genbankCount,which(genbankCount==0),NA)) %>%
+    rename(Family=family, `Scientific Name`=sciNameValid, `Common Name`=commonName, `GenBank Count`=genbankCount) %>%
+kable()
+```
+
+###### Table 3. Big table
+```{r print_big, echo=FALSE, results="asis"}
+options(knitr.kable.NA="")
+# print the common species table
+summary.table %>%
+    arrange(class,order,family,sciNameValid) %>%
+    filter(commonSpecies==TRUE) %>%
+    select(-class,-order,-commonSpecies) %>%
+    mutate(sciNameValid=str_replace_all(sciNameValid, pattern="$|^", replacement="*")) %>%
+    rename(Family=family, `Scientific Name`=sciNameValid, `Common Name`=commonName) %>%
+kable()
+```
