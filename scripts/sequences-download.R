@@ -137,11 +137,12 @@ write.FASTA(bold.fas, file="temp/mtdna-dump.fas", append=TRUE)
 
 ### report a summary table
 stats <- tibble(
-    stat=c("speciesTotal","speciesValid","speciesSynonyms","genbankVersion","queriesUnique","queriesMerged","queriesPerMerge","queriesMergedPerBatch","batches","maxRecordsPerMerge","totalRecordsGenbank","totalRecordsBold"),
+    stat=c("speciesTotal","speciesValid","speciesSynonyms","genbankVersion","date","queriesUnique","queriesMerged","queriesPerMerge","queriesMergedPerBatch","batches","maxRecordsPerMerge","totalRecordsGenbank","totalRecordsBold"),
     n=c(species.table %>% distinct(speciesName) %>% nrow(),
         species.table %>% filter(status == "accepted name") %>% distinct(speciesName) %>% nrow(),
         species.table %>% filter(status != "accepted name") %>% distinct(speciesName) %>% nrow(),
         gb.version,
+        format(Sys.time(), '%d %b %Y'),
         length(query),
         length(query.cat),
         chunk.size.rentrez,
