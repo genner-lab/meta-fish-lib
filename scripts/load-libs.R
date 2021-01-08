@@ -3,7 +3,7 @@
 # https://rstudio.github.io/renv/index.html
 # initialise renv, install packages, update, snapshot to lock file
 # renv::init()
-# renv::install(packages=c("tidyverse","magrittr","lubridate","vroom","rentrez","bold","traits","rfishbase","ape","ips","phangorn","spider"))
+# renv::install(packages=c("tidyverse","magrittr","lubridate","vroom","rentrez","bold","traits","rfishbase","ape","ips","phangorn","spider","rmarkdown","knitr"))
 # renv::update()
 # renv::snapshot()
 
@@ -21,6 +21,8 @@ suppressMessages({
     library("ips")
     library("phangorn")
     library("spider")
+    library("rmarkdown")
+    library("knitr")
 })
 
 
