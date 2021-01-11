@@ -35,7 +35,7 @@ source("references-load.R")
 # source("scripts/references-load.R")
 genbank.df <- reflib.orig
 activity.df <- read_csv(file="../reports/stats.csv")
-# activity.df <- read_csv(file="reports/stats.csv")#../
+# activity.df <- read_csv(file="reports/stats.csv")
 ```
 
 
@@ -46,86 +46,58 @@ gb.date <- activity.df %>% filter(stat=="date") %>% pull(n)
 ```
 
 
-```{r genbank_clean, include=FALSE}
-# clean up the GenBank data
-genbank.df %<>% filter(!is.na(nucleotidesFrag.12s.miya.noprimers))
-gb.dim <- genbank.df %>% summarise(n=n())
-#
-genbank.sp <- genbank.df %>%
-    select(sciNameValid) %>%
-    count(sciNameValid) %>%
-    rename(genbankCount=n)
-```
-
-
 ```{r species_clean, include=FALSE}
 # clean up the species data
-uk.species.table.val <- uk.species.table %>%
-    rename(sciNameValid=validName)
+uk.species.table.val <- uk.species.table %>% rename(sciNameValid=validName)
 ```
 
 
-```{r split_df, include=FALSE}
-# split df into marker frags
-reflib <- reflib.orig
-prefixes <- reflib.orig %>% select(starts_with("nucleotidesFrag")) %>% names() %>% str_replace_all("nucleotidesFrag\\.","")
-reflibs.sub <- mcmapply(function(x) subset_nucs(pref=x,df=reflib), prefixes, SIMPLIFY=FALSE,USE.NAMES=TRUE,mc.cores=1)
-# count
+```{r merge_df, include=FALSE}
+# count sequences per species-marker
 reflib.by.marker <- reflib.orig %>% 
-    select(sciNameValid,starts_with("nucleotidesFrag")) %>% 
-    pivot_longer(cols=!sciNameValid,names_to="marker",values_to="nucleotides") %>%
+    select(sciNameValid,starts_with("nucleotidesFrag")) %>%
+    full_join(uk.species.table.val,by="sciNameValid") %>%
+    pivot_longer(cols=!c(class,order,family,genus,commonName,commonSpecies,sciNameValid),names_to="marker",values_to="nucleotides") %>% 
     mutate(hasSeq=if_else(is.na(nucleotides),0,1)) %>% 
-    group_by(marker,sciNameValid) %>%
-    summarise(genbankCount=sum(hasSeq)) %>%
-    ungroup() %>%
+    group_by(class,order,family,genus,commonName,commonSpecies,sciNameValid,marker) %>%
+    summarise(genbankCount=sum(hasSeq),.groups="drop") %>%
     mutate(marker=str_replace_all(marker,"nucleotidesFrag.",""), marker=str_replace_all(marker,".noprimers",""))
-#  join
-summary.table <- dplyr::left_join(uk.species.table.val, reflib.by.marker, by="sciNameValid") %>% 
-    select(class, order, family, sciNameValid, commonSpecies, commonName, marker, genbankCount) %>%
-    pivot_wider(names_from=marker,values_from=genbankCount,values_fill=0)
 ```
 
 
-
-```{r tables_join, include=FALSE}
-# join to the uk species table
-combined.df <- dplyr::left_join(uk.species.table.val, genbank.sp, by="sciNameValid") %>%
-    mutate(genbankCount=as.integer(replace_na(genbankCount,0)))
+```{r get_haps, include=FALSE}
+# get the prefixes 
+prefixes <- reflib.orig %>% select(starts_with("nucleotidesFrag")) %>% names() %>% str_replace_all("nucleotidesFrag\\.","")
+# subset each marker
+reflibs.sub <- mcmapply(function(x) subset_nucs(pref=x,df=reflib.orig), prefixes, SIMPLIFY=FALSE,USE.NAMES=TRUE,mc.cores=2)
+# collapse dataframe by haps-per-species, annotate with number haps
+reflibs.haps <- mcmapply(function(x) haps2fas(df=x), reflibs.sub, SIMPLIFY=FALSE,USE.NAMES=TRUE,mc.cores=2)
+# summarise
+haps.table <- mapply(FUN=function(x,y) x %>% select(sciNameValid) %>% count(sciNameValid) %>% mutate(marker=y), reflibs.haps, names(reflibs.haps), SIMPLIFY=FALSE) %>% purrr::reduce(rbind) %>% mutate(marker=str_replace_all(marker,".noprimers",""))
 ```
 
 
-```{r common_subset, include=FALSE}
-# subset the common species
-common.df <- combined.df %>%
-    filter(commonSpecies==TRUE) %>%
-    arrange(class, order, family, sciNameValid) %>%
-    select(family, sciNameValid, commonName, genbankCount)
-```
-
-
-```{r rare_subset, include=FALSE}
-# subset the rare species
-rare.df <- combined.df %>%
-    filter(commonSpecies==FALSE) %>%
-    arrange(class, order, family, sciNameValid) %>%
-    select(family, sciNameValid, commonName, genbankCount)
+```{r summary_tab, include=FALSE}
+# reformat
+marker.table <- reflib.by.marker %>% 
+    group_by(marker) %>% 
+    summarise(
+            `Total`=sum(genbankCount),
+            `Cov. (all)`=length(which(genbankCount>0))/length(genbankCount),
+            `Cov. (common)`=length(which(genbankCount[which(commonSpecies==TRUE)]>0))/length(genbankCount[which(commonSpecies==TRUE)]),
+            `Cov. (rare)`=length(which(genbankCount[which(commonSpecies==FALSE)]>0))/length(genbankCount[which(commonSpecies==FALSE)]),
+            `Singletons`=length(which(genbankCount==1))/length(which(genbankCount>0))
+            ) 
+# format haplotype table
+haps.format <- haps.table %>% group_by(marker) %>% summarise(`Haps (mean)`=mean(n),`Haps (median)`=median(n),.groups="drop")
+# join and format
+marker.table.pretty <- marker.table %>% left_join(haps.format) %>% separate(marker,into=c("Locus","Fragment"))
 ```
 
 
 ```{r percentages, include=FALSE}
 # calculate percentages for each group
-uk.all <- combined.df %>% count()
-got.com <- combined.df %>% filter(commonSpecies==TRUE) %>% filter(genbankCount>0) %>% count()
-tot.com <- combined.df %>% filter(commonSpecies==TRUE) %>% count()
-got.com.prop <- paste0(round(((got.com$n/tot.com$n)*100), digits=0), "%")
-#
-got.all <- combined.df %>% filter(commonSpecies==FALSE) %>% filter(genbankCount>0) %>% count()
-tot.all <- combined.df %>% filter(commonSpecies==FALSE) %>% count()
-got.all.prop <- paste0(round(((got.all$n/tot.all$n)*100), digits=0), "%")
-#
-med.com <- combined.df %>% filter(commonSpecies==TRUE) %>% mutate(tots=genbankCount) %>% summarise(m=median(tots))
-singles <- combined.df %>% filter(commonSpecies==TRUE) %>% mutate(tots=genbankCount) %>% filter(tots==1) %>% count()
-singles.prop <- paste0(round(((singles$n/tot.com$n)*100), digits=0), "%")
+uk.all <- reflib.by.marker %>% count()
 ```
 
 
@@ -133,32 +105,32 @@ singles.prop <- paste0(round(((singles$n/tot.com$n)*100), digits=0), "%")
 
 The total number of UK species is estimated to be around `r uk.all`.
 GenBank and BOLD were searched on `r gb.date` (GenBank version `r gb.version`).
-A total of `r gb.dim` records were recovered.
-Combined with the GenBank sequence data, `r got.com.prop` of the `r tot.com` common species have been sampled (Table 2), and `r got.all.prop` of the `r tot.all` rare species (Table 3).
-For the common species, the median number of GenBank sequences per species is `r med.com`, while `r singles` (`r singles.prop`) are represented by only one tissue or sequence.
-Table 1 lists the common species currently missing from reference library, i.e. those of highest priority to source.
 
 
-###### Table 2. All common UK species with counts for sequence data obtained from GenBank (number of individuals).
-```{r print_common, echo=FALSE, results="asis"}
-options(knitr.kable.NA="")
+###### Table 1. Summary
+```{r print_summary, echo=FALSE, results="asis"}
+options(knitr.kable.NA="",digits=2)
 # print the common species table
-common.df %>%
-    mutate(sciNameValid=str_replace_all(sciNameValid, pattern="$|^", replacement="*")) %>%
-    mutate(genbankCount=replace(genbankCount,which(genbankCount==0),NA)) %>%
-    rename(Family=family, `Scientific Name`=sciNameValid, `Common Name`=commonName, `GenBank Count`=genbankCount) %>%
-kable()
+marker.table.pretty %>%
+    mutate(Locus=str_to_upper(Locus),Fragment=str_to_title(Fragment)) %>%
+    kable()
 ```
 
-###### Table 3. Big table
+
+###### Table 2. Big table
 ```{r print_big, echo=FALSE, results="asis"}
 options(knitr.kable.NA="")
 # print the common species table
-summary.table %>%
+reflib.by.marker %>%
+    mutate(locus=str_to_upper(str_split_fixed(marker,"\\.",2)[,1])) %>% 
+    mutate(fragment=str_to_title(str_split_fixed(marker,"\\.",2)[,2])) %>%
+    mutate(marker=paste0(locus," (",fragment,")")) %>%
+    select(-locus,-fragment) %>%
+    pivot_wider(names_from=marker,values_from=genbankCount,values_fill=0) %>%
     arrange(class,order,family,sciNameValid) %>%
     filter(commonSpecies==TRUE) %>%
     select(-class,-order,-commonSpecies) %>%
     mutate(sciNameValid=str_replace_all(sciNameValid, pattern="$|^", replacement="*")) %>%
     rename(Family=family, `Scientific Name`=sciNameValid, `Common Name`=commonName) %>%
-kable()
+    kable()
 ```
