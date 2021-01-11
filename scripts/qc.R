@@ -1,6 +1,9 @@
 #!/usr/bin/env Rscript
 # script to quality control the reference libraries and identify erroneous sequences.
 
+# get args
+args <- commandArgs(trailingOnly=TRUE)
+
 # load functions and libs
 source("scripts/load-libs.R")
 source("scripts/references-load.R")
@@ -12,7 +15,7 @@ gb.version <- stats %>% filter(stat=="genbankVersion") %>% pull(n)
 writeLines("\nGenerating phylogenetic trees, may take many hours ...")
 
 # set cores
-cores <- 8
+cores <- args[1]
 
 # make a copy so don't have to reload orig
 reflib <- reflib.orig

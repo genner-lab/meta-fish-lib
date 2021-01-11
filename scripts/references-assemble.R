@@ -5,10 +5,13 @@
 # then, it queries NCBI/BOLD for those accessions, and retrieves full metadata for them to allow better curation of reference database
 # output is a csv dataframe of all accessions with data for all primer sets if present
 
+# get args
+args <- commandArgs(trailingOnly=TRUE)
+
 ## Load functions and libs
 source("scripts/load-libs.R")
 # set cores - mc.cores=1 is the safest option, but try extra cores to speed up if there are no errors
-cores <- 2
+cores <- args[1]
 
 
 ## Data
