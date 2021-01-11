@@ -35,7 +35,7 @@ reflibs.fas <- mcmapply(function(x) tab2fas(df=x,seqcol="nucleotidesFrag",nameco
 # make trees for each marker - may take up to 5 h for the biggest COI tree
 # outputs into 'temp/qc_GBVERSION_MONTH-YEAR' --- careful if running overnight when months change!
 setwd("temp")
-trs.list <- mcmapply(function(x,y) phylogenize(fas=x, prefix=y, binLoc="~/Software/standard-RAxML/raxmlHPC-AVX", version=gb.version), reflibs.fas, prefixes, SIMPLIFY=FALSE,USE.NAMES=TRUE,mc.cores=cores)
+trs.list <- mcmapply(function(x,y) phylogenize(fas=x, prefix=y, binLoc=args[2], version=gb.version), reflibs.fas, prefixes, SIMPLIFY=FALSE,USE.NAMES=TRUE,mc.cores=cores)
 setwd("../")
 
 # plot the trees in a temp dir
