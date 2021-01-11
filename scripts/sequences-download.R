@@ -4,6 +4,9 @@
 # R script to make reference databases for UK fishes for multiple markers
 # downloads all mtDNA sequence data from GenBank/BOLD, for a provided list of species 
 
+# get args
+args <- commandArgs(trailingOnly=TRUE)
+
 # load functions and libs
 source("scripts/load-libs.R")
 # load up your personal NCBI API key to get 10 requests per sec. This needs to be generated from your account at https://www.ncbi.nlm.nih.gov/
@@ -13,7 +16,7 @@ source("assets/ncbi-key.R")
 
 
 # load up the species table
-species.table <- suppressMessages(read_csv(file="assets/species-table.csv"))
+species.table <- suppressMessages(read_csv(file=args[1]))
 # report
 writeLines(paste0("\nSpecies table contains ",length(pull(species.table,speciesName))," species names"))
 
@@ -31,7 +34,7 @@ query <- unlist(mapply(function(x) paste0("(",spp.list,"[ORGN] AND ",x,"[ALL] AN
 # randomise the query
 set.seed(42)
 query <- sample(query,length(query))
-query <- query[1:100]
+#query <- query[1:100]
 
 # set n cores to parallel search in n threads
 # cores=1 is the safest option, but more cores are faster if there are no errors
@@ -39,7 +42,7 @@ query <- query[1:100]
 # do not try more than 3 cores (without api key)
 # important - try to run the search when server loads are lowest, i.e. at weekends or when the USA is not at work.
 # should take about 1.5 h with 4 cores
-cores <- 4
+cores <- as.numeric(args[2])
 
 # break up into chunks
 # longest query should be no larger than about 2500 chars - reduce chunk.size to get smaller queries
@@ -101,7 +104,7 @@ writeLines("\nNow searching BOLD ...")
 # chunk up the BOLD requests
 chunk.size.bold <- 70
 bold.split <- unname(split(spp.list, ceiling(seq_along(spp.list)/chunk.size.bold)))
-bold.split <- bold.split[1:4]
+#bold.split <- bold.split[1:4]
 
 # query BOLD and retrieve a table
 # sometimes an error occurs, just run again
