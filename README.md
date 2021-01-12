@@ -13,18 +13,19 @@ The work is part of the NERC funded [SeaDNA Project](https://twitter.com/SeaDNAp
 
 ### TL;DR (give me the data)
 
-If you require simply the final reference database, it can be downloaded directly using the code below, and converted into FASTA and CSV formats for any of the available primer sets in Table 1. Additional mitochondrial primer sets can be trivially added.
+If you require simply the final reference database, it can be downloaded directly using the code below, and converted into FASTA and CSV formats for any of the available primer sets in Table 1. Additional mitochondrial primer sets can be added.
 
-Particular attention should be paid to cleaning steps; sequences flagged as unreliable (using phylogenetic quality control) are listed in `assets/exclusions.csv` and excluded, while sequences flagged by NCBI as "unverified" are also removed. Taxonomic changes are also made, with for example, *Cottus perifretum* relabelled as *Cottus cottus*, *Atherina presbyter* relabelled as *Atherina boyeri*, and *Pungitius laevis* relabelled as *Pungitius pungitius*. Both the original GenBank names and the validated FishBase names are provided.
+Particular attention should be paid to cleaning steps; sequences flagged as unreliable (using phylogenetic quality control) are listed in `assets/exclusions.csv` and excluded, while sequences flagged by NCBI as "unverified" are also removed. Taxonomic changes are also made, with for example, *Cottus perifretum* relabelled as *Cottus cottus*, *Atherina presbyter* relabelled as *Atherina boyeri*, and *Pungitius laevis* relabelled as *Pungitius pungitius* (both the original GenBank names and the validated FishBase names are provided).
 
 
-```
-# load libs
+```{r}
+# load libs (and install if required)
+# ignore any conflict messages
 library("vroom")
 library("tidyverse")
 library("ape")
 
-# load and references and scripts
+# load remote references and scripts (requires internet connection)
 source("https://raw.githubusercontent.com/genner-lab/meta-fish-lib/main/scripts/references-load-remote.R")
 source("https://raw.githubusercontent.com/genner-lab/meta-fish-lib/main/scripts/references-clean.R")
 source("https://raw.githubusercontent.com/legalLab/protocols-scripts/master/scripts/tab2fas.R")
