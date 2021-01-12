@@ -19,7 +19,8 @@ cores <- args[1]
 species.table <- suppressMessages(read_csv(file=here("assets","species-table.csv")))
 # load the BOLD dump
 bold.red <- suppressMessages(read_csv(file=here("temp","bold-dump.csv"), guess_max=100000))
-
+# load up stats
+stats <- suppressMessages(read_csv(file=here("reports","stats.csv")))
 
 ## Extract the frag of interest using the HMMs
 # now run hmmer
@@ -74,6 +75,7 @@ frag.df <- as_tibble(bind_rows(ncbi.frag))
 
 # from GenBank remove ncbi genome and other duplicates etc, and clean the lat/lon data
 frag.df %<>% filter(gi_no!="NCBI_GENOMES") %>% 
+    mutate(genbankVersion=pull(filter(stats,stat=="genbankVersion"),n),searchDate=pull(filter(stats,stat=="date"),n)) %>%
     distinct(gi_no, .keep_all=TRUE) %>% 
     mutate(acc_no=str_replace_all(acc_no,"\\.[0-9]",""), source="GENBANK") %>%
     # fix the lat_lon into decimal
@@ -85,7 +87,7 @@ frag.df %<>% filter(gi_no!="NCBI_GENOMES") %>%
     # tidy up
     select(-taxonomy,-organelle,-keyword,-lat_lon) %>% 
     rename(sciNameOrig=taxon,notesGenBank=gene_desc,dbid=gi_no,gbAccession=acc_no,catalogNumber=specimen_voucher,
-    publishedAs=paper_title,publishedIn=journal,publishedBy=first_author,date=uploaded_date,decimalLatitude=lat,decimalLongitude=lon,nucleotides=sequence)
+        publishedAs=paper_title,publishedIn=journal,publishedBy=first_author,date=uploaded_date,decimalLatitude=lat,decimalLongitude=lon,nucleotides=sequence)
 
 # do the same for BOLD
 # run
@@ -162,7 +164,7 @@ dbs.merged.all %<>% mutate(nucleotides=str_to_lower(nucleotides))
 dbs.merged.info <- dbs.merged.all %>% select(-matches("Frag")) %>% 
    select(source,dbid,gbAccession,sciNameValid,subphylum,class,order,family,genus,sciNameBinomen,sciNameOrig,fbSpecCode,
     country,catalogNumber,institutionCode,decimalLatitude,decimalLongitude,publishedAs,publishedIn,publishedBy,
-    date,notesGenBank,length,nucleotides)
+    date,notesGenBank,genbankVersion,searchDate,length,nucleotides)
 
 # make a data frame of just the sequence data
 dbs.merged.seqs <- dbs.merged.all %>% select(matches("Frag|dbid"))
