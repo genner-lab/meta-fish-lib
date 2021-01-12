@@ -30,7 +30,8 @@ source(here::here("scripts","load-libs.R"))
 
 ```{r load_data, include=FALSE}
 # load up the data
-source(here("scripts","references-load.R"))
+source(here("scripts","references-load-local.R"))
+source(here("scripts","references-clean.R"))
 activity.df <- read_csv(file=here("reports","stats.csv"))
 ```
 

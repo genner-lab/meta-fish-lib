@@ -6,7 +6,8 @@ args <- commandArgs(trailingOnly=TRUE)
 
 # load functions and libs
 source(here::here("scripts","load-libs.R"))
-source(here::here("scripts","references-load.R"))
+source(here::here("scripts","references-load-local.R"))
+source(here::here("scripts","references-clean.R"))
 
 # load stats
 stats <-suppressMessages(read_csv(here("reports","stats.csv")))
