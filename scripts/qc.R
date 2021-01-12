@@ -5,17 +5,18 @@
 args <- commandArgs(trailingOnly=TRUE)
 
 # load functions and libs
-source("scripts/load-libs.R")
-source("scripts/references-load.R")
+source(here::here("scripts","load-libs.R"))
+source(here::here("scripts","references-load.R"))
+
 # load stats
-stats <-suppressMessages(read_csv("reports/stats.csv"))
+stats <-suppressMessages(read_csv(here("reports","stats.csv")))
 gb.version <- stats %>% filter(stat=="genbankVersion") %>% pull(n)
 
 # message 
 writeLines("\nGenerating phylogenetic trees, may take many hours ...")
 
 # set cores
-cores <- args[1]
+cores <- args[2]
 
 # make a copy so don't have to reload orig
 reflib <- reflib.orig
@@ -32,11 +33,11 @@ reflibs.haps <- mcmapply(function(x) haps2fas(df=x), reflibs.sub, SIMPLIFY=FALSE
 # convert to fasta
 reflibs.fas <- mcmapply(function(x) tab2fas(df=x,seqcol="nucleotidesFrag",namecol="noms"), reflibs.haps, SIMPLIFY=FALSE,USE.NAMES=TRUE,mc.cores=cores)
 
-# make trees for each marker - may take up to 5 h for the biggest COI tree
+# make trees for each marker - may take up to 6 h for the biggest COI tree
 # outputs into 'temp/qc_GBVERSION_MONTH-YEAR' --- careful if running overnight when months change!
-setwd("temp")
-trs.list <- mcmapply(function(x,y) phylogenize(fas=x, prefix=y, binLoc=args[2], version=gb.version), reflibs.fas, prefixes, SIMPLIFY=FALSE,USE.NAMES=TRUE,mc.cores=cores)
-setwd("../")
+setwd(here("temp"))
+trs.list <- mcmapply(function(x,y) phylogenize(fas=x, prefix=y, binLoc=args[1], version=gb.version), reflibs.fas, prefixes, SIMPLIFY=FALSE,USE.NAMES=TRUE,mc.cores=cores)
+setwd(here())
 
 # plot the trees in a temp dir
 mcmapply(function(x,y,z) plot_trees(tr=x, df=y, prefix=z, version=gb.version), trs.list, reflibs.haps, prefixes, SIMPLIFY=FALSE,USE.NAMES=TRUE,mc.cores=cores)

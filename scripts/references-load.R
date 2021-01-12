@@ -1,10 +1,6 @@
 #!/usr/bin/env Rscript
 # script to load up reference libraries and clean them up
 # load libs
-suppressMessages({
-    library("tidyverse")
-    library("vroom")
-})
 
 # start timer
 start_time <- Sys.time()
@@ -13,7 +9,7 @@ writeLines("\nLoading reference library ...")
 
 ## load up the species info table
 # species data
-uk.species.table <- vroom::vroom("assets/species-table.csv",delim=",",num_threads=1,guess_max=99999,col_types=cols())
+uk.species.table <- vroom::vroom(here("assets","species-table.csv"),delim=",",num_threads=1,guess_max=99999,col_types=cols())
 #"https://raw.githubusercontent.com/genner-lab/meta-fish-lib/main/assets/species-table.csv"
 uk.species.table.orig <- uk.species.table
 # remove synonyms
@@ -25,12 +21,12 @@ uk.species.table.common <- uk.species.table %>% filter(commonSpecies==TRUE)
 
 
 ## load up the reference library
-reflib.orig <- vroom::vroom("assets/reference-library-master.csv.gz",delim=",",num_threads=1,guess_max=99999,col_types=cols())
+reflib.orig <- vroom::vroom(here("assets","reference-library-master.csv.gz"),delim=",",num_threads=1,guess_max=99999,col_types=cols())
 # "https://github.com/genner-lab/meta-fish-lib/raw/main/assets/reference-library-master.csv.gz"
 
 ## clean
 # load up the exclusions file to clean the data
-exclusions <- vroom::vroom("assets/exclusions.csv",delim=",",num_threads=1,guess_max=99999,col_types=cols())
+exclusions <- vroom::vroom(here("assets","exclusions.csv"),delim=",",num_threads=1,guess_max=99999,col_types=cols())
 # "https://raw.githubusercontent.com/genner-lab/meta-fish-lib/main/assets/exclusions.csv"
 
 # exclude bad seqs and clean

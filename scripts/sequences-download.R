@@ -8,11 +8,11 @@
 args <- commandArgs(trailingOnly=TRUE)
 
 # load functions and libs
-source("scripts/load-libs.R")
+source(here::here("scripts","load-libs.R"))
 # load up your personal NCBI API key to get 10 requests per sec. This needs to be generated from your account at https://www.ncbi.nlm.nih.gov/
 # DO NOT PUT THIS KEY ON GITHUB
 # if you don't have one, ncbi will rate-limit your access to 3 requests per sec, and errors may occur.
-source("assets/ncbi-key.R")
+source(here("assets","ncbi-key.R"))
 
 
 # load up the species table
@@ -82,7 +82,10 @@ id.split <- unname(split(search.ids, ceiling(seq_along(search.ids)/chunk.size.ap
 
 # download with modifed ape function (fast)
 writeLines(paste("\nNow downloading",length(search.ids),"sequences from GenBank ..."))
+    start_time <- Sys.time()
 ncbi.all <- mcmapply(FUN=function(x) read_GenBank(x, species.names=FALSE, api.key=ncbi.key), id.split, SIMPLIFY=FALSE, USE.NAMES=FALSE, mc.cores=cores)
+    end_time <- Sys.time()
+    end_time-start_time
 
 # check for errors (should be all DNAbin)
 if(length(sapply(ncbi.all, class)) == length(sapply(ncbi.all, class) == "DNAbin")) {
@@ -92,8 +95,8 @@ if(length(sapply(ncbi.all, class)) == length(sapply(ncbi.all, class) == "DNAbin"
 # write out a temporary file
 writeLines("\nWriting out in FASTA format ...")
 suppressMessages({
-    file.create("temp/mtdna-dump.fas")
-    invisible(lapply(ncbi.all, write.FASTA, file="temp/mtdna-dump.fas", append=TRUE))
+    file.create(here("temp","mtdna-dump.fas"))
+    invisible(lapply(ncbi.all, write.FASTA, file=here("temp","mtdna-dump.fas"), append=TRUE))
 })
 
 
@@ -108,7 +111,10 @@ bold.split <- unname(split(spp.list, ceiling(seq_along(spp.list)/chunk.size.bold
 
 # query BOLD and retrieve a table
 # sometimes an error occurs, just run again
+    start_time <- Sys.time()
 bold.all <- mcmapply(FUN=function(x) bold_seqspec(x,format="tsv",sepfasta=FALSE,response=FALSE), bold.split, SIMPLIFY=FALSE, USE.NAMES=FALSE, mc.cores=cores)
+    end_time <- Sys.time()
+    end_time-start_time
 
 # check for errors (should be "data.frame" or "logical", not "character")
 if(length(sapply(bold.all, class)) == length(sapply(bold.all, class) == "data.frame")) {
@@ -129,13 +135,13 @@ bold.red %<>%
     distinct(processidUniq, .keep_all=TRUE)
 
 # write temp copy of the bold dump
-write_csv(bold.red,file="temp/bold-dump.csv")
+write_csv(bold.red,file=here("temp","bold-dump.csv"))
 
 # create a fasta file of BOLD
 bold.fas <- tab2fas(df=bold.red,seqcol="nucleotides",namecol="processidUniq")
 
 # add it to the GenBank file already created
-write.FASTA(bold.fas, file="temp/mtdna-dump.fas", append=TRUE)
+write.FASTA(bold.fas, file=here("temp","mtdna-dump.fas"), append=TRUE)
 
 
 ### report a summary table
@@ -160,5 +166,5 @@ stats <- tibble(
 # print and save
 writeLines("\nPrinting stats ...\n")
 print(stats,n=Inf)
-write_csv(stats,file="reports/stats.csv")
+write_csv(stats,file=here("reports","stats.csv"))
 writeLines("\nAll operations completed!\nPlease read previous messages in case of error")

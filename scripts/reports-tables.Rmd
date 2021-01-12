@@ -24,18 +24,14 @@ For the resulting sequences we then tabulated all their metadata from GenBank in
 
 ```{r load_libs, include=FALSE}
 # load up libs
-source("load-libs.R")
-# source("scripts/load-libs.R")
+source(here::here("scripts","load-libs.R"))
 ```
 
 
 ```{r load_data, include=FALSE}
 # load up the data
-source("references-load.R")
-# source("scripts/references-load.R")
-genbank.df <- reflib.orig
-activity.df <- read_csv(file="../reports/stats.csv")
-# activity.df <- read_csv(file="reports/stats.csv")
+source(here("scripts","references-load.R"))
+activity.df <- read_csv(file=here("reports","stats.csv"))
 ```
 
 
@@ -129,7 +125,8 @@ reflib.by.marker %>%
     pivot_wider(names_from=marker,values_from=genbankCount,values_fill=0) %>%
     arrange(class,order,family,sciNameValid) %>%
     filter(commonSpecies==TRUE) %>%
-    select(-class,-order,-commonSpecies) %>%
+    select(-class,-order,-genus,-commonSpecies) %>%
+    relocate(commonName,.after=sciNameValid) %>%
     mutate(sciNameValid=str_replace_all(sciNameValid, pattern="$|^", replacement="*")) %>%
     rename(Family=family, `Scientific Name`=sciNameValid, `Common Name`=commonName) %>%
     kable()

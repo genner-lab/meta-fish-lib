@@ -9,16 +9,16 @@
 args <- commandArgs(trailingOnly=TRUE)
 
 ## Load functions and libs
-source("scripts/load-libs.R")
+source(here::here("scripts","load-libs.R"))
 # set cores - mc.cores=1 is the safest option, but try extra cores to speed up if there are no errors
 cores <- args[1]
 
 
 ## Data
 # load up the uk species table
-species.table <- suppressMessages(read_csv(file="assets/species-table.csv"))
+species.table <- suppressMessages(read_csv(file=here("assets","species-table.csv")))
 # load the BOLD dump
-bold.red <- suppressMessages(read_csv(file="temp/bold-dump.csv", guess_max=100000))
+bold.red <- suppressMessages(read_csv(file=here("temp","bold-dump.csv"), guess_max=100000))
 
 
 ## Extract the frag of interest using the HMMs
@@ -58,7 +58,10 @@ in.gb <- dat.frag.names[!dat.frag.names %in% bold.red$processidUniq]
 chunk <- 70
 chunk.frag <- unname(split(in.gb, ceiling(seq_along(in.gb)/chunk)))
 writeLines("\nRetrieving metadata from NCBI ...\n")
+    start_time <- Sys.time()
 ncbi.frag <- mcmapply(FUN=ncbi_byid, chunk.frag, SIMPLIFY=FALSE, USE.NAMES=FALSE, mc.cores=cores)
+    end_time <- Sys.time()
+    end_time-start_time
 
 # check for errors (should all be "data.frame")
 if(length(sapply(ncbi.frag,class)) == length(sapply(ncbi.frag,class) == "data.frame")) {
@@ -78,7 +81,7 @@ frag.df %<>% filter(gi_no!="NCBI_GENOMES") %>%
     mutate(lat=if_else(grepl(" N",lat), true=str_replace_all(lat," N",""), false=if_else(grepl(" S",lat), true=paste0("-",str_replace_all(lat," S","")), false=lat))) %>%
     mutate(lon=if_else(grepl(" E",lon), true=str_replace_all(lon," E",""), false=if_else(grepl(" W",lon), true=paste0("-",str_replace_all(lon," W","")), false=lon))) %>% 
     mutate(lat=str_replace_all(lat,"^ ", NA_character_), lon=str_replace_all(lon,"^ ", NA_character_)) %>%
-    mutate(lat=as.numeric(lat), lon=as.numeric(lon)) %>% 
+    mutate(lat=suppressWarnings(as.numeric(lat)), lon=suppressWarnings(as.numeric(lon))) %>% 
     # tidy up
     select(-taxonomy,-organelle,-keyword,-lat_lon) %>% 
     rename(sciNameOrig=taxon,notesGenBank=gene_desc,dbid=gi_no,gbAccession=acc_no,catalogNumber=specimen_voucher,
@@ -170,8 +173,8 @@ dbs.merged.final <- left_join(dbs.merged.info,dbs.merged.seqs,by="dbid") %>%
     filter(!is.na(nucleotides))
 
 # take a look 
-writeLines("\nReference library fields:")
-glimpse(dbs.merged.final)
+#writeLines("\nReference library fields:")
+#glimpse(dbs.merged.final)
 
 ## Write out
 # first, see what was added/removed from last time
@@ -181,5 +184,5 @@ glimpse(dbs.merged.final)
 
 # write out a gzipped file (orig is too big for github)
 writeLines("\nWriting out reference library to 'assets/reference-library-master.csv.gz' ...")
-write_csv(dbs.merged.final, file=gzfile("assets/reference-library-master.csv.gz"), na="")
+write_csv(dbs.merged.final, file=gzfile(here("assets","reference-library-master.csv.gz")), na="")
 writeLines("\nAll operations completed!\nPlease read previous messages in case of error")
