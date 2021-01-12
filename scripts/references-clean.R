@@ -48,3 +48,12 @@ tibble::tibble(
 
 # write encouraging words
 writeLines("\nReference library object 'reflib.orig' is cleaned and in your memory.\nBlacklisted GenBank accessions were removed.\nThe above taxonomic changes were made.")
+
+# load up cleaning fun
+subset_references <- function(df,frag) {
+    frag <- paste0("nucleotidesFrag.",frag,".noprimers")
+    reflib.sub <- df %>% dplyr::filter(!is.na(!!as.name(frag))) %>%
+        dplyr::mutate(nucleotides=!!as.name(frag), length=!!as.name(str_replace_all(frag,"nucleotides","length"))) %>%
+        select(-contains("Frag"))
+    return(reflib.sub)
+}
