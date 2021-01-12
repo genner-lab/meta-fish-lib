@@ -18,8 +18,8 @@ If you require simply the final reference database, it can be downloaded directl
 Particular attention should be paid to cleaning steps; sequences flagged as unreliable (using phylogenetic quality control) are listed in `assets/exclusions.csv` and excluded, while sequences flagged by NCBI as "unverified" are also removed. Taxonomic changes are also made, with for example, *Cottus perifretum* relabelled as *Cottus cottus*, *Atherina presbyter* relabelled as *Atherina boyeri*, and *Pungitius laevis* relabelled as *Pungitius pungitius* (both the original GenBank names and the validated FishBase names are provided).
 
 
-```{r}
-# load libs (and install if required)
+```r
+# load packages (install if required)
 # ignore any conflict messages
 library("vroom")
 library("tidyverse")
@@ -31,8 +31,8 @@ source("https://raw.githubusercontent.com/genner-lab/meta-fish-lib/main/scripts/
 source("https://raw.githubusercontent.com/legalLab/protocols-scripts/master/scripts/tab2fas.R")
 
 # choose a metabarcode fragment (primer set) from the following:
-# change 'frag' argument as appropriate
 print(c("coi.lerayxt","coi.ward","12s.miya","12s.riaz","12s.valentini","12s.taberlet","16s.berry","cytb.minamoto"))
+# change 'frag' argument as appropriate:
 reflib.sub <- subset_references(df=reflib.orig, frag="12s.miya")
 
 # convert to fasta file
