@@ -11,10 +11,10 @@
   "Packages": {
     "BH": {
       "Package": "BH",
-      "Version": "1.72.0-3",
+      "Version": "1.75.0-0",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "8f9ce74c6417d61f0782cbae5fd2b7b0"
+      "Hash": "e4c04affc2cac20c8fec18385cd14691"
     },
     "DBI": {
       "Package": "DBI",
@@ -499,6 +499,13 @@
       "Repository": "CRAN",
       "Hash": "221d0ad75dfa03ebf17b1a4cc5c31dfc"
     },
+    "here": {
+      "Package": "here",
+      "Version": "1.0.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "24b224366f9c2e7534d2344d10d59211"
+    },
     "highr": {
       "Package": "highr",
       "Version": "0.8",
@@ -872,10 +879,10 @@
     },
     "renv": {
       "Package": "renv",
-      "Version": "0.12.3",
+      "Version": "0.12.5",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "b5510c50c7f31d453c385c7b460af2b9"
+      "Hash": "5c0cdb37f063c58cdab3c7e9fbb8bd2c"
     },
     "reprex": {
       "Package": "reprex",
@@ -1026,10 +1033,10 @@
     },
     "sp": {
       "Package": "sp",
-      "Version": "1.4-4",
+      "Version": "1.4-5",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "e0485290545c0e768c2b50390114da1f"
+      "Hash": "dfd843ee98246cf932823acf613b05dd"
     },
     "spData": {
       "Package": "spData",
