@@ -7,20 +7,43 @@ This reference library and code repository supercedes the one at [github.com/boo
 
 This README outlines the contents of the repository and a brief description of the workflow involved in creating/updating a metabarcoding reference library, as well instructions to simply access the current data immediately. Cloning or forking the repository will allow custom modifications to be made. If an error is apparent, raise a ticket in [Issues](https://github.com/genner-lab/meta-fish-lib/issues) or submit a pull request.
 
-A species coverage report for can be found at [assets/reports-tables.md](assets/reports-tables.md).
+A species coverage report for all primer sets can be found at [assets/reports-tables.md](assets/reports-tables.md).
 
 The work is part of the NERC funded [SeaDNA Project](https://twitter.com/SeaDNAproject), and should be cited using the following DOI: [10.6084/m9.figshare.7464521.v5](https://doi.org/10.6084/m9.figshare.7464521.v5).
 
 ### TL;DR (give me the data)
 
-If you just want the to use the final reference database (last updated 2020-08-31 on GenBank v239), it can be downloaded at [github.com/boopsboops/reference-libraries/raw/master/references/uk-fish-references.csv.gz](https://github.com/boopsboops/reference-libraries/raw/master/references/uk-fish-references.csv.gz). The file is 8 MB compressed (gzip), but is 116 MB uncompressed. The readr package function `read_csv()` will automatically decompress a gz file, but if the file needs to be unpacked to disk, the WinRAR or 7-Zip software on Windows can be used. The final dataset is in tabular CSV format; follow the Gist at [gist.github.com/boopsboops/a1c790064fe0a14af5226d098645ca60](https://gist.github.com/boopsboops/a1c790064fe0a14af5226d098645ca60) to extract the region you want, and then convert to fasta format if required. The currently available regions are as follows below in Table 1. Any additional mitochondrial primer set can be trivially added.
+If you require simply the final reference database, it can be downloaded directly using the code below, and converted into FASTA and CSV formats for any of the available primer sets in Table 1. Additional mitochondrial primer sets can be trivially added.
 
-The dataset offered above is raw, but is cleaned when the `scripts/references-load.R` script is run. Particular attention should be paid to how this operates; sequences flagged as unreliable (using phylogenetic quality control) are listed in `references/exclusions.csv` and excluded, while sequences flagged by NCBI as "unverified" are also removed. Taxonomic changes are also made, with for example, *Cottus perifretum* relabelled as *Cottus cottus*, *Atherina presbyter* relabelled as *Atherina boyeri*, and *Pungitius laevis* relabelled as *Pungitius pungitius*. Both the original GenBank names and the validated FishBase names are provided.
-
-
+Particular attention should be paid to cleaning steps; sequences flagged as unreliable (using phylogenetic quality control) are listed in `assets/exclusions.csv` and excluded, while sequences flagged by NCBI as "unverified" are also removed. Taxonomic changes are also made, with for example, *Cottus perifretum* relabelled as *Cottus cottus*, *Atherina presbyter* relabelled as *Atherina boyeri*, and *Pungitius laevis* relabelled as *Pungitius pungitius*. Both the original GenBank names and the validated FishBase names are provided.
 
 
+```
+# load libs
+library("vroom")
+library("tidyverse")
+library("ape")
 
+# load and references and scripts
+source("https://raw.githubusercontent.com/genner-lab/meta-fish-lib/main/scripts/references-load-remote.R")
+source("https://raw.githubusercontent.com/genner-lab/meta-fish-lib/main/scripts/references-clean.R")
+source("https://raw.githubusercontent.com/legalLab/protocols-scripts/master/scripts/tab2fas.R")
+
+# choose a metabarcode fragment (primer set) from the following:
+# change 'frag' argument as appropriate
+print(c("coi.lerayxt","coi.ward","12s.miya","12s.riaz","12s.valentini","12s.taberlet","16s.berry","cytb.minamoto"))
+reflib.sub <- subset_references(df=reflib.orig, frag="12s.miya")
+
+# convert to fasta file
+# uses the standard database id field ('dbid') as a label
+# 'dbid' is the GenBank GI number, or the BOLD processID number
+# custom labels can be created with 'mutate()' using other fields and changing 'namecol' argument
+reflib.fas <- tab2fas(df=reflib.sub, seqcol="nucleotides", namecol="dbid")
+
+# write out fasta file and corresponding csv table
+write.FASTA(reflib.fas, file="references.fasta")
+write_csv(reflib.sub, file="references.csv")
+```
 
 
 Admin
