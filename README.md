@@ -47,25 +47,34 @@ write_csv(reflib.sub, file="references.csv")
 ```
 
 
-Admin
-`mkdir reports temp`
+[https://ncbiinsights.ncbi.nlm.nih.gov/2017/11/02/new-api-keys-for-the-e-utilities/](https://ncbiinsights.ncbi.nlm.nih.gov/2017/11/02/new-api-keys-for-the-e-utilities/)
 
-Search GenBank
-`scripts/sequences-download.R assets/species-table.csv 4`
+```bash
+#Admin
+git clone https://github.com/genner-lab/meta-fish-lib.git
+cd meta-fish-lib
+mkdir reports temp
 
-Assemble
-`scripts/references-assemble.R 4`
+# Create NCBI API key
+echo 'ncbi.key <- "my-ncbi-key"' > assets/ncbi-key.R
 
-QC
-`scripts/qc.R ~/Software/standard-RAxML/raxmlHPC-AVX 8`
+# Search GenBank
+scripts/sequences-download.R assets/species-table.csv 4
 
-Compile reports
-`make -f scripts/Makefile`
+# Assemble
+scripts/references-assemble.R 4
 
-Copy 
-`cp reports/reports-tables.md assets/reports-tables.md`
+# QC
+scripts/qc.R ~/Software/standard-RAxML/raxmlHPC-AVX 8
 
-Commit 
-Add `assets/reports-tables.md` and `assets/reference-library-master.csv.gz` to GitHub repo.
-`git add assets/reports-tables.md assets/reference-library-master.csv.gz`
-`git commit -m "updated master`
+# Compile reports
+make -f scripts/Makefile
+
+# Copy 
+cp reports/reports-tables.md assets/reports-tables.md
+
+#Commit 
+#Add assets/reports-tables.md and assets/reference-library-master.csv.gz to GitHub repo.
+git add assets/reports-tables.md assets/reference-library-master.csv.gz
+git commit -m "updated master"
+```
