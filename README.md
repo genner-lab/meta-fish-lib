@@ -1,33 +1,33 @@
-# Meta-Fish-Lib: A generalised, dynamic DNA reference library for metabarcoding of fishes
+# Meta-Fish-Lib: a generalised, dynamic DNA reference library for metabarcoding of fishes
 ![SeaDNA Logo](assets/logo.svg)
 
-This repository hosts a comprehensive mitochondrial DNA reference library dataset for UK fish species, derived from the NCBI GenBank and Barcode of Life BOLD databases. The dataset includes freshwater and marine species, and can be used in a variety of applications from DNA barcoding of human food products using full COI barcodes, to metabarcoding of gut or environmental samples using fragments of 12S. The library will be updated with each new GenBank release. 
+This repository hosts a comprehensive multi-locus mitochondrial DNA reference library dataset for UK fish species, derived from the [NCBI GenBank](https://www.ncbi.nlm.nih.gov/nucleotide) and [Barcode of Life BOLD](http://www.boldsystems.org/index.php) databases. The dataset includes freshwater and marine species, and can be used in a variety of applications from DNA barcoding of human food products using full COI barcodes, to metabarcoding of gut or environmental samples using fragments of 12S. The library will be updated with each new GenBank release. Both common and rare UK fish species are included. A species coverage report for all primer sets can be found at [assets/reports-tables.md](assets/reports-tables.md).
 
-The reference library and code presented here supercedes the previous one hosted at [github.com/boopsboops/reference-libraries](https://github.com/boopsboops/reference-libraries).
-
-Both common and rare UK fish species are included. A species coverage report for all primer sets can be found at [assets/reports-tables.md](assets/reports-tables.md).
+The reference library and code presented here supercedes the previous one hosted at [github.com/boopsboops/reference-libraries](https://github.com/boopsboops/reference-libraries). Older reference library versions are also archived here (see [Releases](https://github.com/genner-lab/meta-fish-lib/releases)), but the code used to generate those are not archived, only the final library file `assets/reference-library-master.csv.gz`.
 
 This reference library has several unique features that make it useful to the wider DNA barcoding and DNA metabarcoding communities:
 
 * Flexible - the library is not limited to any particular metabarcode locus or primer set. I have included the most popular ones (Table 1), but new ones can be added as required.
-* Exhaustive - seaching by gene name can often miss critical results due to poorly annotated records, but using hidden Markov models it is simple to extract the homologous DNA fragments from large dumps of sequence data
-* Comprehensive - searching by species names can often miss critical results because of changes in taxonomy, but by searching for all available species synonyms, and then subsequently validating names can improve 
-* Quality - GenBank data are often infamously mislabelled, but we employ here a 'spreadsheet of shame' where suspect sequences are automatically excluded, and phylogenetic quality control steps are used to screen new versions. 
-* Dynamic - quick and easy to update with each new GenBank release.
-* Simple - with only three packages loaded and seven lines of R code the reference library can be downloaded onto your computer.
-* Customisable - by forking or cloning the repository custom modifications can be made.
-* Self contained - to recreate the reference library, all code and R package versions are in a self contained project, meaning less risk of clashing or broken packages.
+* Exhaustive - seaching by gene name can often miss critical results due to poorly annotated records, but using hidden Markov models it is simple to extract the homologous DNA fragments from large dumps of sequence data.
+* Comprehensive - searching by species names can exclude potential hits because of changes in taxonomy, but here we search for all available species synonyms, and then subsequently validate those names to provide a taxonomically up-to-date reference library. 
+* Quality - sequences on GenBank are frequently annotated with incorrect species names, but we employ a 'spreadsheet of shame' where dubious quality sequences are automatically excluded, and phylogenetic quality control steps are used to screen each new versions.
+* Dynamic - it's easy to update to each new GenBank release (see code below).
+* Quick - runs overnight, including quality control steps.
+* Simple - the final reference library can be downloaded onto your computer with only three packages loaded and seven lines of R code (see code below).
+* Customisable - by forking or cloning the repository custom modifications can be made, e.g. excluding particular species or making taxonomic changes, or using a completely different list of species.
+* Self contained - to recreate the reference library, all code and R package versions are in this self contained project, meaning less risk of clashing or code breaking when packages update.
 * Citable - DOIs are issued with each new release.
 
 This README outlines the contents of the repository and a brief description of the workflow involved in creating/updating a metabarcoding reference library, as well instructions to simply access the current data immediately. If an error is apparent, raise a ticket in [Issues](https://github.com/genner-lab/meta-fish-lib/issues) or submit a pull request.
 
-This work is part of the NERC funded [SeaDNA Project](https://twitter.com/SeaDNAproject), and should be cited using version appropriate DOIs that are found in [Releases](https://github.com/genner-lab/meta-fish-lib/releases).
+The work is part of the NERC funded [SeaDNA Project](https://twitter.com/SeaDNAproject), and should be cited using version appropriate DOIs that are found in [Releases](https://github.com/genner-lab/meta-fish-lib/releases).
 
 ### TL;DR (give me the data)
 
-If you require simply the final reference database, it can be downloaded directly using the code below, and converted into FASTA and CSV formats for any of the available primer sets in Table 1. Additional mitochondrial primer sets can be added.
+If you require simply the final reference database for immediate use, it can be downloaded directly using the R code below, and converted into FASTA and CSV formats for any of the available primer sets in Table 1.
 
-##### Retrieve latest reference library (in R)
+##### Retrieve latest reference library:
+
 ```r
 # load packages (install if required)
 # ignore any conflict messages
@@ -71,13 +71,19 @@ Study | Official name | Nickname | Locus
 [Berry et al. (2017)](http://dx.doi.org/10.1002/ece3.3123) | Fish16sF/D | berry | 16S
 [Minamoto et al. (2012)](http://dx.doi.org/10.1007/s10201-011-0362-4) | L14912-CYB | minamoto | cytb
 
-### Create/update reference library manually
+### Create/update the reference library manually
 
-Prerequisites: the programs git, hmmer, mafft and raxml need to be installed on your system. Unfortunately, these scripts are optimised for a Unix system, and I'm unable to offer any Windows support here ([Windows is now able to run Ubuntu Linux ](https://tutorials.ubuntu.com/tutorial/tutorial-ubuntu-on-windows#0)).
+You don't need to run this code below if you just want a copy of the reference library (run code above). This code below is if you want to update it yourself or want to modify and make a new library. I will endeavour to keep this repository up-to-date with GenBank, but if hasn't been updated, email me. 
+
+System requirements: R, git, hmmer, mafft and raxml need to be installed on your system. Unfortunately, these scripts are optimised for a Unix system, and I'm unable to offer any Windows support here ([Windows is now able to run Ubuntu Linux ](https://tutorials.ubuntu.com/tutorial/tutorial-ubuntu-on-windows#0)).
 
 You will also require an API key from NCBI in order to access GenBank data at a decent rate. See info here for how to get a key: [ncbiinsights.ncbi.nlm.nih.gov/2017/11/02/new-api-keys-for-the-e-utilities/](https://ncbiinsights.ncbi.nlm.nih.gov/2017/11/02/new-api-keys-for-the-e-utilities/)
 
-##### Run in a bash terminal
+The phylogenetic quality control step is tedious but important. Here, phylogenetic trees are produced for each primer set, and tips are coloured by monophyly and haplotype sharing to assist the process of identifying dubious accessions. The process of which accessions to blacklist in `assets/exclusions.csv` has been entirely at my discretion thus far. As a general rule of thumb an accession is blacklisted if: (a) individual(s) of species x are identical to or nested within a cluster of sequences of species y, but with other individuals of species x forming an independent cluster; and (b) the putatively spurious sequences coming from a single study, while the putatively correct sequences of species x and y coming from multiple studies. It is important to note that many species will naturally be non-monophyletic and/or share haplotypes with other species (e.g. sprats and herrrings), so be careful to not remove these. Software such as [sativa](https://github.com/amkozlov/sativa) is available to automate the process, and which I may investigate in the future, but in the meantime I think it is always a good idea to eyeball and become familiar with your data.
+
+
+##### Run in a bash terminal:
+
 ```bash
 # admin - clone the repository and create temporary directories
 git clone https://github.com/genner-lab/meta-fish-lib.git
@@ -87,6 +93,10 @@ mkdir reports temp
 # create NCBI API key (this is ignored by git)
 # substitute the 'my-ncbi-key' part for your actual key obtained from NCBI
 echo 'ncbi.key <- "my-ncbi-key"' > assets/ncbi-key.R
+
+# check the genbank versions remotely (github), locally (your machine), and on genbank itself
+# you can update if the remote or local versions are behind genbank
+scripts/check-genbank.R
 
 # search GenBank - takes just over two hours
 # argument one [assets/species-table.csv] is the list of species to search for
@@ -98,6 +108,7 @@ scripts/sequences-download.R assets/species-table.csv 4
 # assemble the reference library with hidden Markov models and obtain metadata
 # takes about 20 mins
 # argument one [4] is the number of processing cores to run in parallel
+# this script overwrites the local master reference library 'assets/reference-library-master.csv.gz'
 scripts/references-assemble.R 4
 
 # phylogenetic quality control (QC) - takes about six hours
@@ -105,21 +116,30 @@ scripts/references-assemble.R 4
 # argument two [8] is the number of processing cores to run in parallel
 scripts/qc.R ~/Software/standard-RAxML/raxmlHPC-AVX 8
 
-# now review phylogenetic tree PDFs output into 'reports/qc_GBVERSION_MONTH-YEAR' 
+# now manually review the phylogenetic tree PDFs output into 'reports/qc_GBVERSION_MONTH-YEAR' 
 # if found, add suspect accessions manually to 'assets/exclusions.csv'
 
 # compile species coverage reports
 make -f scripts/Makefile
 
-# update GitHub repository
+# update GitHub repository (updates remote version)
 cp reports/reports-tables.md assets/reports-tables.md
 git add assets/reference-library-master.csv.gz assets/exclusions.csv assets/reports-tables.md
 git commit -m "updated master to genbank version x"
+
+# confirm changes are made
+scripts/check-genbank.R
 ```
 
-### Advanced
+### FAQ
 
-Building this reference library. 
+* Can I make a reference library for fishes of my country/region? - Yes, just change the list of species in `assets/species-table.csv`. First you will need a list of fish species from your region. A useful tools for this is the [rgbif package](https://docs.ropensci.org/rgbif/index.html) or [FishBase](https://www.fishbase.se/search.php).
+* Can I make a reference library for my taxonomic group? - At the moment I  use the [rfishbase package](https://docs.ropensci.org/rfishbase/index.html) to generate higher taxonomic ranks and validate scientific names because this is the best source of data for fishes. However, the more general solutions could easily be employed using the [taxize package](https://docs.ropensci.org/taxize/) or [taxadb package)](https://docs.ropensci.org/taxadb/index.html), with minimal changes to the code.
+* How do you get the synonyms? - I used the `synonyms()` function in the [rfishbase package](https://docs.ropensci.org/rfishbase/index.html), but the [taxize package](https://docs.ropensci.org/taxize/) or [taxadb package)](https://docs.ropensci.org/taxadb/index.html) would achieve similar results.
+* How do you generate the hidden Markov models? - First I downloaded the fish mitochondrial genomes and annotations from Misaki Miya's MitoFish website at [mitofish.aori.u-tokyo.ac.jp/](http://mitofish.aori.u-tokyo.ac.jp/), and extracted the genes of interest and aligned them with mafft. Then I searched for primer sequences and cut out the fragments of interest using Geneious and exported as fasta. Then I ran the hmmer function `hmmbuild` to create the hidden Markov models.
+* What if I want more than fishes? - Indeed, for many metabarcoding applications you would want to identify 'off-target' reads, so a wider reference library is required as a supplement to the one presented here. I use the NCBI RefSeq mitochondrial DNA database [ncbi.nlm.nih.gov/refseq/release/mitochondrion/](ftp://ftp.ncbi.nlm.nih.gov/refseq/release/mitochondrion/), which should have a sufficiently broad coverage to roughly classify eukaryote mtDNA. 
+* Why is the code for these tasks not in the repository? - unfortunately most of the code to perform these steps in not really general enough to be useful, as it requires a fair amount of manual steps and checking. Please contact me if you need specific help with these.
+
 
 ### Contents (A-Z)
 
@@ -133,6 +153,7 @@ Building this reference library.
 * **`renv/`** - Settings for the R environment.
 * **`reports/`** - Location of QC reports. Temporary directory that is not committed to the repository, but needs to be created locally to run the scripts. Ignored by git.
 * **`scripts/`** - R and shell scripts.
+    - `check-genbank.R` - script to get genbank versions
     - `load-libs.R` - script to load all required packages and functions
     - `Makefile` - makefile to generate the species coverage reports
     - `qc.R` - quality control a reference library
