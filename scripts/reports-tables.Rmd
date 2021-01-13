@@ -1,5 +1,5 @@
 ---
-title: "Reference library coverage report"
+title: "Meta-Fish-Lib reference library coverage report"
 author: "Rupert A. Collins"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 output: github_document
@@ -16,10 +16,10 @@ These were species that we believe are likely to be encountered in eDNA surveys 
 Most of the remaining are either introduced species, rarely encountered migrants, oceanic pelagics, or deep sea organisms.
 
 
-The search was performed on the GenBank nt and BOLD sequences databases. 
-Because of inconsistencies in how researchers annotate their GenBank submissions and the differing internal coverage of primer pairs for particular gene fragments, we performed a search requesting all mitochondrial DNA.
-Then we pulled out fragments of interest using a hidden markov model. This enabled us to have greater confidence that useful sequences had not been missed.
-For the resulting sequences we then tabulated all their metadata from GenBank in order to allow us the capability to curate a custom reference library according to various criteria (e.g. must have reference specimen or locality data).
+The search was performed on the NCBI nucleotide and BOLD sequences databases. 
+Because of inconsistencies in how researchers annotate their GenBank submissions and the differing internal coverage of primer pairs for particular gene fragments, we performed a search requesting mitochondrial DNA using multiple search relevant search terms (COI, 12S, 16S, rRNA, ribosomal, cytb, CO1, cox1, cytochrome, subunit, COB, CYB, mitochondrial, mitochondrion).
+Then we pulled out fragments of interest using a hidden Markov model. This enabled us to have greater confidence that useful sequences had not been missed.
+For the resulting sequences we then tabulate all their metadata from GenBank in order to allow us the capability to later tailor a custom reference library according to any criteria required (e.g. must have reference specimen or locality data etc).
 
 
 ```{r load_libs, include=FALSE}
@@ -39,12 +39,22 @@ source(here("scripts","references-clean.R"))
 # get dates and genbank version
 gb.version <- reflib.orig %>% select(genbankVersion) %>% drop_na() %>% distinct(genbankVersion) %>% pull(genbankVersion)
 gb.date <- reflib.orig %>% select(searchDate) %>% drop_na() %>% distinct(searchDate) %>% pull(searchDate)
+gb.acc <- reflib.orig %>% distinct(dbid) %>% count() %>% pull(n)
+gb.spp <- reflib.orig %>% distinct(sciNameValid) %>% count() %>% pull(n)
 ```
 
 
-```{r species_clean, include=FALSE}
-# clean up the species data
-uk.species.table.val <- uk.species.table %>% rename(sciNameValid=validName)
+```{r species, include=FALSE}
+# remove synonyms
+uk.species.table.val <- uk.species.table %>% 
+    select(validName,class,order,family,genus,commonName,commonSpecies) %>% 
+    distinct() %>% 
+    filter(validName!="Pungitius laevis",validName!="Cottus perifretum",validName!="Atherina presbyter") %>%
+    rename(sciNameValid=validName)
+# calculate totals for each group
+uk.syns <- uk.species.table %>% distinct(speciesName) %>% count() %>% pull(n)
+uk.all <- uk.species.table.val %>% count() %>% pull(n)
+uk.common <- uk.species.table.val %>% filter(commonSpecies==TRUE) %>% count() %>% pull(n)
 ```
 
 
@@ -91,11 +101,6 @@ marker.table.pretty <- marker.table %>% left_join(haps.format) %>% separate(mark
 ```
 
 
-```{r percentages, include=FALSE}
-# calculate percentages for each group
-uk.all <- reflib.by.marker %>% count()
-```
-
 ```{r versions, include=FALSE}
 # rename new local version
 reflib.new <- reflib.orig %>% select(dbid,genbankVersion,searchDate,sciNameValid,starts_with("nucleotidesFrag"))
@@ -122,21 +127,22 @@ reflib.new.by.marker <- reflib.new %>%
 
 ##### Results
 
-The total number of UK species is estimated to be around `r uk.all`.
-GenBank and BOLD were searched on `r gb.date` (GenBank version `r gb.version`).
+The total number of accepted UK species is estimated to be around `r uk.all`, with `r uk.commmon` common species, and `r uk.syns` total names including synonyms. The NCBI GenBank and BOLD databases were searched on `r gb.date` (GenBank version `r gb.version`), and the search retrieved `r gb.acc` accessions from `r gb.spp` unique species. Below is presented a summary table of reference library coverage (Table 1), numbers of individuals per common species (Table 2), and the sequences added to the reference library in the most recent update (Table 3).
 
 
-###### Table 1. Summary
+###### Table 1. Summary of coverage. Locus = mitochondrial gene; Fragment = metabarcode primer set; Total = total number of sequences; Cov. (all) = proportion of all species with at least one sequence; Cov. (common) = proportion of common species with at least one sequence; Cov. (rare) = proportion of rare species with at least one sequence; Singletons = proportion of species represented by only one sequence, only including those with >0 seequences; Haps (mean) = mean number unique haplotypes per species; Haps (median) = median number unique haplotypes per species. 
+
 ```{r print_summary, echo=FALSE, results="asis"}
 options(knitr.kable.NA="",digits=2)
-# print the common species table
+# print the summary table
 marker.table.pretty %>%
     mutate(Locus=str_to_upper(Locus),Fragment=str_to_title(Fragment)) %>%
     kable()
 ```
 
 
-###### Table 2. Big table
+###### Table 2. Numbers of sequences represented per species for each primer set metabarcode fragment. Only common species are shown.
+
 ```{r print_big, echo=FALSE, results="asis"}
 options(knitr.kable.NA="")
 # print the common species table
@@ -155,7 +161,9 @@ reflib.by.marker %>%
     kable()
 ```
 
-###### Table 3. New sequences in `r gb.version` (`r gb.date`). Previous version `r gb.version.old` (`r gb.date.old`).
+
+###### Table 3. Numbers of new sequences for latest reference library version compared to previous. Current version is GenBank v`r gb.version` (`r gb.date`); previous version is GenBank v`r gb.version.old` (`r gb.date.old`).
+
 ```{r print_versions, echo=FALSE, results="asis"}
 options(knitr.kable.NA="")
 # print the common species table
