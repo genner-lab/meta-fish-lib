@@ -10,7 +10,7 @@ This reference library has several unique features that make it useful to the wi
 * Flexible - the library is not limited to any particular metabarcode locus or primer set. I have included the most popular ones (Table 1), but new ones can be added as required.
 * Exhaustive - seaching by gene name can often miss critical results due to poorly annotated records, but using hidden Markov models it is simple to extract the homologous DNA fragments from large dumps of sequence data.
 * Comprehensive - searching by species names can exclude potential hits because of changes in taxonomy, but here we search for all available species synonyms, and then subsequently validate those names to provide a taxonomically up-to-date reference library. 
-* Quality - sequences on GenBank are frequently annotated with incorrect species names, but we employ a 'spreadsheet of shame' where dubious quality sequences are automatically excluded, and phylogenetic quality control steps are used to screen each new versions.
+* Quality - sequences on GenBank are frequently annotated with incorrect species names, but we employ a 'spreadsheet of shame' where dubious quality sequences are automatically excluded, and phylogenetic quality control steps are used to screen each new version.
 * Dynamic - it's easy to update to each new GenBank release (see code below).
 * Quick - runs overnight, including quality control steps.
 * Simple - the final reference library can be downloaded onto your computer with only three packages loaded and seven lines of R code (see code below).
@@ -82,7 +82,7 @@ You will also require an API key from NCBI in order to access GenBank data at a 
 The phylogenetic quality control step is tedious but important. Here, phylogenetic trees are produced for each primer set, and tips are coloured by monophyly and haplotype sharing to assist the process of identifying dubious accessions. The process of which accessions to blacklist in `assets/exclusions.csv` has been entirely at my discretion thus far. As a general rule of thumb an accession is blacklisted if: (a) individual(s) of species x are identical to or nested within a cluster of sequences of species y, but with other individuals of species x forming an independent cluster; and (b) the putatively spurious sequences coming from a single study, while the putatively correct sequences of species x and y coming from multiple studies. It is important to note that many species will naturally be non-monophyletic and/or share haplotypes with other species (e.g. sprats and herrrings), so be careful to not remove these. Software such as [sativa](https://github.com/amkozlov/sativa) is available to automate the process, and which I may investigate in the future, but in the meantime I think it is always a good idea to eyeball and become familiar with your data.
 
 
-##### Run in a bash terminal:
+##### Bash terminal:
 
 ```bash
 # admin - clone the repository and create temporary directories
@@ -93,6 +93,9 @@ mkdir reports temp
 # create NCBI API key (this is ignored by git)
 # substitute the 'my-ncbi-key' part for your actual key obtained from NCBI
 echo 'ncbi.key <- "my-ncbi-key"' > assets/ncbi-key.R
+
+# install required R packages using renv (only need to run this once)
+Rscript -e "renv::restore()"
 
 # check the genbank versions remotely (github), locally (your machine), and on genbank itself
 # you can update if the remote or local versions are behind genbank
