@@ -41,7 +41,7 @@ prefixes.all <- c(
 )
 
 # run hmmer (takes about 5 mins)
-writeLines("\nExtracting metabarcode fragments with HMMER ...")
+writeLines("\nExtracting metabarcode fragments with HMMER (may take several minutes) ...")
 dat.frag.all <- lapply(prefixes.all, function(x) run_hmmer3(dir="temp", infile="mtdna-dump.fas", prefix=x, evalue="10", coords="env"))
 writeLines("\nDone")
 
@@ -78,16 +78,13 @@ frag.df %<>% filter(gi_no!="NCBI_GENOMES") %>%
     mutate(genbankVersion=pull(filter(stats,stat=="genbankVersion"),n),searchDate=pull(filter(stats,stat=="date"),n)) %>%
     distinct(gi_no, .keep_all=TRUE) %>% 
     mutate(acc_no=str_replace_all(acc_no,"\\.[0-9]",""), source="GENBANK") %>%
-    # fix the lat_lon into decimal
     mutate(lat=paste(str_split_fixed(lat_lon, " ", 4)[,1], str_split_fixed(lat_lon, " ", 4)[,2]), lon=paste(str_split_fixed(lat_lon, " ", 4)[,3], str_split_fixed(lat_lon, " ", 4)[,4])) %>%
     mutate(lat=if_else(grepl(" N",lat), true=str_replace_all(lat," N",""), false=if_else(grepl(" S",lat), true=paste0("-",str_replace_all(lat," S","")), false=lat))) %>%
     mutate(lon=if_else(grepl(" E",lon), true=str_replace_all(lon," E",""), false=if_else(grepl(" W",lon), true=paste0("-",str_replace_all(lon," W","")), false=lon))) %>% 
     mutate(lat=str_replace_all(lat,"^ ", NA_character_), lon=str_replace_all(lon,"^ ", NA_character_)) %>%
     mutate(lat=suppressWarnings(as.numeric(lat)), lon=suppressWarnings(as.numeric(lon))) %>% 
-    # tidy up
     select(-taxonomy,-organelle,-keyword,-lat_lon) %>% 
-    rename(sciNameOrig=taxon,notesGenBank=gene_desc,dbid=gi_no,gbAccession=acc_no,catalogNumber=specimen_voucher,
-        publishedAs=paper_title,publishedIn=journal,publishedBy=first_author,date=uploaded_date,decimalLatitude=lat,decimalLongitude=lon,nucleotides=sequence)
+    rename(sciNameOrig=taxon,notesGenBank=gene_desc,dbid=gi_no,gbAccession=acc_no,catalogNumber=specimen_voucher,publishedAs=paper_title,publishedIn=journal,publishedBy=first_author,date=uploaded_date,decimalLatitude=lat,decimalLongitude=lon,nucleotides=sequence)
 
 # do the same for BOLD
 # run
