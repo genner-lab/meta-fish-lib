@@ -1,25 +1,9 @@
 #!/usr/bin/env Rscript
 # script to load up reference libraries and clean them up
 
-# copy
-uk.species.table.orig <- uk.species.table
-
-# remove synonyms
-uk.species.table <- uk.species.table %>% 
-    dplyr::select(validName,class,order,family,genus,commonName,commonSpecies) %>% 
-    dplyr::distinct()
-
-# change taxonomy for some common species
-uk.species.table <- uk.species.table %>% 
-    dplyr::filter(validName!="Pungitius laevis",validName!="Cottus perifretum",validName!="Atherina presbyter")
-
-# filter common
-uk.species.table.common <- uk.species.table %>% 
-    dplyr::filter(commonSpecies==TRUE)
-
 # exclude bad seqs and clean
 reflib.orig <- reflib.orig %>% 
-    dplyr::filter(!dbid %in% exclusions$dbid[exclusions$action=="REMOVE"])
+    dplyr::filter(!dbid %in% (exclusions %>% dplyr::filter(action=="REMOVE") %>% dplyr::pull(dbid)))
 
 # reassign taxonomy for some recently changed species
 reflib.orig <- reflib.orig %>% 
