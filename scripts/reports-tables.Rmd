@@ -32,14 +32,13 @@ source(here::here("scripts","load-libs.R"))
 # load up the data
 source(here("scripts","references-load-local.R"))
 source(here("scripts","references-clean.R"))
-activity.df <- read_csv(file=here("reports","stats.csv"))
 ```
 
 
 ```{r activities, include=FALSE}
 # get dates and genbank version
-gb.version <- activity.df %>% filter(stat=="genbankVersion") %>% pull(n)
-gb.date <- activity.df %>% filter(stat=="date") %>% pull(n)
+gb.version <- reflib.orig %>% select(genbankVersion) %>% drop_na() %>% distinct(genbankVersion) %>% pull(genbankVersion)
+gb.date <- reflib.orig %>% select(searchDate) %>% drop_na() %>% distinct(searchDate) %>% pull(searchDate)
 ```
 
 
@@ -97,6 +96,29 @@ marker.table.pretty <- marker.table %>% left_join(haps.format) %>% separate(mark
 uk.all <- reflib.by.marker %>% count()
 ```
 
+```{r versions, include=FALSE}
+# rename new local version
+reflib.new <- reflib.orig %>% select(dbid,genbankVersion,searchDate,sciNameValid,starts_with("nucleotidesFrag"))
+# load remote old version
+source(here("scripts","references-load-remote.R"))
+source(here("scripts","references-clean.R"))
+# rename old remote version and get genbank accessions
+reflib.old <- reflib.orig %>% select(dbid,genbankVersion,searchDate,sciNameValid,starts_with("nucleotidesFrag"))
+gb.version.old <- reflib.old %>% select(genbankVersion) %>% drop_na() %>% distinct(genbankVersion) %>% pull(genbankVersion)
+gb.date.old <- reflib.old %>% select(searchDate) %>% drop_na() %>% distinct(searchDate) %>% pull(searchDate)
+# in old, not in new
+#reflib.old %>% filter(!dbid %in% pull(reflib.new,dbid)) %>% select(dbid,sciNameValid) %>% print(n=Inf)
+# fin ids in new, not in old and clean up
+reflib.new.by.marker <- reflib.new %>% 
+    filter(!dbid %in% pull(reflib.old,dbid)) %>% 
+    select(-dbid,-genbankVersion,-searchDate) %>% 
+    pivot_longer(cols=!c(sciNameValid),names_to="marker",values_to="nucleotides") %>% 
+    mutate(hasSeq=if_else(is.na(nucleotides),0,1)) %>% 
+    group_by(sciNameValid,marker) %>%
+    summarise(genbankCount=sum(hasSeq),.groups="drop") %>%
+    mutate(marker=str_replace_all(marker,"nucleotidesFrag.",""), marker=str_replace_all(marker,".noprimers",""))
+```
+
 
 ##### Results
 
@@ -130,5 +152,21 @@ reflib.by.marker %>%
     relocate(commonName,.after=sciNameValid) %>%
     mutate(sciNameValid=str_replace_all(sciNameValid, pattern="$|^", replacement="*")) %>%
     rename(Family=family, `Scientific Name`=sciNameValid, `Common Name`=commonName) %>%
+    kable()
+```
+
+###### Table 3. New sequences in `r gb.version` (`r gb.date`). Previous version `r gb.version.old` (`r gb.date.old`).
+```{r print_versions, echo=FALSE, results="asis"}
+options(knitr.kable.NA="")
+# print the common species table
+reflib.new.by.marker %>%
+    mutate(locus=str_to_upper(str_split_fixed(marker,"\\.",2)[,1])) %>% 
+    mutate(fragment=str_to_title(str_split_fixed(marker,"\\.",2)[,2])) %>%
+    mutate(marker=paste0(locus," (",fragment,")")) %>%
+    select(-locus,-fragment) %>%
+    pivot_wider(names_from=marker,values_from=genbankCount,values_fill=0) %>%
+    arrange(sciNameValid) %>%
+    mutate(sciNameValid=str_replace_all(sciNameValid, pattern="$|^", replacement="*")) %>%
+    rename(`Scientific Name`=sciNameValid) %>%
     kable()
 ```
