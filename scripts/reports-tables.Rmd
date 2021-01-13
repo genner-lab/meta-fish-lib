@@ -127,7 +127,7 @@ reflib.new.by.marker <- reflib.new %>%
 
 ##### Results
 
-The total number of accepted UK species is estimated to be around `r uk.all`, with `r uk.commmon` common species, and `r uk.syns` total names including synonyms. The NCBI GenBank and BOLD databases were searched on `r gb.date` (GenBank version `r gb.version`), and the search retrieved `r gb.acc` accessions from `r gb.spp` unique species. Below is presented a summary table of reference library coverage (Table 1), numbers of individuals per common species (Table 2), and the sequences added to the reference library in the most recent update (Table 3).
+The total number of accepted UK species is estimated to be around `r uk.all`, with `r uk.common` common species, and `r uk.syns` total names including synonyms. The NCBI GenBank and BOLD databases were searched on `r gb.date` (GenBank version `r gb.version`), and the search retrieved `r gb.acc` accessions from `r gb.spp` unique species. Below is presented a summary table of reference library coverage (Table 1), numbers of individuals per common species (Table 2), and the sequences added to the reference library in the most recent update (Table 3).
 
 
 ###### Table 1. Summary of coverage. Locus = mitochondrial gene; Fragment = metabarcode primer set; Total = total number of sequences; Cov. (all) = proportion of all species with at least one sequence; Cov. (common) = proportion of common species with at least one sequence; Cov. (rare) = proportion of rare species with at least one sequence; Singletons = proportion of species represented by only one sequence, only including those with >0 seequences; Haps (mean) = mean number unique haplotypes per species; Haps (median) = median number unique haplotypes per species. 
