@@ -159,7 +159,7 @@ dbs.merged.all %<>% mutate(nucleotides=str_to_lower(nucleotides))
 
 # drop the DNA fragments and reorder the columns 
 dbs.merged.info <- dbs.merged.all %>% select(-matches("Frag")) %>% 
-   select(source,dbid,gbAccession,sciNameValid,subphylum,class,order,family,genus,sciNameBinomen,sciNameOrig,fbSpecCode,
+   select(source,dbid,gbAccession,sciNameValid,subphylum,class,order,family,genus,sciNameOrig,fbSpecCode,
     country,catalogNumber,institutionCode,decimalLatitude,decimalLongitude,publishedAs,publishedIn,publishedBy,
     date,notesGenBank,genbankVersion,searchDate,length,nucleotides)
 
@@ -174,12 +174,6 @@ dbs.merged.final <- left_join(dbs.merged.info,dbs.merged.seqs,by="dbid") %>%
 # take a look 
 #writeLines("\nReference library fields:")
 #glimpse(dbs.merged.final)
-
-## Write out
-# first, see what was added/removed from last time
-#old <- read_csv("../references/uk-fish-references.csv.gz")
-#old %>% filter(!dbid %in% pull(dbs.merged.final,dbid)) %>% filter(source=="GENBANK") %>% select(dbid,sciNameOrig,sciNameBinomen,sciNameValid) %>% print(n=Inf)
-#dbs.merged.final %>% filter(!dbid %in% pull(old,dbid)) %>% select(dbid,sciNameOrig,sciNameBinomen,sciNameValid) %>% print(n=Inf)
 
 # write out a gzipped file (orig is too big for github)
 writeLines("\nWriting out reference library to 'assets/reference-library-master.csv.gz' ...")
