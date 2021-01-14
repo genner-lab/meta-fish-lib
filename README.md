@@ -8,8 +8,8 @@ The reference library and code presented here supercedes the previous one hosted
 This reference library has several unique features that make it useful to the wider DNA barcoding and DNA metabarcoding communities:
 
 * Flexible - the library is not limited to any particular metabarcode locus or primer set. I have included the most popular ones (Table 1), but new ones can be added as required.
-* Exhaustive - seaching by gene name can often miss critical results due to poorly annotated records, but using hidden Markov models it is simple to extract the homologous DNA fragments from large dumps of sequence data.
-* Comprehensive - searching by species names can exclude potential hits because of changes in taxonomy, but here we search for all available species synonyms, and then subsequently validate those names to provide a taxonomically up-to-date reference library. 
+* Exhaustive - seaching by single gene names can often miss critical results due to poorly annotated records, but using hidden Markov models it is simple to extract the homologous DNA fragments from large dumps of sequence data.
+* Comprehensive - searching by species names can exclude potential hits because of changes in taxonomy, but here we search for all species synonyms, and then subsequently validate those names to provide a taxonomically up-to-date reference library. 
 * Quality - sequences on GenBank are frequently annotated with incorrect species names, but we employ a 'spreadsheet of shame' where dubious quality sequences are automatically excluded, and phylogenetic quality control steps are used to screen each new version.
 * Dynamic - it's easy to update to each new GenBank release (see code below).
 * Quick - runs overnight, including quality control steps.
@@ -30,9 +30,8 @@ If you require simply the final reference database for immediate use, it can be 
 
 ```r
 # load packages (install if required)
-# ignore any conflict messages
-library("vroom")
 library("tidyverse")
+library("vroom")
 library("ape")
 
 # load remote references and scripts (requires internet connection)
@@ -48,7 +47,7 @@ reflib.sub <- subset_references(df=reflib.orig, frag="12s.miya")
 # convert to fasta file
 # uses the standard database id field ('dbid') as a label
 # 'dbid' is the GenBank GI number, or the BOLD processID number
-# custom labels can be created with 'mutate()' using other fields and changing 'namecol' argument
+# custom labels can be created with 'mutate()' and 'paste()' using other fields and changing 'namecol' argument - see FAQ
 reflib.fas <- tab2fas(df=reflib.sub, seqcol="nucleotides", namecol="dbid")
 
 # write out fasta file and corresponding csv table
@@ -136,12 +135,52 @@ scripts/check-genbank.R
 
 ### FAQ
 
-* Can I make a reference library for fishes of my country/region? - Yes, just change the list of species in `assets/species-table.csv`. First you will need a list of fish species from your region. A useful tools for this is the [rgbif package](https://docs.ropensci.org/rgbif/index.html) or [FishBase](https://www.fishbase.se/search.php).
-* Can I make a reference library for my taxonomic group? - At the moment I  use the [rfishbase package](https://docs.ropensci.org/rfishbase/index.html) to generate higher taxonomic ranks and validate scientific names because this is the best source of data for fishes. However, the more general solutions could easily be employed using the [taxize package](https://docs.ropensci.org/taxize/) or [taxadb package)](https://docs.ropensci.org/taxadb/index.html), with minimal changes to the code.
-* How do you get the synonyms? - I used the `synonyms()` function in the [rfishbase package](https://docs.ropensci.org/rfishbase/index.html), but the [taxize package](https://docs.ropensci.org/taxize/) or [taxadb package)](https://docs.ropensci.org/taxadb/index.html) would achieve similar results.
-* How do you generate the hidden Markov models? - First I downloaded the fish mitochondrial genomes and annotations from Misaki Miya's MitoFish website at [mitofish.aori.u-tokyo.ac.jp/](http://mitofish.aori.u-tokyo.ac.jp/), and extracted the genes of interest and aligned them with mafft. Then I searched for primer sequences and cut out the fragments of interest using Geneious and exported as fasta. Then I ran the hmmer function `hmmbuild` to create the hidden Markov models.
-* What if I want more than fishes? - Indeed, for many metabarcoding applications you would want to identify 'off-target' reads, so a wider reference library is required as a supplement to the one presented here. I use the NCBI RefSeq mitochondrial DNA database [ncbi.nlm.nih.gov/refseq/release/mitochondrion/](ftp://ftp.ncbi.nlm.nih.gov/refseq/release/mitochondrion/), which should have a sufficiently broad coverage to roughly classify eukaryote mtDNA. 
+* Can I make a reference library for fishes of my country/region? - Yes, just change the list of species in `assets/species-table.csv`. First you will need a list of fish species from your region. A useful tools for this are the [rgbif](https://docs.ropensci.org/rgbif/index.html) package and [FishBase](https://www.fishbase.se/search.php).
+* Can I make a reference library for my taxonomic group? - At the moment I  use the [rfishbase](https://docs.ropensci.org/rfishbase/index.html) package to generate higher taxonomic ranks and validate scientific names because this is the best source of data for fishes. However, the more general solutions could easily be employed using the [taxize](https://docs.ropensci.org/taxize/) package or [taxadb)](https://docs.ropensci.org/taxadb/index.html) package, with minimal changes to the code.
+* How do you get the synonyms? - I used the `synonyms()` function in the [rfishbase](https://docs.ropensci.org/rfishbase/index.html) package, but the [taxize](https://docs.ropensci.org/taxize/) package or [taxadb)](https://docs.ropensci.org/taxadb/index.html) package would achieve similar results.
+* How do you generate the hidden Markov models? - First I downloaded the fish mitochondrial genomes and annotations from Misaki Miya's MitoFish website at [mitofish.aori.u-tokyo.ac.jp/](http://mitofish.aori.u-tokyo.ac.jp/), and extracted the genes of interest and aligned them with mafft. Then I searched for primer sequences and cut out the fragments of interest using [Geneious](https://www.geneious.com/prime/) and exported as fasta. Then I ran the hmmer function `hmmbuild` to create the hidden Markov models.
+* What if I want more than fishes? - Indeed, for many metabarcoding applications you would want to identify 'off-target' reads, so a wider reference library is required as a supplement to the one presented here. I use the [NCBI RefSeq mitochondrial DNA database](ftp://ftp.ncbi.nlm.nih.gov/refseq/release/mitochondrion), which should have a sufficiently broad coverage to roughly classify eukaryote mtDNA.
 * Why is the code for these tasks not in the repository? - unfortunately most of the code to perform these steps in not really general enough to be useful, as it requires a fair amount of manual steps and checking. Please contact me if you need specific help with these.
+* Why are the labels in the reference fasta file just numbers? - when you download the reference library as shown above, the `references.fasta` file will use the 'dbid' column which is the database identification numbers. For NCBI these are 'GI' numbers (GenInfo Identifiers); these are equivalent to NCBI accession numbers, and will resolve accordingly on NCBI services; for BOLD, these are the 'processid' numbers. As there are many possible formats required for taxonomy assignment software, I am unable to know which ones you will require, and have therefore chosen a sensible default. To make your own custom labels, just use the dplyr `mutate()` and `paste()` functions to join columns in the table to make a new label column of format 'dbid_family_genus_species', as follows in the code below. Table 2 explains the fields in the reference library table. 
+
+```r
+reflib.label <- reflib.sub %>% 
+    mutate(label=paste(dbid,family,str_replace_all(sciNameValid," ","_"),sep="_"))
+reflib.fas <- tab2fas(df=reflib.label,seqcol="nucleotides", namecol="label")
+```
+
+**Table 2: Key to reference library table fields**
+
+Field (column name) | Description
+----- | -----
+source | source of record (GenBank or BOLD)
+dbid | GenBank or BOLD database ID (GI, processid)
+gbAccession | GenBank accession
+sciNameValid | FishBase validated scientific name 
+subphylum | taxonomic subphylum
+class | FishBase taxonomic class
+order | FishBase taxonomic order
+family | FishBase taxonomic family
+genus | FishBase taxonomic genus
+sciNameBinomen | DO WE NEED THIS?
+sciNameOrig | original scientific name from GenBank/BOLD
+fbSpecCode | FishBase species code
+country | sample voucher collection country
+catalogNumber | sample voucher catalogue number
+institutionCode | sample voucher institution code
+decimalLatitude | sample voucher collection latitude (decimal degrees)
+decimalLongitude | sample voucher collection longitude (decimal degrees)
+publishedAs | publication title
+publishedIn | publication journal
+publishedBy | publication lead author
+date | date of sequence publication
+notesGenBank | title of GenBank record
+genbankVersion | version of GenBank used to generate this reference library
+searchDate | date of reference library search
+length | number of nucleotides in full record
+nucleotides | nucleotides for full record
+nucleotidesFrag.GENE.FRAGMENT.noprimers | nucleotides for gene fragment primer subset
+lengthFrag.GENE.FRAGMENT.noprimers | number nucleotides in gene fragment primer subset
 
 
 ### Contents (A-Z)
