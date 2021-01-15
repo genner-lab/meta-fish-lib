@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/327435617.svg)](https://zenodo.org/badge/latestdoi/327435617)
+
 # Meta-Fish-Lib: a generalised, dynamic DNA reference library for metabarcoding of fishes
 ![SeaDNA Logo](assets/logo.svg)
 
