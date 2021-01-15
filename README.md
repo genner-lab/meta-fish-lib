@@ -3,9 +3,7 @@
 # Meta-Fish-Lib: a generalised, dynamic DNA reference library for metabarcoding of fishes
 ![SeaDNA Logo](assets/logo.svg)
 
-This repository hosts a comprehensive multi-locus mitochondrial DNA reference library dataset for UK fish species, derived from the [NCBI GenBank](https://www.ncbi.nlm.nih.gov/nucleotide) and [Barcode of Life BOLD](http://www.boldsystems.org/index.php) databases. The dataset includes freshwater and marine species, and can be used in a variety of applications from DNA barcoding of human food products using full COI barcodes, to metabarcoding of gut or environmental samples using fragments of 12S. The library will be updated with each new GenBank release. Both common and rare UK fish species are included. A species coverage report for all primer sets can be found at [assets/reports-tables.md](assets/reports-tables.md). The UK reference library is ready-to-use, but the code can easily generate a new reference libary for a different region by providing a custom species list (see [FAQ](#FAQ).
-
-The reference library and code presented here supercedes the previous one hosted at [github.com/boopsboops/reference-libraries](https://github.com/boopsboops/reference-libraries). Older reference library versions are also archived here (see [Releases](https://github.com/genner-lab/meta-fish-lib/releases)), but the code used to generate those are not archived, only the final library file `assets/reference-library-master.csv.gz`.
+This repository hosts a comprehensive multi-locus mitochondrial DNA reference library dataset for UK fish species, derived from the [NCBI GenBank](https://www.ncbi.nlm.nih.gov/nucleotide) and [Barcode of Life BOLD](http://www.boldsystems.org/index.php) databases. The dataset includes freshwater and marine species, and can be used in a variety of applications from DNA barcoding of human food products using full COI barcodes, to metabarcoding of gut or environmental samples using fragments of 12S. The library will be updated with each new GenBank release. Both common and rare UK fish species are included. A species coverage report for all primer sets can be found at [assets/reports-tables.md](assets/reports-tables.md). The UK reference library is ready-to-use, but the code can easily generate a new reference libary for a different region by providing a custom species list (see [FAQ](#FAQ)).
 
 This reference library has several unique features that make it useful to the wider DNA barcoding and DNA metabarcoding communities:
 
@@ -26,7 +24,7 @@ The work is part of the NERC funded [SeaDNA Project](https://twitter.com/SeaDNAp
 
 ### TL;DR (give me the data)
 
-If you require simply the final reference database for immediate use, it can be downloaded directly using the R code below, and converted into FASTA and CSV formats for any of the available primer sets in Table 1.
+If you require simply the final reference library file for immediate use, it can be downloaded directly using the R code below, and converted into FASTA and CSV formats for any of the available primer sets in Table 1.
 
 ##### Retrieve latest reference library:
 
@@ -134,6 +132,7 @@ scripts/check-genbank.R
 
 ### FAQ
 
+* How do I cite the reference library? - Zenodo DOIs for each version are in see [Releases](https://github.com/genner-lab/meta-fish-lib/releases). An important note: the reference library and code presented here supercedes a previous iteration hosted at [github.com/boopsboops/reference-libraries](https://github.com/boopsboops/reference-libraries). The new version here starts at v241, but I have archived the previous versions of the just reference library file (`assets/reference-library-master.csv.gz`) here. Therefore the old code used to generate the libraries prior to v241 are not archived together with the library here.
 * Can I make a reference library for fishes of my country/region? - Yes, just change the list of species in `assets/species-table.csv`. First you will need a list of fish species from your region. A useful tools for this are the [rgbif](https://docs.ropensci.org/rgbif/index.html) package and [FishBase](https://www.fishbase.se/search.php).
 * Can I make a reference library for a taxonomic group that isn't fishes? - At the moment I  use the [rfishbase](https://docs.ropensci.org/rfishbase/index.html) package to generate higher taxonomic ranks and validate scientific names because this is the best source of data for fishes. However, more general solutions could easily be employed using the [taxize](https://docs.ropensci.org/taxize/) package or [taxadb](https://docs.ropensci.org/taxadb/index.html) package, with minimal changes to the code. Fork away!
 * How do you get the synonyms? - I used the `synonyms()` function in the [rfishbase](https://docs.ropensci.org/rfishbase/index.html) package, but the [taxize](https://docs.ropensci.org/taxize/) package or [taxadb](https://docs.ropensci.org/taxadb/index.html) package would achieve similar results.
