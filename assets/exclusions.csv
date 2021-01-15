@@ -1,297 +1,320 @@
-source,dbid,taxon,action,note,replacement
-GENBANK,51339761,Carassius carassius,REMOVE,Paper states fish is a goldfish (C. auratus),
-GENBANK,52221010,Carassius carassius,REMOVE,Paper states fish is a goldfish (C. auratus),
-GENBANK,1197011479,Carassius carassius,REMOVE,No information that this is not a goldfish,
-GENBANK,1314948533,Ameiurus nebulosus,REMOVE,"This is a RefSeq of GenBank MF621731.1, record was removed at the submitter's request because the source organism cannot be confirmed.",
-GENBANK,1476682361,Cottus gobio,REPLACE,"Specimen from UK, should conform to C. perifretum",Cottus perifretum
-GENBANK,1476682340,Pungitius pungitius,REPLACE,"Specimen from Belgium, should conform to P. laevis",Pungitius laevis
-GENBANK,33317222,Carcharodon carcharias,REMOVE,Nested in a cluster of Cetorhinus maximus,
-GENBANK,460283151,Sparus aurata,REMOVE,Nested in a cluster of Trachurus trachurus,
-GENBANK,460283153,Sparus aurata,REMOVE,Nested in a cluster of Trachurus trachurus,
-GENBANK,1084353060,Pomatoschistus microps,REMOVE,Nested in a cluster of Gobius niger,
-GENBANK,1084353062,Pomatoschistus minutus,REMOVE,Nested in a cluster of Gobius niger,
-BOLD,FCFUK151-06.COI-5P,Pomatoschistus pictus,REMOVE,Nested in a cluster of Gobius niger,
-GENBANK,1040783067,Avocettina infans,REMOVE,Nested in a cluster of Notocanthus,
-GENBANK,257218531,Cichlasoma bimaculatum,REMOVE,Nested in a cluster of Labrus mixtus,
-BOLD,SFM033-13.COI-5P,Symphodus melops,REMOVE,Nested in a cluster of Centrolabrus exoletus,
-GENBANK,1013873805,Salmo trutta,REMOVE,Nested in a cluster of Salvelinus alpinus,
-BOLD,SFM042-13.COI-5P,Lipophrys pholis,REMOVE,Mixed with Parablennius gattorugine,
-BOLD,SFM043-13.COI-5P,Lipophrys pholis,REMOVE,Mixed with Parablennius gattorugine,
-BOLD,SCFAD315-09.COI-5P,Lipophrys pholis,REMOVE,Nested in a cluster of Leptoclinus maculatus,
-BOLD,SCFAD314-09.COI-5P,Lipophrys pholis,REMOVE,Nested in a cluster of Leptoclinus maculatus,
-BOLD,SCFAD316-09.COI-5P,Lipophrys pholis,REMOVE,Nested in a cluster of Leptoclinus maculatus,
-GENBANK,189165470,Sparus aurata,REMOVE,Nested in a cluster of Pagrus pagrus,
-GENBANK,189165468,Sparus aurata,REMOVE,Nested in a cluster of Pagrus pagrus,
-GENBANK,1084353050,Pagellus erythrinus,REMOVE,Nested in a cluster of Pagrus pagrus,
-GENBANK,1084353056,Pagellus erythrinus,REMOVE,Nested in a cluster of Pagrus pagrus,
-BOLD,IFCZE989-12.COI-5P,Blicca bjoerkna,REMOVE,Nested in a cluster of Abramis brama,
-GENBANK,321118183,Blicca bjoerkna,REMOVE,Nested in a cluster of Abramis brama,
-GENBANK,1015802877,Abramis brama,REMOVE,Nested in a cluster of Cottus,
-BOLD,SCFAD142-09.COI-5P,Cottunculus microps,REMOVE,Nested in a cluster of Artediellus atlanticus,
-BOLD,SCFAD141-09.COI-5P,Cottunculus microps,REMOVE,Nested in a cluster of Artediellus atlanticus,
-GENBANK,395629540,Lampanyctus intricarius,REMOVE,Nested in a cluster of Lampanyctus macdonaldi,
-BOLD,UKFBI504-08.COI-5P,Ceratoscopelus warmingii,REMOVE,Nested in a cluster of Ceratoscopelus maderensis,
-GENBANK,874474386,Pleuronectes platessa,REMOVE,Nested in Ictaluridae,
-GENBANK,868612181,Ameiurus nebulosus,REMOVE,Nested in a cluster of Ameiurus melas,
-GENBANK,868611607,Ameiurus nebulosus,REMOVE,Nested in a cluster of Ameiurus melas,
-BOLD,BIM277-13.COI-5P,Solea solea,REMOVE,Nested in a cluster of Pegusa lascaris,
-GENBANK,1373661459,Gadus morhua,REMOVE,Nested in a cluster of Solea solea,
-GENBANK,1373661541,Xiphias gladius,REMOVE,Nested in a cluster of Solea solea,
-GENBANK,554791835,Centroscymnus owstonii,REMOVE,Nested in a cluster of C. coelolepis,
-GENBANK,592748153,Oxynotus paradoxus,REMOVE,Nested in a cluster of Oxynotus centrina,
-GENBANK,296747855,Galeus melastomus,REMOVE,Nested in a cluster of Squalus acanthias,
-BOLD,GMSHK268-12.COI-5P,Centrophorus granulosus,REMOVE,Nested in a cluster of Squalus acanthias,
-GENBANK,384369551,Lamna nasus,REMOVE,Nested in an unidentified cluster,
-GENBANK,384369559,Cetorhinus maximus,REMOVE,Nested in an unidentified cluster,
-GENBANK,384369555,Alopias vulpinus,REMOVE,Nested in an unidentified cluster,
-GENBANK,384369553,Isurus oxyrhinchus,REMOVE,Groups with Prionace glauca,
-GENBANK,384369547,Carcharodon carcharias,REMOVE,Nested in a cluster of Prionace glauca,
-GENBANK,237847770,Isurus oxyrhinchus,REMOVE,Bad quality sequence?,
-GENBANK,296747869,Galeus melastomus,REMOVE,Nested in a cluster of Scyliorhinus canicula,
-GENBANK,251821476,Squalus acanthias,REMOVE,Nested in a cluster of Scyliorhinus canicula,
-GENBANK,325556673,Scyliorhinus stellaris,REMOVE,Nested in a cluster of Scyliorhinus canicula,
-BOLD,BIM140-13.COI-5P,"Raja miraletus""",REMOVE,Nested in a cluster of Torpedo marmorata,
-BOLD,SFM021-13.COI-5P,"Raja undulata""",REMOVE,Nested in a cluster of Raja clavata,
-GENBANK,1485347586,Raja montagui,REMOVE,Nested in a cluster of Raja miraletus,
-GENBANK,1485347584,Raja montagui,REMOVE,Nested in a cluster of Raja miraletus,
-GENBANK,1485347588,Raja montagui,REMOVE,Nested in a cluster of Raja miraletus,
-GENBANK,347978586,Bathyraja spinicauda,REMOVE,Nested in a cluster of Amblyraja,
-BOLD,SCAFB786-07.COI-5P,Bathyraja spinicauda,REMOVE,Nested in a cluster of Amblyraja,
-GENBANK,429141121,Searsia koefoadi,REMOVE,Nested in a cluster of Holtbrynia,
-GENBANK,429141123,Searsia koefoadi,REMOVE,Nested in a cluster of Holtbrynia,
-BOLD,DSFSG763-11.COI-5P,Polyprion americanus,REMOVE,Nested in a cluster of Auxis,
-BOLD,UKFBJ733-08.COI-5P,Auxis thazard,REMOVE,Nested in a cluster of Katsuwonus,
-BOLD,GBGCA543-10.COI-5P,Engraulis encrasicolus,REMOVE,Nested in a cluster of Thunnus,
-GENBANK,307639816,Engraulis encrasicolus,REMOVE,Nested in a cluster of Thunnus,
-BOLD,NOFIS048-10.COI-5P,Schedophilus medusophagus,REMOVE,Nested in a cluster of Centrolophus niger,
-GENBANK,399765393,Mugil cephalus,REMOVE,Nested in a cluster of Chelon labrosus,
-GENBANK,399765389,Mugil cephalus,REMOVE,Nested in a cluster of Chelon labrosus,
-GENBANK,399765387,Mugil cephalus,REMOVE,Nested in a cluster of Chelon labrosus,
-GENBANK,399765395,Mugil cephalus,REMOVE,Nested in a cluster of Chelon labrosus,
-GENBANK,399765391,Mugil cephalus,REMOVE,Nested in a cluster of Chelon labrosus,
-GENBANK,399765381,Mugil cephalus,REMOVE,Nested in a cluster of Chelon labrosus,
-GENBANK,399765377,Mugil cephalus,REMOVE,Nested in a cluster of Chelon labrosus,
-GENBANK,399765379,Mugil cephalus,REMOVE,Nested in a cluster of Chelon labrosus,
-GENBANK,399765378,Mugil cephalus,REMOVE,Nested in a cluster of Chelon labrosus,
-GENBANK,1214737213,Mugil cephalus,REMOVE,Nested in a cluster of Liza ramada,
-GENBANK,1214737211,Mugil cephalus,REMOVE,Nested in a cluster of Liza ramada,
-GENBANK,1214737207,Mugil cephalus,REMOVE,Nested in a cluster of Liza ramada,
-GENBANK,1214737209,Mugil cephalus,REMOVE,Nested in a cluster of Liza ramada,
-GENBANK,332886573,Liza ramada,REMOVE,Nested in a cluster of Liza aurata,
-BOLD,BIM403-15.COI-5P,Hippocampus guttulatus,REMOVE,Nested in a cluster of H. hippocampus,
-BOLD,OCARH786-12.COI-5P,Tilapia zillii,REMOVE,Nested in a cluster of Oreochromis niloticus,
-GENBANK,822475866,Tilapia zillii,REMOVE,Nested in a cluster of Oreochromis niloticus,
-BOLD,GLF036-13.COI-5P,Scopelogadus beanii,REMOVE,Nested in a cluster of Sigmops bathyphilus,
-BOLD,UKFBI261-08.COI-5P,Pleuronectes platessa,REMOVE,"Bad sequence, long branch groups with Stomias",
-GENBANK,1373661465,Solea solea,REMOVE,Nested in a cluster of Gadus morhua,
-GENBANK,786321816,Gaidropsarus mediterraneus,REMOVE,Nested in a cluster of G. macrophthalmus,
-GENBANK,392974018,Gaidropsarus mediterraneus,REMOVE,Nested in a cluster of G. macrophthalmus,
-GENBANK,668349057,Gaidropsarus mediterraneus,REMOVE,Nested in a cluster of G. macrophthalmus,
-GENBANK,668349061,Gaidropsarus mediterraneus,REMOVE,Nested in a cluster of G. macrophthalmus,
-GENBANK,668349059,Gaidropsarus mediterraneus,REMOVE,Nested in a cluster of G. macrophthalmus,
-BOLD,SCFAD248-09.COI-5P,Gaidropsarus vulgaris,REMOVE,Nested in a cluster of G. argentatus,
-BOLD,SCFAD339-09.COI-5P,Gaidropsarus vulgaris,REMOVE,Nested in a cluster of G. argentatus,
-BOLD,SCFAD340-09.COI-5P,Gaidropsarus vulgaris,REMOVE,Nested in a cluster of G. argentatus,
-BOLD,SCFAD283-09.COI-5P,Gaidropsarus vulgaris,REMOVE,Nested in a cluster of Enchylopus cimbrius,
-BOLD,SCFAD330-09.COI-5P,Gaidropsarus vulgaris,REMOVE,Nested in a cluster of Enchylopus cimbrius,
-BOLD,SFM037-13.COI-5P,Gaidropsarus vulgaris,REMOVE,Nested in a cluster of Gaidropsarus mediterraneus,
-GENBANK,429141251,Tracyrincus scabrus,REMOVE,Nested in a cluster of T. murrayi,
-GENBANK,429141249,Tracyrincus scabrus,REMOVE,Nested in a cluster of T. murrayi,
-GENBANK,1084353064,Pomatoschistus minutus,REMOVE,Nested in a cluster of P. microps (see Oliveira et al),
-GENBANK,1084353068,Pomatoschistus minutus,REMOVE,Nested in a cluster of P. microps (see Oliveira et al),
-GENBANK,1084353066,Pomatoschistus minutus,REMOVE,Nested in a cluster of P. microps (see Oliveira et al),
-GENBANK,1084353076,Pomatoschistus minutus,REMOVE,Nested in a cluster of P. microps (see Oliveira et al),
-GENBANK,1084353074,Pomatoschistus minutus,REMOVE,Nested in a cluster of P. microps (see Oliveira et al),
-GENBANK,1084353070,Pomatoschistus minutus,REMOVE,Nested in a cluster of P. microps (see Oliveira et al),
-GENBANK,1084353072,Pomatoschistus minutus,REMOVE,Nested in a cluster of P. microps (see Oliveira et al),
-GENBANK,868611663,Carassius carassius,REMOVE,"Nested in C. auratus, no evidence it isn't a goldfish",
-GENBANK,868612226,Carassius carassius,REMOVE,"Nested in C. auratus, no evidence it isn't a goldfish",
-GENBANK,868612223,Carassius carassius,REMOVE,"Nested in C. auratus, no evidence it isn't a goldfish",
-GENBANK,868612220,Carassius carassius,REMOVE,"Nested in C. auratus, no evidence it isn't a goldfish",
-GENBANK,670608868,Carassius carassius,REMOVE,"Nested in C. auratus, no evidence it isn't a goldfish",
-GENBANK,868611659,Carassius carassius,REMOVE,"Nested in C. auratus, no evidence it isn't a goldfish",
-BOLD,COFPL053-15.COI-5P,Mugil cephalus,REMOVE,Wacky sequence very different from everything,
-GENBANK,307342424,Pagellus erythrinus,REMOVE,Nested in a cluster of Pagrus pagrus,
-GENBANK,307342086,Pagellus erythrinus,REMOVE,Nested in a cluster of Pagrus pagrus,
-BOLD,UKFBI262-08.COI-5P,Solea solea,REMOVE,Nested in a cluster of Mugil,
-GENBANK,289546383,Engraulis encrasicolus,REMOVE,Nested in a cluster of Thunnus,
-BOLD,DSFSG763-11.COI-5P,Polyprion americanus,REMOVE,Nested in a cluster of Auxis,
-GENBANK,307341814,Trigloporus lastoviza,REMOVE,Nested in a cluster of Chelidonichthys lucerna,
-BOLD,PHANT455-08.COI-5P,Sphyrna zygaena,REMOVE,Groups with Mustelus,
-GENBANK,307342148,Boops boops,REMOVE,Groups with Sarpa salpa,
-GENBANK,307342146,Boops boops,REMOVE,Groups with Sarpa salpa,
-GENBANK,597441294,Pseudorasbora parva,REMOVE,Nested in a cluster of Cyprinus,
-GENBANK,321118193,Blicca bjoerkna,REMOVE,Nested in a cluster of Abramis brama,
-GENBANK,1373661537,Solea solea,REMOVE,Nested in a cluster of Xiphias,
-GENBANK,307341812,Trigloporus lastoviza,REMOVE,Nested in a cluster of Chelidonichthys lucerna,
-GENBANK,786321693,Engraulis encrasicolus,REMOVE,Wacky sequence very different from everything,
-GENBANK,681884167,Carassius auratus,REMOVE,Nested in a cluster of Cyprinus carpio,
-BOLD,SCFAD142-09.COI-5P,Cottunculus microps,REMOVE,Nested in a cluster of Artediellus atlanticus,
-BOLD,SCFAD141-09.COI-5P,Cottunculus microps,REMOVE,Nested in a cluster of Artediellus atlanticus,
-BOLD,SCFAD215-09.COI-5P,Artediellus atlanticus,REMOVE,Nested in a cluster of Triglops murrayi,
-BOLD,SCFAD214-09.COI-5P,Artediellus atlanticus,REMOVE,Nested in a cluster of Triglops murrayi,
-GENBANK,156071415,Sparus aurata,REMOVE,Complement sequence,
-GENBANK,403330402,Rutilus rutilus,REMOVE,Unverified sequence,
-GENBANK,403330373,Rutilus rutilus,REMOVE,Unverified sequence,
-GENBANK,403330369,Rutilus rutilus,REMOVE,Unverified sequence,
-GENBANK,403330372,Rutilus rutilus,REMOVE,Unverified sequence,
-GENBANK,325556701,Leucoraja naevus,REMOVE,Clusters with Raja clavata,
-BOLD,GLF192-14.COI-5P,Scopelogadus beanii,REMOVE,Nested in a cluster of Sigmops bathyphilus,
-GENBANK,933500755,Regalecus glesne,REMOVE,"Clusters with blennies, matches Salaria in Blast",
-GENBANK,868610871,Carassius carassius,REMOVE,"Nested in C. auratus, no evidence it isn't a goldfish",
-GENBANK,651209284,Brama brama,REMOVE,Nested in Abramis brama,
-GENBANK,651209285,Brama brama,REMOVE,Nested in Abramis brama,
-GENBANK,223558406,Cyprinus carpio,REMOVE,Nested in Rutilus,
-GENBANK,223558407,Cyprinus carpio,REMOVE,Nested in Rutilus,
-GENBANK,223558408,Cyprinus carpio,REMOVE,Nested in Rutilus,
-GENBANK,6522876,Scardinius erythrophthalmus,REMOVE,Nested in Rutilus,
-GENBANK,544582215,Salmo trutta,REMOVE,Nested in Onchorhynchus,
-GENBANK,291165165,Pollachius virens,REMOVE,Nested in Gadus morhua,
-GENBANK,307344109,Solea solea,REMOVE,"Crappy sequence, nested in Scophthalmus",
-GENBANK,76363944,Lepidorhombus whiffiagonis,REMOVE,Nested in Trachurus,
-GENBANK,22597041,Cichlasoma bimaculatum,REMOVE,Nested in Labrus mixtus,
-GENBANK,289546423,Clupea harengus,REMOVE,Nested in Onchorhynchus,
-GENBANK,643433071,Callionymus lyra,REMOVE,Nested in a cluster of Eutrigla gurnardus,
-GENBANK,661414814,Liza aurata,REMOVE,Nested in a cluster of Chelon labrosus,
-GENBANK,821091532,Pollachius virens,REMOVE,Nested in a cluster of Gadus morhua,
-GENBANK,821091524,Micromesistius poutassou,REMOVE,Nested in a cluster of Gadus morhua,
-GENBANK,331687216,Pseudorasbora parva,REMOVE,Nested in a cluster of Gobio gobio,
-GENBANK,2281737,Rhodeus sericeus,REMOVE,Nested in a cluster of R. amarus,
-GENBANK,18146989,Ictalurus punctatus,REMOVE,Nested in a cluster of Carassius auratus,
-GENBANK,484359354,Carassius carassius,REMOVE,Nested in a cluster of Carassius auratus,
-GENBANK,119353077,Carassius carassius,REMOVE,Nested in a cluster of Carassius auratus,
-GENBANK,119067526,Scardinius erythrophthalmus,REMOVE,Nested in a cluster of Rutilus rutilus,
-GENBANK,361051266,Cyprinus carpio,REMOVE,Nested in a cluster of Rutilus rutilus,
-GENBANK,372490152,Tinca tinca,REMOVE,Nested in a cluster of Abramis brama,
-GENBANK,361051272,Blicca bjoerkna,REMOVE,Nested in a cluster of Abramis brama,
-GENBANK,133872335,Blicca bjoerkna,REMOVE,Nested in a cluster of Abramis brama,
-GENBANK,372490151,Abramis brama,REMOVE,Nested in a cluster of Rutilus rutilus,
-GENBANK,223558427,Cyprinus carpio,REMOVE,Nested in a cluster of Rutilus rutilus,
-GENBANK,223558429,Cyprinus carpio,REMOVE,Nested in a cluster of Rutilus rutilus,
-GENBANK,1376159593,Conger conger,REMOVE,Nested in a cluster of Ammodytes,
-BOLD,HNDSA001-19.COI-5P,Anguilla anguilla,REMOVE,"Not a COI sequence, bacterial contamination",
-BOLD,UEZPQ003-14.COI-5P,Lethrinus nebulosus,REMOVE,Low quality sequence,
-GENBANK,1013181134,Thunnus albacares,REMOVE,Low quality sequence,
-GENBANK,1013181152,Thunnus thynnus,REMOVE,Low quality sequence,
-GENBANK,33317232,Isurus oxyrinchus,REMOVE,"Very close to Prionace, not Isurus",
-GENBANK,501794361,Liza ramado,REMOVE,Nested in a cluster of Mugil cephalus,
-GENBANK,1605372396,Cyprinus carpio,REMOVE,Nested in a cluster of Carassius auratus,
-BOLD,AJS148-19.COI-5P,Oreochromis niloticus,REMOVE,Nested in a cluster of Gadus morhua,
-BOLD,AJS172-19.COI-5P,Oreochromis niloticus,REMOVE,Nested in a cluster of Gadus morhua,
-BOLD,FSHN213-19.COI-5P,Salmo trutta,REMOVE,Nested in cluster of Salmo salar,
-BOLD,AJS285-19.COI-5P,Oreochromis niloticus,REMOVE,Nested in a cluster of Gadus morhua,
-BOLD,AJS261-19.COI-5P,Oreochromis niloticus,REMOVE,Nested in a cluster of Gadus morhua,
-BOLD,AJS319-19.COI-5P,Oreochromis niloticus,REMOVE,Nested in a cluster of Gadus morhua,
-BOLD,AJS067-19.COI-5P,Oreochromis niloticus,REMOVE,Nested in a cluster of Gadus morhua,
-GENBANK,1723362216,Ameiurus melas,REMOVE,Nested in a cluster of Ameiurus nebulosus,
-GENBANK,298683659,Engraulis encrasicolus,REMOVE,Nested in a cluster of Sardina pilchardus,
-GENBANK,18698527,Engraulis encrasicolus,REMOVE,Nested in a cluster of Sardina pilchardus,
-GENBANK,1605372422,Cyprinus carpio,REMOVE,Nested in a cluster of Carassius auratus,
-GENBANK,6523023,Scardinius erythrophtalmus,REMOVE,Nested in a cluster of Rutilus rutilus,
-GENBANK,1565944283,Barbus barbus,REMOVE,Nested in a cluster of Squalius cephalus,
-GENBANK,1565944285,Barbus barbus,REMOVE,Nested in a cluster of Squalius cephalus,
-BOLD,AJS290-19.COI−5P,Oreochromis niloticus,REMOVE,Nested in a cluster of Gadus morhua,
-GENBANK,261343168,Acipenser ruthenus,REMOVE,Nowhere near Acipenser,
-BOLD,FSHN231-19.COI-5P,Salmo trutta,REMOVE,Nested in cluster of Salmo salar,
-GENBANK,339431652,Mugil cephalus,REMOVE,"Nowhere near Mugil, blasts as a Seriola",
-GENBANK,961556358,Hippoglossus hippoglossus,REMOVE,Nested in Reinhardtius hippoglossoides,
-GENBANK,961556360,Hippoglossus hippoglossus,REMOVE,Nested in Reinhardtius hippoglossoides,
-GENBANK,961556354,Hippoglossus hippoglossus,REMOVE,Nested in Reinhardtius hippoglossoides,
-GENBANK,961556356,Hippoglossus hippoglossus,REMOVE,Nested in Reinhardtius hippoglossoides,
-GENBANK,874508174,Leptoclinus maculatus,REMOVE,Nested in Lumpenus lampretaeformis,
-GENBANK,1815405131,Cyprinus carpio,REMOVE,"Closer to Barbus, appears to be Schizothorax",
-GENBANK,284027412,Rouleina attrita,REMOVE,Nested in Antimora,
-BOLD,FSHN053-17.COI-5P,Ameiurus melas,REMOVE,Blasts as a Noturus,
-GENBANK,164523705,Thunnus albacares,REMOVE,Nested in Merluccius,
-GENBANK,291165166,Melanogrammus aeglefinus,REMOVE,Blasts as a clupeiform,
-GENBANK,112950224,Cyprinus carpio,REMOVE,Blasts as a loach,
-GENBANK,18031831,Scomber scombrus,REMOVE,Nested in Xiphias,
-GENBANK,156511184,Salmo salar,REMOVE,Blasts as a bat,
-GENBANK,34733274,Barbatula barbatula,REMOVE,Blasts as a Schistura,
-GENBANK,6522657,Barbus barbus,REMOVE,Blasts as a Botia,
-GENBANK,289546459,Pleuronectes platessa,REMOVE,Blasts as a Pangasius,
-GENBANK,386686582,Barbus barbus,REMOVE,Blasts as African Labeobarbus,
-GENBANK,386686590,Barbus barbus,REMOVE,Blasts as African Labeobarbus,
-GENBANK,386686592,Barbus barbus,REMOVE,Blasts as African Labeobarbus,
-GENBANK,386686584,Barbus barbus,REMOVE,Blasts as African Labeobarbus,
-GENBANK,386686576,Barbus barbus,REMOVE,Blasts as African Labeobarbus,
-GENBANK,386686588,Barbus barbus,REMOVE,Blasts as African Labeobarbus,
-GENBANK,386686578,Barbus barbus,REMOVE,Blasts as African Labeobarbus,
-GENBANK,386686586,Barbus barbus,REMOVE,Blasts as African Labeobarbus,
-GENBANK,386686580,Barbus barbus,REMOVE,Blasts as African Labeobarbus,
-GENBANK,386686596,Barbus barbus,REMOVE,Blasts as African Labeobarbus,
-GENBANK,386686598,Barbus barbus,REMOVE,Blasts as African Labeobarbus,
-GENBANK,386686594,Barbus barbus,REMOVE,Blasts as African Labeobarbus,
-GENBANK,63146916,Lepomis gibbosus,REMOVE,Nested in Tinca,
-GENBANK,1898139978,Alburnus alburnus,REMOVE,Nested in Phoxinus,
-GENBANK,1861284480,Limanda limanda,REMOVE,Nested in gadoids,
-BOLD,NBMF144-16.COI-5P,Raja montagui,REMOVE,Nested in Raja clavata,
-GENBANK,734668719,Raja miraletus,REMOVE,Nested in Leucoraja naevus,
-BOLD,FOAK421-10.COI-5P,Deania calcea,REMOVE,Nested in Etmopterus,
-BOLD,FOAF619-07.COI-5P,Centrophorus squamosus,REMOVE,Nested in Centrophorus granulosus,
-BOLD,EPAMC589-20.COI-5P,Ameiurus nebulosus,REMOVE,Nested in Ameiurus melas,
-GENBANK,321151509,Cyclothone microdon,REMOVE,Blasts as Apeltes,
-GENBANK,460283033,Sparus aurata,REMOVE,Blasts as Diplodus,
-GENBANK,460283071,Sparus aurata,REMOVE,Blasts as Diplodus,
-GENBANK,460418954,Dicentrarchus labrax,REMOVE,Blasts as Diplodus,
-GENBANK,460418956,Dicentrarchus labrax,REMOVE,Blasts as Diplodus,
-GENBANK,460418958,Dicentrarchus labrax,REMOVE,Blasts as Diplodus,
-GENBANK,460418960,Dicentrarchus labrax,REMOVE,Blasts as Diplodus,
-GENBANK,460418964,Dicentrarchus labrax,REMOVE,Blasts as Diplodus,
-GENBANK,460418966,Dicentrarchus labrax,REMOVE,Blasts as Diplodus,
-GENBANK,460418968,Dicentrarchus labrax,REMOVE,Blasts as Diplodus,
-GENBANK,460418970,Dicentrarchus labrax,REMOVE,Blasts as Diplodus,
-GENBANK,460418972,Dicentrarchus labrax,REMOVE,Blasts as Diplodus,
-GENBANK,460418974,Dicentrarchus labrax,REMOVE,Blasts as Diplodus,
-GENBANK,460418988,Dicentrarchus labrax,REMOVE,Blasts as Diplodus,
-GENBANK,460418990,Dicentrarchus labrax,REMOVE,Blasts as Diplodus,
-GENBANK,460418992,Dicentrarchus labrax,REMOVE,Blasts as Diplodus,
-GENBANK,460418962,Dicentrarchus labrax,REMOVE,Blasts as Diplodus,
-GENBANK,460418976,Dicentrarchus labrax,REMOVE,Blasts as Diplodus,
-GENBANK,460418978,Dicentrarchus labrax,REMOVE,Blasts as Diplodus,
-GENBANK,460418980,Dicentrarchus labrax,REMOVE,Blasts as Diplodus,
-GENBANK,460418982,Dicentrarchus labrax,REMOVE,Blasts as Diplodus,
-GENBANK,460418984,Dicentrarchus labrax,REMOVE,Blasts as Diplodus,
-GENBANK,460418986,Dicentrarchus labrax,REMOVE,Blasts as Diplodus,
-BOLD,BIM269-13.COI-5P,Sparus aurata,REMOVE,Blasts as Rhabdosargus,
-GENBANK,1321369503,Trachinus draco,REMOVE,Blasts as Parapercis,
-BOLD,UKFBI227-08.COI-5P,Ceratoscopelus maderensis,REMOVE,Nested in Mugil,
-GENBANK,307341816,Macroramphosus scolopax,REMOVE,Nested in Helicolenus,
-BOLD,NBMF250-17.COI-5P,Myoxocephalus scorpius,REMOVE,Nested in Icelus bicornis,
-GENBANK,321151553,Chauliodus sloani,REMOVE,Nested in zoarcids,
-GENBANK,429139563,Alepocephalus bairdii,REMOVE,Nested in Bajacalifornia,
-GENBANK,429141071,Rouleina attrita,REMOVE,Nested in R. maderensis,
-GENBANK,311050153,Epigonus telescopus,REMOVE,Nested in macrourids,
-GENBANK,1861684767,Boops boops,REMOVE,Nested in Merluccius,
-BOLD,AJS292-19.COI-5P,Oreochromis niloticus,REMOVE,Nested in Gadus,
-BOLD,AJS288-19.COI-5P,Oreochromis niloticus,REMOVE,Nested in Gadus,
-BOLD,AJS226-19.COI-5P,Oreochromis niloticus,REMOVE,Nested in Gadus,
-BOLD,AJS270-19.COI-5P,Oreochromis niloticus,REMOVE,Nested in Gadus,
-BOLD,AJS172-19.COI-5P,Oreochromis niloticus,REMOVE,Nested in Gadus,
-BOLD,AJS290-19.COI-5P,Oreochromis niloticus,REMOVE,Nested in Gadus,
-BOLD,AJS293-19.COI-5P,Oreochromis niloticus,REMOVE,Nested in Gadus,
-BOLD,FEM006-19.COI-5P,Melanogrammus aeglefinus,REMOVE,Nested in Melanogrammus,
-BOLD,FEM011-19.COI-5P,Melanogrammus aeglefinus,REMOVE,Nested in Melanogrammus,
-BOLD,FEM007-19.COI-5P,Melanogrammus aeglefinus,REMOVE,Nested in Melanogrammus,
-BOLD,FEM028-19.COI-5P,Melanogrammus aeglefinus,REMOVE,Nested in Melanogrammus,
-BOLD,FEM009-19.COI-5P,Melanogrammus aeglefinus,REMOVE,Nested in Melanogrammus,
-BOLD,FEM018-19.COI-5P,Melanogrammus aeglefinus,REMOVE,Nested in Melanogrammus,
-BOLD,FEM010-19.COI-5P,Melanogrammus aeglefinus,REMOVE,Nested in Melanogrammus,
-BOLD,FEM015-19.COI-5P,Melanogrammus aeglefinus,REMOVE,Nested in Melanogrammus,
-BOLD,FEM019-19.COI-5P,Melanogrammus aeglefinus,REMOVE,Nested in Melanogrammus,
-BOLD,FEM008-19.COI-5P,Melanogrammus aeglefinus,REMOVE,Nested in Melanogrammus,
-BOLD,FEM014-19.COI-5P,Melanogrammus aeglefinus,REMOVE,Nested in Melanogrammus,
-BOLD,FEM035-19.COI-5P,Melanogrammus aeglefinus,REMOVE,Nested in Melanogrammus,
-BOLD,FEM012-19.COI-5P,Melanogrammus aeglefinus,REMOVE,Nested in Melanogrammus,
-BOLD,FEM016-19.COI-5P,Melanogrammus aeglefinus,REMOVE,Nested in Melanogrammus,
-GENBANK,339431654,Mugil cephalus,REMOVE,Blasts as Seriola,
-GENBANK,1829760223,Auxis thazard,REMOVE,Blasts as Elagatis,
-BOLD,NBMF234-17.COI-5P,Hippoglossus hippoglossus,REMOVE,Nested in Hippoglossoides platessoides,
-BOLD,NBMF238-17.COI-5P,Reinhardtius hippoglossoides,REMOVE,Nested in Hippoglossoides platessoides,
-BOLD,AMS170-08.COI-5P,Mola mola,REMOVE,Blasts as Torquigener,
-GENBANK,307604435,Benthosema glaciale,REMOVE,Blasts as Hygophum,
-BOLD,FTWS022-09.COI-5P,Ceratoscopelus warmingii,REMOVE,Blasts as Diaphus,
-BOLD,930580548,Mullus surmuletus,REMOVE,Blasts as Mulloidichthys,
-GENBANK,1921019938,Sardina pilchardus,REMOVE,Blasts as Sardinella,
-GENBANK,1491760615,Sardina pilchardus,REMOVE,Blasts as Sardinella,
-GENBANK,460418274,Alburnus alburnus,REMOVE,Blasts as A. tarichi,
+source,dbid,taxon,action,note
+GENBANK,51339761,Carassius carassius,REMOVE,Paper states fish is a goldfish (C. auratus)
+GENBANK,52221010,Carassius carassius,REMOVE,Paper states fish is a goldfish (C. auratus)
+GENBANK,1197011479,Carassius carassius,REMOVE,No information that this is not a goldfish
+GENBANK,1314948533,Ameiurus nebulosus,REMOVE,"This is a RefSeq of GenBank MF621731.1, record was removed at the submitter's request because the source organism cannot be confirmed."
+GENBANK,33317222,Carcharodon carcharias,REMOVE,Nested in a cluster of Cetorhinus maximus
+GENBANK,460283151,Sparus aurata,REMOVE,Nested in a cluster of Trachurus trachurus
+GENBANK,460283153,Sparus aurata,REMOVE,Nested in a cluster of Trachurus trachurus
+GENBANK,1084353060,Pomatoschistus microps,REMOVE,Nested in a cluster of Gobius niger
+GENBANK,1084353062,Pomatoschistus minutus,REMOVE,Nested in a cluster of Gobius niger
+BOLD,FCFUK151-06.COI-5P,Pomatoschistus pictus,REMOVE,Nested in a cluster of Gobius niger
+GENBANK,1040783067,Avocettina infans,REMOVE,Nested in a cluster of Notocanthus
+GENBANK,257218531,Cichlasoma bimaculatum,REMOVE,Nested in a cluster of Labrus mixtus
+BOLD,SFM033-13.COI-5P,Symphodus melops,REMOVE,Nested in a cluster of Centrolabrus exoletus
+GENBANK,1013873805,Salmo trutta,REMOVE,Nested in a cluster of Salvelinus alpinus
+BOLD,SFM042-13.COI-5P,Lipophrys pholis,REMOVE,Mixed with Parablennius gattorugine
+BOLD,SFM043-13.COI-5P,Lipophrys pholis,REMOVE,Mixed with Parablennius gattorugine
+BOLD,SCFAD315-09.COI-5P,Lipophrys pholis,REMOVE,Nested in a cluster of Leptoclinus maculatus
+BOLD,SCFAD314-09.COI-5P,Lipophrys pholis,REMOVE,Nested in a cluster of Leptoclinus maculatus
+BOLD,SCFAD316-09.COI-5P,Lipophrys pholis,REMOVE,Nested in a cluster of Leptoclinus maculatus
+GENBANK,189165470,Sparus aurata,REMOVE,Nested in a cluster of Pagrus pagrus
+GENBANK,189165468,Sparus aurata,REMOVE,Nested in a cluster of Pagrus pagrus
+GENBANK,1084353050,Pagellus erythrinus,REMOVE,Nested in a cluster of Pagrus pagrus
+GENBANK,1084353056,Pagellus erythrinus,REMOVE,Nested in a cluster of Pagrus pagrus
+BOLD,IFCZE989-12.COI-5P,Blicca bjoerkna,REMOVE,Nested in a cluster of Abramis brama
+GENBANK,321118183,Blicca bjoerkna,REMOVE,Nested in a cluster of Abramis brama
+GENBANK,1015802877,Abramis brama,REMOVE,Nested in a cluster of Cottus
+BOLD,SCFAD142-09.COI-5P,Cottunculus microps,REMOVE,Nested in a cluster of Artediellus atlanticus
+BOLD,SCFAD141-09.COI-5P,Cottunculus microps,REMOVE,Nested in a cluster of Artediellus atlanticus
+GENBANK,395629540,Lampanyctus intricarius,REMOVE,Nested in a cluster of Lampanyctus macdonaldi
+BOLD,UKFBI504-08.COI-5P,Ceratoscopelus warmingii,REMOVE,Nested in a cluster of Ceratoscopelus maderensis
+GENBANK,874474386,Pleuronectes platessa,REMOVE,Nested in Ictaluridae
+GENBANK,868612181,Ameiurus nebulosus,REMOVE,Nested in a cluster of Ameiurus melas
+GENBANK,868611607,Ameiurus nebulosus,REMOVE,Nested in a cluster of Ameiurus melas
+BOLD,BIM277-13.COI-5P,Solea solea,REMOVE,Nested in a cluster of Pegusa lascaris
+GENBANK,1373661459,Gadus morhua,REMOVE,Nested in a cluster of Solea solea
+GENBANK,1373661541,Xiphias gladius,REMOVE,Nested in a cluster of Solea solea
+GENBANK,554791835,Centroscymnus owstonii,REMOVE,Nested in a cluster of C. coelolepis
+GENBANK,592748153,Oxynotus paradoxus,REMOVE,Nested in a cluster of Oxynotus centrina
+GENBANK,296747855,Galeus melastomus,REMOVE,Nested in a cluster of Squalus acanthias
+BOLD,GMSHK268-12.COI-5P,Centrophorus granulosus,REMOVE,Nested in a cluster of Squalus acanthias
+GENBANK,384369551,Lamna nasus,REMOVE,Nested in an unidentified cluster
+GENBANK,384369559,Cetorhinus maximus,REMOVE,Nested in an unidentified cluster
+GENBANK,384369555,Alopias vulpinus,REMOVE,Nested in an unidentified cluster
+GENBANK,384369553,Isurus oxyrhinchus,REMOVE,Groups with Prionace glauca
+GENBANK,384369547,Carcharodon carcharias,REMOVE,Nested in a cluster of Prionace glauca
+GENBANK,237847770,Isurus oxyrhinchus,REMOVE,Bad quality sequence?
+GENBANK,296747869,Galeus melastomus,REMOVE,Nested in a cluster of Scyliorhinus canicula
+GENBANK,251821476,Squalus acanthias,REMOVE,Nested in a cluster of Scyliorhinus canicula
+GENBANK,325556673,Scyliorhinus stellaris,REMOVE,Nested in a cluster of Scyliorhinus canicula
+BOLD,BIM140-13.COI-5P,"Raja miraletus""",REMOVE,Nested in a cluster of Torpedo marmorata
+BOLD,SFM021-13.COI-5P,"Raja undulata""",REMOVE,Nested in a cluster of Raja clavata
+GENBANK,1485347586,Raja montagui,REMOVE,Nested in a cluster of Raja miraletus
+GENBANK,1485347584,Raja montagui,REMOVE,Nested in a cluster of Raja miraletus
+GENBANK,1485347588,Raja montagui,REMOVE,Nested in a cluster of Raja miraletus
+GENBANK,347978586,Bathyraja spinicauda,REMOVE,Nested in a cluster of Amblyraja
+BOLD,SCAFB786-07.COI-5P,Bathyraja spinicauda,REMOVE,Nested in a cluster of Amblyraja
+GENBANK,429141121,Searsia koefoadi,REMOVE,Nested in a cluster of Holtbrynia
+GENBANK,429141123,Searsia koefoadi,REMOVE,Nested in a cluster of Holtbrynia
+BOLD,DSFSG763-11.COI-5P,Polyprion americanus,REMOVE,Nested in a cluster of Auxis
+BOLD,UKFBJ733-08.COI-5P,Auxis thazard,REMOVE,Nested in a cluster of Katsuwonus
+BOLD,GBGCA543-10.COI-5P,Engraulis encrasicolus,REMOVE,Nested in a cluster of Thunnus
+GENBANK,307639816,Engraulis encrasicolus,REMOVE,Nested in a cluster of Thunnus
+BOLD,NOFIS048-10.COI-5P,Schedophilus medusophagus,REMOVE,Nested in a cluster of Centrolophus niger
+GENBANK,399765393,Mugil cephalus,REMOVE,Nested in a cluster of Chelon labrosus
+GENBANK,399765389,Mugil cephalus,REMOVE,Nested in a cluster of Chelon labrosus
+GENBANK,399765387,Mugil cephalus,REMOVE,Nested in a cluster of Chelon labrosus
+GENBANK,399765395,Mugil cephalus,REMOVE,Nested in a cluster of Chelon labrosus
+GENBANK,399765391,Mugil cephalus,REMOVE,Nested in a cluster of Chelon labrosus
+GENBANK,399765381,Mugil cephalus,REMOVE,Nested in a cluster of Chelon labrosus
+GENBANK,399765377,Mugil cephalus,REMOVE,Nested in a cluster of Chelon labrosus
+GENBANK,399765379,Mugil cephalus,REMOVE,Nested in a cluster of Chelon labrosus
+GENBANK,399765378,Mugil cephalus,REMOVE,Nested in a cluster of Chelon labrosus
+GENBANK,1214737213,Mugil cephalus,REMOVE,Nested in a cluster of Liza ramada
+GENBANK,1214737211,Mugil cephalus,REMOVE,Nested in a cluster of Liza ramada
+GENBANK,1214737207,Mugil cephalus,REMOVE,Nested in a cluster of Liza ramada
+GENBANK,1214737209,Mugil cephalus,REMOVE,Nested in a cluster of Liza ramada
+GENBANK,332886573,Liza ramada,REMOVE,Nested in a cluster of Liza aurata
+BOLD,BIM403-15.COI-5P,Hippocampus guttulatus,REMOVE,Nested in a cluster of H. hippocampus
+BOLD,OCARH786-12.COI-5P,Tilapia zillii,REMOVE,Nested in a cluster of Oreochromis niloticus
+GENBANK,822475866,Tilapia zillii,REMOVE,Nested in a cluster of Oreochromis niloticus
+BOLD,GLF036-13.COI-5P,Scopelogadus beanii,REMOVE,Nested in a cluster of Sigmops bathyphilus
+BOLD,UKFBI261-08.COI-5P,Pleuronectes platessa,REMOVE,"Bad sequence, long branch groups with Stomias"
+GENBANK,1373661465,Solea solea,REMOVE,Nested in a cluster of Gadus morhua
+GENBANK,786321816,Gaidropsarus mediterraneus,REMOVE,Nested in a cluster of G. macrophthalmus
+GENBANK,392974018,Gaidropsarus mediterraneus,REMOVE,Nested in a cluster of G. macrophthalmus
+GENBANK,668349057,Gaidropsarus mediterraneus,REMOVE,Nested in a cluster of G. macrophthalmus
+GENBANK,668349061,Gaidropsarus mediterraneus,REMOVE,Nested in a cluster of G. macrophthalmus
+GENBANK,668349059,Gaidropsarus mediterraneus,REMOVE,Nested in a cluster of G. macrophthalmus
+BOLD,SCFAD248-09.COI-5P,Gaidropsarus vulgaris,REMOVE,Nested in a cluster of G. argentatus
+BOLD,SCFAD339-09.COI-5P,Gaidropsarus vulgaris,REMOVE,Nested in a cluster of G. argentatus
+BOLD,SCFAD340-09.COI-5P,Gaidropsarus vulgaris,REMOVE,Nested in a cluster of G. argentatus
+BOLD,SCFAD283-09.COI-5P,Gaidropsarus vulgaris,REMOVE,Nested in a cluster of Enchylopus cimbrius
+BOLD,SCFAD330-09.COI-5P,Gaidropsarus vulgaris,REMOVE,Nested in a cluster of Enchylopus cimbrius
+BOLD,SFM037-13.COI-5P,Gaidropsarus vulgaris,REMOVE,Nested in a cluster of Gaidropsarus mediterraneus
+GENBANK,429141251,Tracyrincus scabrus,REMOVE,Nested in a cluster of T. murrayi
+GENBANK,429141249,Tracyrincus scabrus,REMOVE,Nested in a cluster of T. murrayi
+GENBANK,1084353064,Pomatoschistus minutus,REMOVE,Nested in a cluster of P. microps (see Oliveira et al)
+GENBANK,1084353068,Pomatoschistus minutus,REMOVE,Nested in a cluster of P. microps (see Oliveira et al)
+GENBANK,1084353066,Pomatoschistus minutus,REMOVE,Nested in a cluster of P. microps (see Oliveira et al)
+GENBANK,1084353076,Pomatoschistus minutus,REMOVE,Nested in a cluster of P. microps (see Oliveira et al)
+GENBANK,1084353074,Pomatoschistus minutus,REMOVE,Nested in a cluster of P. microps (see Oliveira et al)
+GENBANK,1084353070,Pomatoschistus minutus,REMOVE,Nested in a cluster of P. microps (see Oliveira et al)
+GENBANK,1084353072,Pomatoschistus minutus,REMOVE,Nested in a cluster of P. microps (see Oliveira et al)
+GENBANK,868611663,Carassius carassius,REMOVE,"Nested in C. auratus, no evidence it isn't a goldfish"
+GENBANK,868612226,Carassius carassius,REMOVE,"Nested in C. auratus, no evidence it isn't a goldfish"
+GENBANK,868612223,Carassius carassius,REMOVE,"Nested in C. auratus, no evidence it isn't a goldfish"
+GENBANK,868612220,Carassius carassius,REMOVE,"Nested in C. auratus, no evidence it isn't a goldfish"
+GENBANK,670608868,Carassius carassius,REMOVE,"Nested in C. auratus, no evidence it isn't a goldfish"
+GENBANK,868611659,Carassius carassius,REMOVE,"Nested in C. auratus, no evidence it isn't a goldfish"
+BOLD,COFPL053-15.COI-5P,Mugil cephalus,REMOVE,Wacky sequence very different from everything
+GENBANK,307342424,Pagellus erythrinus,REMOVE,Nested in a cluster of Pagrus pagrus
+GENBANK,307342086,Pagellus erythrinus,REMOVE,Nested in a cluster of Pagrus pagrus
+BOLD,UKFBI262-08.COI-5P,Solea solea,REMOVE,Nested in a cluster of Mugil
+GENBANK,289546383,Engraulis encrasicolus,REMOVE,Nested in a cluster of Thunnus
+BOLD,DSFSG763-11.COI-5P,Polyprion americanus,REMOVE,Nested in a cluster of Auxis
+GENBANK,307341814,Trigloporus lastoviza,REMOVE,Nested in a cluster of Chelidonichthys lucerna
+BOLD,PHANT455-08.COI-5P,Sphyrna zygaena,REMOVE,Groups with Mustelus
+GENBANK,307342148,Boops boops,REMOVE,Groups with Sarpa salpa
+GENBANK,307342146,Boops boops,REMOVE,Groups with Sarpa salpa
+GENBANK,597441294,Pseudorasbora parva,REMOVE,Nested in a cluster of Cyprinus
+GENBANK,321118193,Blicca bjoerkna,REMOVE,Nested in a cluster of Abramis brama
+GENBANK,1373661537,Solea solea,REMOVE,Nested in a cluster of Xiphias
+GENBANK,307341812,Trigloporus lastoviza,REMOVE,Nested in a cluster of Chelidonichthys lucerna
+GENBANK,786321693,Engraulis encrasicolus,REMOVE,Wacky sequence very different from everything
+GENBANK,681884167,Carassius auratus,REMOVE,Nested in a cluster of Cyprinus carpio
+BOLD,SCFAD142-09.COI-5P,Cottunculus microps,REMOVE,Nested in a cluster of Artediellus atlanticus
+BOLD,SCFAD141-09.COI-5P,Cottunculus microps,REMOVE,Nested in a cluster of Artediellus atlanticus
+BOLD,SCFAD215-09.COI-5P,Artediellus atlanticus,REMOVE,Nested in a cluster of Triglops murrayi
+BOLD,SCFAD214-09.COI-5P,Artediellus atlanticus,REMOVE,Nested in a cluster of Triglops murrayi
+GENBANK,156071415,Sparus aurata,REMOVE,Complement sequence
+GENBANK,403330402,Rutilus rutilus,REMOVE,Unverified sequence
+GENBANK,403330373,Rutilus rutilus,REMOVE,Unverified sequence
+GENBANK,403330369,Rutilus rutilus,REMOVE,Unverified sequence
+GENBANK,403330372,Rutilus rutilus,REMOVE,Unverified sequence
+GENBANK,325556701,Leucoraja naevus,REMOVE,Clusters with Raja clavata
+BOLD,GLF192-14.COI-5P,Scopelogadus beanii,REMOVE,Nested in a cluster of Sigmops bathyphilus
+GENBANK,933500755,Regalecus glesne,REMOVE,"Clusters with blennies, matches Salaria in Blast"
+GENBANK,868610871,Carassius carassius,REMOVE,"Nested in C. auratus, no evidence it isn't a goldfish"
+GENBANK,651209284,Brama brama,REMOVE,Nested in Abramis brama
+GENBANK,651209285,Brama brama,REMOVE,Nested in Abramis brama
+GENBANK,223558406,Cyprinus carpio,REMOVE,Nested in Rutilus
+GENBANK,223558407,Cyprinus carpio,REMOVE,Nested in Rutilus
+GENBANK,223558408,Cyprinus carpio,REMOVE,Nested in Rutilus
+GENBANK,6522876,Scardinius erythrophthalmus,REMOVE,Nested in Rutilus
+GENBANK,544582215,Salmo trutta,REMOVE,Nested in Onchorhynchus
+GENBANK,291165165,Pollachius virens,REMOVE,Nested in Gadus morhua
+GENBANK,307344109,Solea solea,REMOVE,"Crappy sequence, nested in Scophthalmus"
+GENBANK,76363944,Lepidorhombus whiffiagonis,REMOVE,Nested in Trachurus
+GENBANK,22597041,Cichlasoma bimaculatum,REMOVE,Nested in Labrus mixtus
+GENBANK,289546423,Clupea harengus,REMOVE,Nested in Onchorhynchus
+GENBANK,643433071,Callionymus lyra,REMOVE,Nested in a cluster of Eutrigla gurnardus
+GENBANK,661414814,Liza aurata,REMOVE,Nested in a cluster of Chelon labrosus
+GENBANK,821091532,Pollachius virens,REMOVE,Nested in a cluster of Gadus morhua
+GENBANK,821091524,Micromesistius poutassou,REMOVE,Nested in a cluster of Gadus morhua
+GENBANK,331687216,Pseudorasbora parva,REMOVE,Nested in a cluster of Gobio gobio
+GENBANK,2281737,Rhodeus sericeus,REMOVE,Nested in a cluster of R. amarus
+GENBANK,18146989,Ictalurus punctatus,REMOVE,Nested in a cluster of Carassius auratus
+GENBANK,484359354,Carassius carassius,REMOVE,Nested in a cluster of Carassius auratus
+GENBANK,119353077,Carassius carassius,REMOVE,Nested in a cluster of Carassius auratus
+GENBANK,119067526,Scardinius erythrophthalmus,REMOVE,Nested in a cluster of Rutilus rutilus
+GENBANK,361051266,Cyprinus carpio,REMOVE,Nested in a cluster of Rutilus rutilus
+GENBANK,372490152,Tinca tinca,REMOVE,Nested in a cluster of Abramis brama
+GENBANK,361051272,Blicca bjoerkna,REMOVE,Nested in a cluster of Abramis brama
+GENBANK,133872335,Blicca bjoerkna,REMOVE,Nested in a cluster of Abramis brama
+GENBANK,372490151,Abramis brama,REMOVE,Nested in a cluster of Rutilus rutilus
+GENBANK,223558427,Cyprinus carpio,REMOVE,Nested in a cluster of Rutilus rutilus
+GENBANK,223558429,Cyprinus carpio,REMOVE,Nested in a cluster of Rutilus rutilus
+GENBANK,1376159593,Conger conger,REMOVE,Nested in a cluster of Ammodytes
+BOLD,HNDSA001-19.COI-5P,Anguilla anguilla,REMOVE,"Not a COI sequence, bacterial contamination"
+BOLD,UEZPQ003-14.COI-5P,Lethrinus nebulosus,REMOVE,Low quality sequence
+GENBANK,1013181134,Thunnus albacares,REMOVE,Low quality sequence
+GENBANK,1013181152,Thunnus thynnus,REMOVE,Low quality sequence
+GENBANK,33317232,Isurus oxyrinchus,REMOVE,"Very close to Prionace, not Isurus"
+GENBANK,501794361,Liza ramado,REMOVE,Nested in a cluster of Mugil cephalus
+GENBANK,1605372396,Cyprinus carpio,REMOVE,Nested in a cluster of Carassius auratus
+BOLD,AJS148-19.COI-5P,Oreochromis niloticus,REMOVE,Nested in a cluster of Gadus morhua
+BOLD,AJS172-19.COI-5P,Oreochromis niloticus,REMOVE,Nested in a cluster of Gadus morhua
+BOLD,FSHN213-19.COI-5P,Salmo trutta,REMOVE,Nested in cluster of Salmo salar
+BOLD,AJS285-19.COI-5P,Oreochromis niloticus,REMOVE,Nested in a cluster of Gadus morhua
+BOLD,AJS261-19.COI-5P,Oreochromis niloticus,REMOVE,Nested in a cluster of Gadus morhua
+BOLD,AJS319-19.COI-5P,Oreochromis niloticus,REMOVE,Nested in a cluster of Gadus morhua
+BOLD,AJS067-19.COI-5P,Oreochromis niloticus,REMOVE,Nested in a cluster of Gadus morhua
+GENBANK,1723362216,Ameiurus melas,REMOVE,Nested in a cluster of Ameiurus nebulosus
+GENBANK,298683659,Engraulis encrasicolus,REMOVE,Nested in a cluster of Sardina pilchardus
+GENBANK,18698527,Engraulis encrasicolus,REMOVE,Nested in a cluster of Sardina pilchardus
+GENBANK,1605372422,Cyprinus carpio,REMOVE,Nested in a cluster of Carassius auratus
+GENBANK,6523023,Scardinius erythrophtalmus,REMOVE,Nested in a cluster of Rutilus rutilus
+GENBANK,1565944283,Barbus barbus,REMOVE,Nested in a cluster of Squalius cephalus
+GENBANK,1565944285,Barbus barbus,REMOVE,Nested in a cluster of Squalius cephalus
+BOLD,AJS290-19.COI−5P,Oreochromis niloticus,REMOVE,Nested in a cluster of Gadus morhua
+GENBANK,261343168,Acipenser ruthenus,REMOVE,Nowhere near Acipenser
+BOLD,FSHN231-19.COI-5P,Salmo trutta,REMOVE,Nested in cluster of Salmo salar
+GENBANK,339431652,Mugil cephalus,REMOVE,"Nowhere near Mugil, blasts as a Seriola"
+GENBANK,961556358,Hippoglossus hippoglossus,REMOVE,Nested in Reinhardtius hippoglossoides
+GENBANK,961556360,Hippoglossus hippoglossus,REMOVE,Nested in Reinhardtius hippoglossoides
+GENBANK,961556354,Hippoglossus hippoglossus,REMOVE,Nested in Reinhardtius hippoglossoides
+GENBANK,961556356,Hippoglossus hippoglossus,REMOVE,Nested in Reinhardtius hippoglossoides
+GENBANK,874508174,Leptoclinus maculatus,REMOVE,Nested in Lumpenus lampretaeformis
+GENBANK,1815405131,Cyprinus carpio,REMOVE,"Closer to Barbus, appears to be Schizothorax"
+GENBANK,284027412,Rouleina attrita,REMOVE,Nested in Antimora
+BOLD,FSHN053-17.COI-5P,Ameiurus melas,REMOVE,Blasts as a Noturus
+GENBANK,164523705,Thunnus albacares,REMOVE,Nested in Merluccius
+GENBANK,291165166,Melanogrammus aeglefinus,REMOVE,Blasts as a clupeiform
+GENBANK,112950224,Cyprinus carpio,REMOVE,Blasts as a loach
+GENBANK,18031831,Scomber scombrus,REMOVE,Nested in Xiphias
+GENBANK,156511184,Salmo salar,REMOVE,Blasts as a bat
+GENBANK,34733274,Barbatula barbatula,REMOVE,Blasts as a Schistura
+GENBANK,6522657,Barbus barbus,REMOVE,Blasts as a Botia
+GENBANK,289546459,Pleuronectes platessa,REMOVE,Blasts as a Pangasius
+GENBANK,386686582,Barbus barbus,REMOVE,Blasts as African Labeobarbus
+GENBANK,386686590,Barbus barbus,REMOVE,Blasts as African Labeobarbus
+GENBANK,386686592,Barbus barbus,REMOVE,Blasts as African Labeobarbus
+GENBANK,386686584,Barbus barbus,REMOVE,Blasts as African Labeobarbus
+GENBANK,386686576,Barbus barbus,REMOVE,Blasts as African Labeobarbus
+GENBANK,386686588,Barbus barbus,REMOVE,Blasts as African Labeobarbus
+GENBANK,386686578,Barbus barbus,REMOVE,Blasts as African Labeobarbus
+GENBANK,386686586,Barbus barbus,REMOVE,Blasts as African Labeobarbus
+GENBANK,386686580,Barbus barbus,REMOVE,Blasts as African Labeobarbus
+GENBANK,386686596,Barbus barbus,REMOVE,Blasts as African Labeobarbus
+GENBANK,386686598,Barbus barbus,REMOVE,Blasts as African Labeobarbus
+GENBANK,386686594,Barbus barbus,REMOVE,Blasts as African Labeobarbus
+GENBANK,63146916,Lepomis gibbosus,REMOVE,Nested in Tinca
+GENBANK,1898139978,Alburnus alburnus,REMOVE,Nested in Phoxinus
+GENBANK,1861284480,Limanda limanda,REMOVE,Nested in gadoids
+BOLD,NBMF144-16.COI-5P,Raja montagui,REMOVE,Nested in Raja clavata
+GENBANK,734668719,Raja miraletus,REMOVE,Nested in Leucoraja naevus
+BOLD,FOAK421-10.COI-5P,Deania calcea,REMOVE,Nested in Etmopterus
+BOLD,FOAF619-07.COI-5P,Centrophorus squamosus,REMOVE,Nested in Centrophorus granulosus
+BOLD,EPAMC589-20.COI-5P,Ameiurus nebulosus,REMOVE,Nested in Ameiurus melas
+GENBANK,321151509,Cyclothone microdon,REMOVE,Blasts as Apeltes
+GENBANK,460283033,Sparus aurata,REMOVE,Blasts as Diplodus
+GENBANK,460283071,Sparus aurata,REMOVE,Blasts as Diplodus
+GENBANK,460418954,Dicentrarchus labrax,REMOVE,Blasts as Diplodus
+GENBANK,460418956,Dicentrarchus labrax,REMOVE,Blasts as Diplodus
+GENBANK,460418958,Dicentrarchus labrax,REMOVE,Blasts as Diplodus
+GENBANK,460418960,Dicentrarchus labrax,REMOVE,Blasts as Diplodus
+GENBANK,460418964,Dicentrarchus labrax,REMOVE,Blasts as Diplodus
+GENBANK,460418966,Dicentrarchus labrax,REMOVE,Blasts as Diplodus
+GENBANK,460418968,Dicentrarchus labrax,REMOVE,Blasts as Diplodus
+GENBANK,460418970,Dicentrarchus labrax,REMOVE,Blasts as Diplodus
+GENBANK,460418972,Dicentrarchus labrax,REMOVE,Blasts as Diplodus
+GENBANK,460418974,Dicentrarchus labrax,REMOVE,Blasts as Diplodus
+GENBANK,460418988,Dicentrarchus labrax,REMOVE,Blasts as Diplodus
+GENBANK,460418990,Dicentrarchus labrax,REMOVE,Blasts as Diplodus
+GENBANK,460418992,Dicentrarchus labrax,REMOVE,Blasts as Diplodus
+GENBANK,460418962,Dicentrarchus labrax,REMOVE,Blasts as Diplodus
+GENBANK,460418976,Dicentrarchus labrax,REMOVE,Blasts as Diplodus
+GENBANK,460418978,Dicentrarchus labrax,REMOVE,Blasts as Diplodus
+GENBANK,460418980,Dicentrarchus labrax,REMOVE,Blasts as Diplodus
+GENBANK,460418982,Dicentrarchus labrax,REMOVE,Blasts as Diplodus
+GENBANK,460418984,Dicentrarchus labrax,REMOVE,Blasts as Diplodus
+GENBANK,460418986,Dicentrarchus labrax,REMOVE,Blasts as Diplodus
+BOLD,BIM269-13.COI-5P,Sparus aurata,REMOVE,Blasts as Rhabdosargus
+GENBANK,1321369503,Trachinus draco,REMOVE,Blasts as Parapercis
+BOLD,UKFBI227-08.COI-5P,Ceratoscopelus maderensis,REMOVE,Nested in Mugil
+GENBANK,307341816,Macroramphosus scolopax,REMOVE,Nested in Helicolenus
+BOLD,NBMF250-17.COI-5P,Myoxocephalus scorpius,REMOVE,Nested in Icelus bicornis
+GENBANK,321151553,Chauliodus sloani,REMOVE,Nested in zoarcids
+GENBANK,429139563,Alepocephalus bairdii,REMOVE,Nested in Bajacalifornia
+GENBANK,429141071,Rouleina attrita,REMOVE,Nested in R. maderensis
+GENBANK,311050153,Epigonus telescopus,REMOVE,Nested in macrourids
+GENBANK,1861684767,Boops boops,REMOVE,Nested in Merluccius
+BOLD,AJS292-19.COI-5P,Oreochromis niloticus,REMOVE,Nested in Gadus
+BOLD,AJS288-19.COI-5P,Oreochromis niloticus,REMOVE,Nested in Gadus
+BOLD,AJS226-19.COI-5P,Oreochromis niloticus,REMOVE,Nested in Gadus
+BOLD,AJS270-19.COI-5P,Oreochromis niloticus,REMOVE,Nested in Gadus
+BOLD,AJS172-19.COI-5P,Oreochromis niloticus,REMOVE,Nested in Gadus
+BOLD,AJS290-19.COI-5P,Oreochromis niloticus,REMOVE,Nested in Gadus
+BOLD,AJS293-19.COI-5P,Oreochromis niloticus,REMOVE,Nested in Gadus
+BOLD,FEM006-19.COI-5P,Melanogrammus aeglefinus,REMOVE,Nested in Melanogrammus
+BOLD,FEM011-19.COI-5P,Melanogrammus aeglefinus,REMOVE,Nested in Melanogrammus
+BOLD,FEM007-19.COI-5P,Melanogrammus aeglefinus,REMOVE,Nested in Melanogrammus
+BOLD,FEM028-19.COI-5P,Melanogrammus aeglefinus,REMOVE,Nested in Melanogrammus
+BOLD,FEM009-19.COI-5P,Melanogrammus aeglefinus,REMOVE,Nested in Melanogrammus
+BOLD,FEM018-19.COI-5P,Melanogrammus aeglefinus,REMOVE,Nested in Melanogrammus
+BOLD,FEM010-19.COI-5P,Melanogrammus aeglefinus,REMOVE,Nested in Melanogrammus
+BOLD,FEM015-19.COI-5P,Melanogrammus aeglefinus,REMOVE,Nested in Melanogrammus
+BOLD,FEM019-19.COI-5P,Melanogrammus aeglefinus,REMOVE,Nested in Melanogrammus
+BOLD,FEM008-19.COI-5P,Melanogrammus aeglefinus,REMOVE,Nested in Melanogrammus
+BOLD,FEM014-19.COI-5P,Melanogrammus aeglefinus,REMOVE,Nested in Melanogrammus
+BOLD,FEM035-19.COI-5P,Melanogrammus aeglefinus,REMOVE,Nested in Melanogrammus
+BOLD,FEM012-19.COI-5P,Melanogrammus aeglefinus,REMOVE,Nested in Melanogrammus
+BOLD,FEM016-19.COI-5P,Melanogrammus aeglefinus,REMOVE,Nested in Melanogrammus
+GENBANK,339431654,Mugil cephalus,REMOVE,Blasts as Seriola
+GENBANK,1829760223,Auxis thazard,REMOVE,Blasts as Elagatis
+BOLD,NBMF234-17.COI-5P,Hippoglossus hippoglossus,REMOVE,Nested in Hippoglossoides platessoides
+BOLD,NBMF238-17.COI-5P,Reinhardtius hippoglossoides,REMOVE,Nested in Hippoglossoides platessoides
+BOLD,AMS170-08.COI-5P,Mola mola,REMOVE,Blasts as Torquigener
+GENBANK,307604435,Benthosema glaciale,REMOVE,Blasts as Hygophum
+BOLD,FTWS022-09.COI-5P,Ceratoscopelus warmingii,REMOVE,Blasts as Diaphus
+BOLD,930580548,Mullus surmuletus,REMOVE,Blasts as Mulloidichthys
+GENBANK,1921019938,Sardina pilchardus,REMOVE,Blasts as Sardinella
+GENBANK,1491760615,Sardina pilchardus,REMOVE,Blasts as Sardinella
+GENBANK,460418274,Alburnus alburnus,REMOVE,Blasts as A. tarichi
+BOLD,BIM343-13.COI-5P,Dasyatis pastinaca,REMOVE,Blasts as Dasyatis sp.
+GENBANK,347978072,Amblyraja radiata,REMOVE,Blasts as Malacoraja
+BOLD,SCAFB753-07.COI-5P,Amblyraja radiata,REMOVE,Blasts as Malacoraja
+BOLD,GMSHK078-11.COI-5P,Deania calcea,REMOVE,Blasts as Etmopterus
+BOLD,GMSHK079-11.COI-5P,Deania calcea,REMOVE,Blasts as Etmopterus
+BOLD,SCAFB1105-09.COI-5P,Searsia koefoedi,REMOVE,Blasts as Normichthys
+GENBANK,284027464,Regalecus glesne,REMOVE,Totally different to other Regalecus
+GENBANK,1827521035,Coptodon zillii,REMOVE,Blasts as Rita rita
+GENBANK,1827521047,Coptodon zillii,REMOVE,Blasts as Rita rita
+GENBANK,321151515,Sigmops bathyphilus,REMOVE,Totally different to other Sigmops
+GENBANK,681884139,Carassius auratus,REMOVE,Totally different to other Carassius
+GENBANK,261343166,Acipenser sturio,REMOVE,Totally different to other Acipenser
+GENBANK,311333727,Salmo salar,REMOVE,Blasts as a salamander
+GENBANK,289546447,Engraulis encrasicolus,REMOVE,Nested in Thunnus
+GENBANK,723115721,Katsuwonus pelamis,REMOVE,Nested in Thunnus
+GENBANK,1851979580,Auxis thazard,REMOVE,Nested in Katsuwonus
+GENBANK,13020828,Misgurnus fossilis,REMOVE,Blasts as M. anguillicaudatus
+GENBANK,269997201,Squalius cephalus,REMOVE,Totally different to other Squalius
+GENBANK,333102440,Esox lucius,REMOVE,Blasts as a lizard
+GENBANK,289546429,Lophius piscatorius,REMOVE,Blasts as pleuronectiform
+GENBANK,937959400,Anoplogaster cornuta,REMOVE,Blasts as Poroclinus
+GENBANK,237638806,Pomatoschistus minutus,REMOVE,Totally different to other P. minutus
+GENBANK,499297772,Lepomis gibbosus,REMOVE,Blasts as Lepomis gulosus
+GENBANK,6318652,Sparus aurata,REMOVE,Blasts as Pagrus
+GENBANK,1126325698,Sarpa salpa,REMOVE,Blasts as Pagrus
