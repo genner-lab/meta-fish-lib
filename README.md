@@ -12,8 +12,7 @@ In addition to providing curated fish references, this reference library has sev
 * Exhaustive - searching by species names can exclude potential hits because of changes in taxonomy, but here we search for all species synonyms, and then subsequently validate those names to provide a taxonomically up-to-date reference library. 
 * Reliable - sequence data on GenBank are frequently misannotated with incorrect species names, but we have created a list of dubious quality accessions that are automatically excluded when the reference library is loaded each time. We use phylogenetic quality control methods to assist in screening each new GenBank version and update this list accordingly.
 * Dynamic - it's easy to update to each new GenBank release (see code below), and the versioning of this repository reflects the GenBank release on which it was made.
-* Quick - generating the reference library takes a couple of hours, while the phylogenetic quality control steps complete overnight.
-* Simple - the final reference library can be downloaded onto your computer with only three packages loaded and seven lines of R code (see below).
+* Quick - the final reference library can be downloaded onto your computer in just a few seconds with only three packages loaded and seven lines of R code ([below](#Retrieve-latest-reference-library:)). Generating the reference library from scratch ([below](#Bash-terminal:)) takes a couple of hours, with the phylogenetic quality control steps completing overnight.
 * Customisable - by forking or cloning the repository, custom modifications can be made, e.g. excluding particular species, making taxonomic changes, or using a completely different list of species.
 * Self contained - to recreate the reference libraries, all code and R package versions are found within in this self contained project, courtesy of [renv](https://rstudio.github.io/renv/articles/renv.html). This means less risk of clashing installations or broken code when packages and R versions upgrade.
 * Citable - DOIs are issued with each new GenBank release.
@@ -188,7 +187,8 @@ lengthFrag.GENE.FRAGMENT.noprimers | number nucleotides in gene fragment primer 
     - `exclusions.csv` - unreliable accessions to be excluded 
     - `logo.svg` - project logo
     - `reference-library-master.csv.gz` - master copy of the reference library
-    - `reports-tables.md` - species coverage reports 
+    - `reports-tables.md` - species coverage reports
+    - `species-list-synonyms.md` - tutorial and R code to generate species lists and synonyms
     - `species-table.csv` - list of species to search for
 * **`renv/`** - Settings for the R environment.
 * **`reports/`** - Location of QC reports. Temporary directory that is not committed to the repository, but needs to be created locally to run the scripts. Ignored by git.
