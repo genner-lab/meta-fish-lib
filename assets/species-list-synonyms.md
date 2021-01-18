@@ -3,9 +3,13 @@ Generating species and synonym lists
 Rupert A. Collins
 18 January 2021
 
+
+Here is a tutorial for obtaining, annotating, cleaning and formatting a fish species list for a given country. We use the [rfishbase](https://docs.ropensci.org/rfishbase/index.html) package to generate both the list and then augment with data from its numerous tables. The [rgbif](https://docs.ropensci.org/rgbif/index.html) package is also very useful for generating species lists for particular regions.
+
+
 ### Species lists
 
-Here is a demonstation of getting, cleaning and formatting a fish species list for a given region. We use the [rfishbase](https://docs.ropensci.org/rfishbase/index.html) package to generate a species list for a given country and add data fields from its numerous tables. ISO country codes can be found at [en.wikipedia.org/wiki/List_of_ISO_3166_country_codes](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes).
+Use ISO country codes to define countries. These can be found at [en.wikipedia.org/wiki/List_of_ISO_3166_country_codes](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes). 
 
 ```r
 # load libs
