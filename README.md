@@ -184,7 +184,7 @@ lengthFrag.GENE.FRAGMENT.noprimers | number nucleotides in gene fragment primer 
 ### Contents (A-Z)
 
 * **`assets/`** - Required file and reference library.
-    -**`hmms/`** - Hidden Markov models (HMMs) of gene markers of interest.
+    - **`hmms/`** - Hidden Markov models (HMMs) of gene markers of interest.
     - `exclusions.csv` - unreliable accessions to be excluded 
     - `logo.svg` - project logo
     - `reference-library-master.csv.gz` - master copy of the reference library
