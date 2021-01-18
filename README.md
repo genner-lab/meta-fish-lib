@@ -5,18 +5,18 @@
 
 This repository hosts a comprehensive multi-locus mitochondrial DNA reference library dataset for UK fish species, derived from the [NCBI GenBank](https://www.ncbi.nlm.nih.gov/nucleotide) and [Barcode of Life BOLD](http://www.boldsystems.org/index.php) databases. The dataset includes freshwater and marine species, and can be used in a variety of applications from DNA barcoding of human food products using full COI barcodes, to metabarcoding of gut or environmental samples using fragments of 12S. The library will be updated with each new GenBank release. Both common and rare UK fish species are included. A species coverage report for all primer sets can be found at [assets/reports-tables.md](assets/reports-tables.md). The UK reference library is ready-to-use, but the code can easily generate a new reference libary for a different region by providing a custom species list (see [FAQ](#FAQ)).
 
-This reference library has several unique features that make it useful to the wider DNA barcoding and DNA metabarcoding communities:
+In addition to providing curated fish references, this reference library has several unique features that make it useful to the wider DNA barcoding and DNA metabarcoding communities:
 
 * Flexible - the library is not limited to any particular metabarcode locus or primer set. I have included the most popular ones (Table 1), but new ones can be added as required.
-* Exhaustive - seaching by single gene names can often miss critical results due to poorly annotated records, but using hidden Markov models it is simple to extract the homologous DNA fragments from large dumps of sequence data.
-* Comprehensive - searching by species names can exclude potential hits because of changes in taxonomy, but here we search for all species synonyms, and then subsequently validate those names to provide a taxonomically up-to-date reference library. 
-* Quality - sequences on GenBank are frequently annotated with incorrect species names, but we employ a 'spreadsheet of shame' where dubious quality sequences are automatically excluded, and phylogenetic quality control steps are used to screen each new version.
-* Dynamic - it's easy to update to each new GenBank release (see code below).
-* Quick - runs overnight, including quality control steps.
-* Simple - the final reference library can be downloaded onto your computer with only three packages loaded and seven lines of R code (see code below).
-* Customisable - by forking or cloning the repository custom modifications can be made, e.g. excluding particular species or making taxonomic changes, or using a completely different list of species.
-* Self contained - to recreate the reference library, all code and R package versions are in this self contained project, meaning less risk of clashing or code breaking when packages update.
-* Citable - DOIs are issued with each new release.
+* Comprehensive - seaching by single gene names can often miss critical results due to poorly annotated records, but using hidden Markov models it is simple to extract homologous DNA fragments from large dumps of sequence data.
+* Exhaustive - searching by species names can exclude potential hits because of changes in taxonomy, but here we search for all species synonyms, and then subsequently validate those names to provide a taxonomically up-to-date reference library. 
+* Reliable - sequence data on GenBank are frequently misannotated with incorrect species names, but we use an updateable list of dubious quality accessions that can be automatically excluded. We use phylogenetic quality control methods to assist screening each new GenBank version.
+* Dynamic - it's easy to update to each new GenBank release (see code below), and the versioning of this repository reflects the GenBank release on which it was made.
+* Quick - generating the reference library takes a couple of hours, while the phylogenetic quality control steps complete overnight.
+* Simple - the final reference library can be downloaded onto your computer with only three packages loaded and seven lines of R code (see below).
+* Customisable - by forking or cloning the repository, custom modifications can be made, e.g. excluding particular species, making taxonomic changes, or using a completely different list of species.
+* Self contained - to recreate the reference libraries, all code and R package versions are found within in this self contained project, courtesy of [renv](https://rstudio.github.io/renv/articles/renv.html). This means less risk of clashing installations or broken code when packages and R versions upgrade.
+* Citable - DOIs are issued with each new GenBank release.
 
 This README outlines the contents of the repository and a brief description of the workflow involved in creating/updating a metabarcoding reference library, as well instructions to simply access the current data immediately. If an error is apparent, raise a ticket in [Issues](https://github.com/genner-lab/meta-fish-lib/issues) or submit a pull request.
 
