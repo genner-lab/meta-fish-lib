@@ -49,7 +49,7 @@ fishbase.synonyms.clean <- rfishbase::synonyms(server="fishbase") %>%
     select(!dup)
 
 # join the countries and synonyms tables
-species.list <- species.list %>% left_join(distinct(fishbase.synonyms.clean,synonym,Status,SpecCode))
+species.list.syn <- species.list %>% left_join(distinct(fishbase.synonyms.clean,synonym,Status,SpecCode))
 ```
 
 
@@ -63,25 +63,25 @@ fishbase.taxonomy <- rfishbase::load_taxa(server="fishbase")
 fishbase.species <- rfishbase::species(server="fishbase")
 
 # add the taxonomy
-species.list <- species.list %>% left_join(distinct(fishbase.taxonomy,SpecCode,Genus,Family,Order,Class))
+species.list.tax <- species.list.syn %>% left_join(distinct(fishbase.taxonomy,SpecCode,Genus,Family,Order,Class))
 
 # add the common names
-species.list <- species.list %>% left_join(distinct(fishbase.species,SpecCode,Species,FBname))
+species.list.com <- species.list.tax %>% left_join(distinct(fishbase.species,SpecCode,Species,FBname))
 ```
 
 
 ### Format and write out
 
-Now we format the species list in the same way as the species list file (`assets/species-table`) in order for it to work in the pipeline. Then we write it out to a CSV formatted file. The 'commonSpecies' field was set as all TRUE, so it you wish to use this feature, then manually change these values in the table at your own discretion.
+Now we format the species list in the same way as the species list file (`assets/species-table.csv`) in order for it to work in the pipeline. Then we write it out to a CSV formatted file (move it to `assets/species-table.csv` when you are happy with it). The 'commonSpecies' field was set as all 'TRUE', so it you wish to use this feature, then manually change these values in the table at your own discretion.
 
 ```r
 # format
-species.list <- species.list %>% 
+species.list.form <- species.list.com %>% 
     rename(speciesName=synonym,status=Status,fbSpecCode=SpecCode,validName=Species,class=Class,order=Order,family=Family,genus=Genus,commonName=FBname) %>% 
     mutate(commonSpecies=TRUE) %>%
     relocate(speciesName,status,fbSpecCode,validName,class,order,family,genus,commonName,commonSpecies) %>% 
-    arrange(class,order,family,genus,status,speciesName)) 
+    arrange(class,order,family,genus,validName,status,speciesName) 
 
 # write out
-species.list %>% write_csv(file="species-table.csv")
+species.list.form %>% write_csv(file="species-table.csv")
 ```
