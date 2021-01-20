@@ -93,7 +93,16 @@ marker.table <- reflib.by.marker %>%
             `Cov. (common)`=length(which(genbankCount[which(commonSpecies==TRUE)]>0))/length(genbankCount[which(commonSpecies==TRUE)]),
             `Cov. (rare)`=length(which(genbankCount[which(commonSpecies==FALSE)]>0))/length(genbankCount[which(commonSpecies==FALSE)]),
             `Singletons`=length(which(genbankCount==1))/length(which(genbankCount>0))
-            ) 
+           ) 
+#reflib.by.marker %>% 
+#    group_by(marker) %>% 
+#    summarise(
+#            `Total`=sum(genbankCount),
+#            `Cov. (all)`=length(which(genbankCount>0)),
+#            `Cov. (common)`=length(which(genbankCount[which(commonSpecies==TRUE)]>0)),
+#            `Cov. (rare)`=length(which(genbankCount[which(commonSpecies==FALSE)]>0)),
+#            `Singletons`=length(which(genbankCount==1))/length(which(genbankCount>0))
+#            )
 # format haplotype table
 haps.format <- haps.table %>% group_by(marker) %>% summarise(`Haps (mean)`=mean(n),`Haps (median)`=median(n),.groups="drop")
 # join and format
