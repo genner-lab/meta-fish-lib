@@ -28,6 +28,8 @@ If you require simply the final reference library file for immediate use, it can
 ##### Retrieve latest reference library:
 
 ```r
+### START A FRESH R SESSION ###
+
 # load packages (install if required)
 library("tidyverse")
 library("vroom")
@@ -50,8 +52,11 @@ reflib.sub <- subset_references(df=reflib.orig, frag="12s.miya")
 reflib.fas <- tab2fas(df=reflib.sub, seqcol="nucleotides", namecol="dbid")
 
 # write out fasta file and corresponding csv table
-write.FASTA(reflib.fas, file="references.fasta")
-write_csv(reflib.sub, file="references.csv")
+ape::write.FASTA(reflib.fas, file="references.fasta")
+
+# write out corresponding csv table
+# this requires readr v1.4 or higher; change to 'path="references.csv"' for older versions, or use write.csv() instead
+readr::write_csv(reflib.sub, file="references.csv")
 ```
 
 Particular attention should be paid to cleaning steps in `scripts/references-clean.R`; sequences flagged as unreliable (using phylogenetic quality control) are listed in `assets/exclusions.csv` and excluded, while sequences flagged by NCBI as "unverified" are also removed. Taxonomic changes are also made, automatically via validating names against FishBase, and also custom changes (*Cottus perifretum* relabelled as *Cottus cottus*, *Atherina presbyter* relabelled as *Atherina boyeri*, and *Pungitius laevis* relabelled as *Pungitius pungitius*. Where are changes are made, both the original GenBank names and the validated FishBase names are provided (see Table 2).
