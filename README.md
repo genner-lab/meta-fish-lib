@@ -32,7 +32,6 @@ If you require simply the final reference library file for immediate use, it can
 
 # load packages (install if required)
 library("tidyverse")
-library("vroom")
 library("ape")
 
 # load remote references and scripts (requires internet connection)
