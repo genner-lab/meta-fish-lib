@@ -4,9 +4,6 @@
 # R script to make reference databases for UK fishes for multiple markers
 # downloads all mtDNA sequence data from GenBank/BOLD, for a provided list of species 
 
-# get args
-args <- commandArgs(trailingOnly=TRUE)
-
 # load functions and libs
 source(here::here("scripts","load-libs.R"))
 # load up your personal NCBI API key to get 10 requests per sec. This needs to be generated from your account at https://www.ncbi.nlm.nih.gov/
@@ -14,9 +11,17 @@ source(here::here("scripts","load-libs.R"))
 # if you don't have one, ncbi will rate-limit your access to 3 requests per sec, and errors may occur.
 source(here("assets","ncbi-key.R"))
 
+# get args
+option_list <- list( 
+    make_option(c("-l","--list"), type="character"),
+    make_option(c("-t","--threads"), type="numeric")
+    )
+
+# set args
+opt <- parse_args(OptionParser(option_list=option_list,add_help_option=FALSE))
 
 # load up the species table
-species.table <- suppressMessages(read_csv(file=args[1]))
+species.table <- suppressMessages(read_csv(file=opt$list))
 # report
 writeLines(paste0("\nSpecies table contains ",length(pull(species.table,speciesName))," species names"))
 
@@ -42,7 +47,7 @@ query <- sample(query,length(query))
 # do not try more than 3 cores (without api key)
 # important - try to run the search when server loads are lowest, i.e. at weekends or when the USA is not at work.
 # should take about 1.5 h with 4 cores
-cores <- as.numeric(args[2])
+cores <- opt$threads
 
 # break up into chunks
 # longest query should be no larger than about 2500 chars - reduce chunk.size to get smaller queries
