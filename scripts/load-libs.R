@@ -13,7 +13,7 @@ suppressMessages({
     library("tidyverse")
     library("magrittr")
     library("lubridate")
-    library("vroom")
+    #library("vroom")
     library("rentrez")
     library("bold")
     library("traits")
