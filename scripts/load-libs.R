@@ -10,6 +10,7 @@
 suppressMessages({
     library("here")
     library("parallel")
+    library("optparse")
     library("tidyverse")
     library("magrittr")
     library("lubridate")
