@@ -106,22 +106,22 @@ Rscript -e "renv::restore()"
 scripts/check-genbank.R
 
 # search GenBank - takes just over two hours
-# argument one [assets/species-table.csv] is the list of species to search for
-# argument two [4] is the number of processing cores to run in parallel
+# argument "-l" [assets/species-table.csv] is the list of species to search for
+# argument "-t" [4] is the number of processing cores to run in parallel
 # more threads are faster, but more prone to errors by overloading the server with requests
 # make sure not to request more cores than are present on your system
-scripts/sequences-download.R assets/species-table.csv 4
+scripts/sequences-download.R -l assets/species-table.csv -t 4
 
 # assemble the reference library with hidden Markov models and obtain metadata
 # takes about 20 mins
-# argument one [4] is the number of processing cores to run in parallel
+# argument "-t" [4] is the number of processing cores to run in parallel
 # this script overwrites the local master reference library 'assets/reference-library-master.csv.gz'
-scripts/references-assemble.R 4
+scripts/references-assemble.R -t 4
 
 # phylogenetic quality control (QC) - takes about six hours
-# argument one [~/Software/standard-RAxML/raxmlHPC-AVX] is the path on your system to raxml
-# argument two [8] is the number of processing cores to run in parallel
-scripts/qc.R ~/Software/standard-RAxML/raxmlHPC-AVX 8
+# argument "-p" [~/Software/standard-RAxML/raxmlHPC-AVX] is the path on your system to raxml
+# argument "-t" [8] is the number of processing cores to run in parallel
+scripts/qc.R -p ~/Software/standard-RAxML/raxmlHPC-AVX -t 8
 
 # now manually review the phylogenetic tree PDFs output into 'reports/qc_GBVERSION_MONTH-YEAR' 
 # if found, add suspect accessions manually to 'assets/exclusions.csv'
@@ -129,7 +129,7 @@ scripts/qc.R ~/Software/standard-RAxML/raxmlHPC-AVX 8
 # compile species coverage reports
 make -f scripts/Makefile
 
-# update GitHub repository (updates remote version)
+# update GitHub repository (updates remote version - only works if you have forked the repository rather than cloned)
 # change x to actual version
 cp reports/reports-tables.md assets/reports-tables.md
 git add assets/reference-library-master.csv.gz assets/exclusions.csv assets/reports-tables.md
