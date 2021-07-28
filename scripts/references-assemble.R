@@ -5,13 +5,19 @@
 # then, it queries NCBI/BOLD for those accessions, and retrieves full metadata for them to allow better curation of reference database
 # output is a csv dataframe of all accessions with data for all primer sets if present
 
-# get args
-args <- commandArgs(trailingOnly=TRUE)
-
 ## Load functions and libs
 source(here::here("scripts","load-libs.R"))
+
+# get args
+option_list <- list( 
+    make_option(c("-t","--threads"), type="numeric")
+    )
+
+# set args
+opt <- parse_args(OptionParser(option_list=option_list,add_help_option=FALSE))
+
 # set cores - mc.cores=1 is the safest option, but try extra cores to speed up if there are no errors
-cores <- args[1]
+cores <- opt$threads
 
 
 ## Data
