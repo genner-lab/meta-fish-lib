@@ -135,7 +135,7 @@ read_GenBank <- function (access.nb, seq.names = access.nb, species.names = TRUE
 run_hmmer3 <- function(dir, infile, hmm, prefix, evalue, coords){#
     string.hmmer <- paste0("nhmmer -E ", evalue, " --incE ", evalue, " --dfamtblout ", dir, "/", prefix, ".hmmer.tbl ", "assets/hmms/", prefix, ".hmm ", dir, "/", infile)
     system(command=string.hmmer, ignore.stdout=TRUE)
-    hmm.tbl <- read_delim(file=paste0(dir, "/", prefix, ".hmmer.tbl"), delim=" ", col_names=FALSE, trim_ws=TRUE, progress=FALSE, comment="#", col_types=cols(), guess_max=100000)
+    hmm.tbl <- readr::read_table(file=paste0(dir, "/", prefix, ".hmmer.tbl"), col_names=FALSE, progress=FALSE, comment="#", col_types=cols(), guess_max=100000)
     names(hmm.tbl) <- c("targetName","acc","queryName","bits","eValue","bias","hmmStart","hmmEnd","strand","aliStart","aliEnd","envStart","envEnd","sqLen","descriptionTarget")
     hmm.tbl %<>% filter(strand=="+") %>% distinct(targetName, .keep_all=TRUE) %>% mutate(coords=paste(envStart,envEnd,sep=":"))
     mtdna <- read.FASTA(file=paste0(dir,"/",infile))
