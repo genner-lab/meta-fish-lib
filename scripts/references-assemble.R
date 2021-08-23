@@ -10,11 +10,16 @@ source(here::here("scripts","load-libs.R"))
 
 # get args
 option_list <- list( 
-    make_option(c("-t","--threads"), type="numeric")
+    make_option(c("-t","--threads"), type="numeric"),
+    make_option(c("-m","--metabarcodes"), type="character")
     )
 
 # set args
 opt <- parse_args(OptionParser(option_list=option_list,add_help_option=FALSE))
+# if running line-by-line
+#opt <- NULL
+#opt$threads <- 1
+#opt$metabarcode <- "12s.miya,coi.ward"
 
 # set cores - mc.cores=1 is the safest option, but try extra cores to speed up if there are no errors
 cores <- opt$threads
@@ -35,16 +40,18 @@ stats <- suppressMessages(read_csv(file=here("reports","stats.csv")))
 # assumes the hidden markov model is located in assets/hmms directory and is named '$prefix.hmm'
 # returns a DNAbin object of the sequences matched by hmmer 
 
-prefixes.all <- c(
-    "coi.lerayxt.noprimers",
-    "coi.ward.noprimers",
-    "12s.miya.noprimers",
-    "12s.riaz.noprimers",
-    "12s.valentini.noprimers",
-    "12s.taberlet.noprimers",
-    "16s.berry.noprimers",
-    "cytb.minamoto.noprimers"
-)
+# get list of metabarodes
+prefixes.list <- c("coi.lerayxt","coi.ward","12s.miya","12s.riaz","12s.valentini","12s.taberlet","16s.berry","cytb.minamoto")
+# split the input
+prefixes.chosen <- unlist(str_split(opt$metabarcode,","))
+
+# choose metabarcode
+if(opt$metabarcode == "all") {
+    prefixes.all <- c("coi.lerayxt.noprimers","coi.ward.noprimers","12s.miya.noprimers","12s.riaz.noprimers","12s.valentini.noprimers","12s.taberlet.noprimers","16s.berry.noprimers","cytb.minamoto.noprimers")
+} else if (all(prefixes.chosen %in% prefixes.list)) {
+    prefixes.all <- paste(prefixes.chosen,"noprimers",sep=".")
+} else stop(writeLines("'-m' value must be metabarcode(s) listed in Table 1, and separated by a comma, e.g. '12s.miya,coi.ward'."))
+
 
 # run hmmer (takes about 5 mins)
 writeLines("\nExtracting metabarcode fragments with HMMER (may take several minutes) ...")
