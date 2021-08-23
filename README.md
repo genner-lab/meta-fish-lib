@@ -114,7 +114,8 @@ scripts/sequences-download.R -l assets/species-table.csv -t 4 -e true
 ### assemble the reference library with hidden Markov models and obtain metadata ###
 # argument "-t" [4] is the number of processing cores to run in parallel
 # argument "-m" [all] is the metabarcode marker, choosing "all"
-# to choose specific metabarcode marker(s), use the codes in Table 1 and separate with a comma and no space, e.g. "-m 12s.miya,coi.ward"
+# to choose specific metabarcode marker(s), use the codes in Table 1 and separate with a comma and no space
+# e.g. "-m 12s.miya,coi.ward"
 # do not request more processing cores than metabarcode markers
 # this script overwrites the local master reference library 'assets/reference-library-master.csv.gz'
 scripts/references-assemble.R -t 4 -m all
