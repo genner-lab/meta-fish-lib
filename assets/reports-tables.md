@@ -1,7 +1,7 @@
 Reference library coverage report
 ================
 Rupert A. Collins
-29 July 2021
+23 August 2021
 
 ##### Methods and description
 
@@ -11,7 +11,7 @@ The search was performed on the NCBI nucleotide and BOLD sequences databases. Be
 
 ##### Results
 
-The total number of accepted UK species is estimated to be around 531, with 176 common species, and 4280 total names including synonyms. The NCBI GenBank and BOLD databases were searched on 28 Jul 2021 (GenBank version 244), and the search retrieved 51665 accessions from 495 unique species. Below is presented a summary table of reference library coverage (Table 1), numbers of individuals per common species (Table 2), and the sequences added to the reference library in the most recent update (Table 3).
+The total number of accepted UK species is estimated to be around 531, with 176 common species, and 4280 total names including synonyms. The NCBI GenBank and BOLD databases were searched on 21 Aug 2021 (GenBank version 245), and the search retrieved 51780 accessions from 495 unique species. Below is presented a summary table of reference library coverage (Table 1), numbers of individuals per common species (Table 2), and the sequences added to the reference library in the most recent update (Table 3).
 
 **Table 1. Summary of coverage. Locus = mitochondrial gene; Fragment = metabarcode primer set; Total = total number of sequences; Cov. (all) = proportion of all species with at least one sequence; Cov. (common) = proportion of common species with at least one sequence; Cov. (rare) = proportion of rare species with at least one sequence; Singletons = proportion of species represented by only one sequence, only including those with &gt;0 sequences; Haps (mean) = mean number unique haplotypes per species; Haps (median) = median number unique haplotypes per species.**
 
@@ -44,40 +44,40 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <tr class="odd">
 <td align="left">12S</td>
 <td align="left">Miya</td>
-<td align="right">2617</td>
-<td align="right">0.76</td>
+<td align="right">2635</td>
+<td align="right">0.75</td>
 <td align="right">0.94</td>
-<td align="right">0.67</td>
-<td align="right">0.17</td>
+<td align="right">0.66</td>
+<td align="right">0.16</td>
 <td align="right">1.8</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
 <td align="left">12S</td>
 <td align="left">Riaz</td>
-<td align="right">2939</td>
+<td align="right">2940</td>
 <td align="right">0.74</td>
 <td align="right">0.93</td>
-<td align="right">0.65</td>
-<td align="right">0.24</td>
+<td align="right">0.64</td>
+<td align="right">0.23</td>
 <td align="right">1.8</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
 <td align="left">12S</td>
 <td align="left">Taberlet</td>
-<td align="right">2617</td>
-<td align="right">0.76</td>
+<td align="right">2635</td>
+<td align="right">0.75</td>
 <td align="right">0.94</td>
-<td align="right">0.67</td>
-<td align="right">0.17</td>
+<td align="right">0.66</td>
+<td align="right">0.16</td>
 <td align="right">1.8</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
 <td align="left">12S</td>
 <td align="left">Valentini</td>
-<td align="right">2056</td>
+<td align="right">2059</td>
 <td align="right">0.59</td>
 <td align="right">0.70</td>
 <td align="right">0.54</td>
@@ -88,29 +88,29 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <tr class="odd">
 <td align="left">16S</td>
 <td align="left">Berry</td>
-<td align="right">4690</td>
+<td align="right">4720</td>
 <td align="right">0.79</td>
 <td align="right">0.97</td>
 <td align="right">0.70</td>
 <td align="right">0.14</td>
-<td align="right">3.2</td>
+<td align="right">3.3</td>
 <td align="right">2</td>
 </tr>
 <tr class="even">
 <td align="left">COI</td>
 <td align="left">Lerayxt</td>
-<td align="right">29722</td>
+<td align="right">29779</td>
 <td align="right">0.92</td>
 <td align="right">0.98</td>
 <td align="right">0.89</td>
 <td align="right">0.03</td>
-<td align="right">10.9</td>
+<td align="right">11.0</td>
 <td align="right">7</td>
 </tr>
 <tr class="odd">
 <td align="left">COI</td>
 <td align="left">Ward</td>
-<td align="right">29856</td>
+<td align="right">29913</td>
 <td align="right">0.92</td>
 <td align="right">0.98</td>
 <td align="right">0.89</td>
@@ -123,7 +123,7 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="left">Minamoto</td>
 <td align="right">17612</td>
 <td align="right">0.68</td>
-<td align="right">0.88</td>
+<td align="right">0.87</td>
 <td align="right">0.58</td>
 <td align="right">0.15</td>
 <td align="right">8.7</td>
@@ -212,8 +212,8 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="right">3</td>
 <td align="right">0</td>
 <td align="right">6</td>
-<td align="right">33</td>
-<td align="right">33</td>
+<td align="right">35</td>
+<td align="right">35</td>
 <td align="right">9</td>
 </tr>
 <tr class="odd">
@@ -263,9 +263,9 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="right">7</td>
 <td align="right">11</td>
 <td align="right">4</td>
-<td align="right">33</td>
-<td align="right">231</td>
-<td align="right">235</td>
+<td align="right">35</td>
+<td align="right">233</td>
+<td align="right">237</td>
 <td align="right">99</td>
 </tr>
 <tr class="odd">
@@ -276,9 +276,9 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="right">6</td>
 <td align="right">8</td>
 <td align="right">3</td>
-<td align="right">11</td>
-<td align="right">50</td>
-<td align="right">50</td>
+<td align="right">13</td>
+<td align="right">51</td>
+<td align="right">51</td>
 <td align="right">20</td>
 </tr>
 <tr class="even">
@@ -289,9 +289,9 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="right">20</td>
 <td align="right">6</td>
 <td align="right">8</td>
-<td align="right">74</td>
-<td align="right">250</td>
-<td align="right">250</td>
+<td align="right">76</td>
+<td align="right">252</td>
+<td align="right">252</td>
 <td align="right">1016</td>
 </tr>
 <tr class="odd">
@@ -370,7 +370,7 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="right">78</td>
 <td align="right">292</td>
 <td align="right">292</td>
-<td align="right">720</td>
+<td align="right">721</td>
 </tr>
 <tr class="odd">
 <td align="left">Cyprinidae</td>
@@ -394,8 +394,8 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="right">69</td>
 <td align="right">50</td>
 <td align="right">121</td>
-<td align="right">678</td>
 <td align="right">679</td>
+<td align="right">680</td>
 <td align="right">157</td>
 </tr>
 <tr class="odd">
@@ -731,7 +731,7 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="right">7</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">5</td>
+<td align="right">6</td>
 <td align="right">16</td>
 <td align="right">16</td>
 <td align="right">7</td>
@@ -887,9 +887,9 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="right">8</td>
 <td align="right">4</td>
 <td align="right">2</td>
-<td align="right">18</td>
-<td align="right">58</td>
-<td align="right">58</td>
+<td align="right">20</td>
+<td align="right">60</td>
+<td align="right">60</td>
 <td align="right">18</td>
 </tr>
 <tr class="odd">
@@ -1069,9 +1069,9 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="right">2</td>
 <td align="right">3</td>
 <td align="right">0</td>
-<td align="right">3</td>
-<td align="right">29</td>
-<td align="right">29</td>
+<td align="right">5</td>
+<td align="right">31</td>
+<td align="right">31</td>
 <td align="right">0</td>
 </tr>
 <tr class="odd">
@@ -1121,10 +1121,10 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="right">5</td>
 <td align="right">7</td>
 <td align="right">4</td>
-<td align="right">21</td>
-<td align="right">143</td>
-<td align="right">143</td>
-<td align="right">33</td>
+<td align="right">23</td>
+<td align="right">150</td>
+<td align="right">150</td>
+<td align="right">34</td>
 </tr>
 <tr class="odd">
 <td align="left">Cepolidae</td>
@@ -1199,9 +1199,9 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="right">4</td>
 <td align="right">5</td>
 <td align="right">2</td>
-<td align="right">10</td>
-<td align="right">66</td>
-<td align="right">66</td>
+<td align="right">12</td>
+<td align="right">68</td>
+<td align="right">68</td>
 <td align="right">5</td>
 </tr>
 <tr class="odd">
@@ -1212,9 +1212,9 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="right">2</td>
 <td align="right">5</td>
 <td align="right">1</td>
-<td align="right">4</td>
-<td align="right">14</td>
-<td align="right">14</td>
+<td align="right">5</td>
+<td align="right">15</td>
+<td align="right">15</td>
 <td align="right">0</td>
 </tr>
 <tr class="even">
@@ -1408,8 +1408,8 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="right">2</td>
 <td align="right">2</td>
 <td align="right">19</td>
-<td align="right">57</td>
-<td align="right">57</td>
+<td align="right">64</td>
+<td align="right">64</td>
 <td align="right">19</td>
 </tr>
 <tr class="odd">
@@ -1421,8 +1421,8 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="right">5</td>
 <td align="right">5</td>
 <td align="right">12</td>
-<td align="right">83</td>
-<td align="right">83</td>
+<td align="right">88</td>
+<td align="right">88</td>
 <td align="right">9</td>
 </tr>
 <tr class="even">
@@ -1576,9 +1576,9 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="right">3</td>
 <td align="right">4</td>
 <td align="right">1</td>
-<td align="right">6</td>
-<td align="right">31</td>
-<td align="right">31</td>
+<td align="right">8</td>
+<td align="right">33</td>
+<td align="right">33</td>
 <td align="right">7</td>
 </tr>
 <tr class="even">
@@ -1732,9 +1732,9 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="right">6</td>
 <td align="right">3</td>
 <td align="right">2</td>
-<td align="right">17</td>
-<td align="right">106</td>
-<td align="right">108</td>
+<td align="right">19</td>
+<td align="right">107</td>
+<td align="right">109</td>
 <td align="right">79</td>
 </tr>
 <tr class="even">
@@ -1745,9 +1745,9 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="right">3</td>
 <td align="right">2</td>
 <td align="right">0</td>
-<td align="right">13</td>
-<td align="right">29</td>
-<td align="right">29</td>
+<td align="right">15</td>
+<td align="right">30</td>
+<td align="right">30</td>
 <td align="right">18</td>
 </tr>
 <tr class="odd">
@@ -1785,8 +1785,8 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="right">3</td>
 <td align="right">0</td>
 <td align="right">7</td>
-<td align="right">36</td>
-<td align="right">36</td>
+<td align="right">37</td>
+<td align="right">37</td>
 <td align="right">8</td>
 </tr>
 <tr class="even">
@@ -1811,8 +1811,8 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="right">2</td>
 <td align="right">0</td>
 <td align="right">4</td>
-<td align="right">7</td>
-<td align="right">7</td>
+<td align="right">9</td>
+<td align="right">9</td>
 <td align="right">59</td>
 </tr>
 <tr class="even">
@@ -1923,13 +1923,13 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="left">Cottidae</td>
 <td align="left"><em>Myoxocephalus scorpius</em></td>
 <td align="left">Shorthorn sculpin</td>
-<td align="right">8</td>
+<td align="right">11</td>
 <td align="right">5</td>
-<td align="right">8</td>
+<td align="right">11</td>
 <td align="right">5</td>
 <td align="right">5</td>
-<td align="right">100</td>
-<td align="right">100</td>
+<td align="right">103</td>
+<td align="right">103</td>
 <td align="right">111</td>
 </tr>
 <tr class="odd">
@@ -2031,9 +2031,9 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="right">1</td>
 <td align="right">4</td>
 <td align="right">1</td>
-<td align="right">6</td>
-<td align="right">28</td>
-<td align="right">28</td>
+<td align="right">8</td>
+<td align="right">30</td>
+<td align="right">30</td>
 <td align="right">9</td>
 </tr>
 <tr class="odd">
@@ -2097,8 +2097,8 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="right">123</td>
 <td align="right">119</td>
 <td align="right">120</td>
-<td align="right">1</td>
-<td align="right">1</td>
+<td align="right">3</td>
+<td align="right">3</td>
 <td align="right">119</td>
 </tr>
 <tr class="even">
@@ -2162,9 +2162,9 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="right">3</td>
 <td align="right">0</td>
 <td align="right">4</td>
-<td align="right">57</td>
-<td align="right">57</td>
-<td align="right">4</td>
+<td align="right">56</td>
+<td align="right">56</td>
+<td align="right">0</td>
 </tr>
 <tr class="odd">
 <td align="left">Molidae</td>
@@ -2396,8 +2396,8 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="right">5</td>
 <td align="right">3</td>
 <td align="right">12</td>
-<td align="right">141</td>
-<td align="right">141</td>
+<td align="right">149</td>
+<td align="right">149</td>
 <td align="right">16</td>
 </tr>
 <tr class="odd">
@@ -2455,7 +2455,7 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 </tbody>
 </table>
 
-**Table 3. Numbers of new sequences for latest reference library version compared to previous. Current version is GenBank v244 (28 Jul 2021); previous version is GenBank v243 (01 Jun 2021).**
+**Table 3. Numbers of new sequences for latest reference library version compared to previous. Current version is GenBank v245 (21 Aug 2021); previous version is GenBank v244 (28 Jul 2021).**
 
 <table>
 <colgroup>
@@ -2484,121 +2484,33 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left"><em>Amblyraja hyperborea</em></td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-</tr>
-<tr class="even">
-<td align="left"><em>Anguilla anguilla</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1</td>
-</tr>
-<tr class="odd">
-<td align="left"><em>Argentina sphyraena</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="left"><em>Argyropelecus hemigymnus</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">3</td>
-<td align="right">3</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
-<td align="left"><em>Argyrosomus regius</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="left"><em>Arnoglossus laterna</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
 <td align="left"><em>Arnoglossus thori</em></td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">0</td>
+<td align="right">2</td>
 <td align="right">2</td>
 <td align="right">2</td>
 <td align="right">0</td>
 </tr>
 <tr class="even">
-<td align="left"><em>Atherina boyeri</em></td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-</tr>
-<tr class="odd">
 <td align="left"><em>Auxis rochei</em></td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">0</td>
-<td align="right">3</td>
-<td align="right">3</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="left"><em>Auxis thazard</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">2</td>
-<td align="right">2</td>
 <td align="right">0</td>
 </tr>
 <tr class="odd">
-<td align="left"><em>Barbatula barbatula</em></td>
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">2</td>
+<td align="left"><em>Auxis thazard</em></td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
@@ -2611,12 +2523,12 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">1</td>
-<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">2</td>
 <td align="right">0</td>
 </tr>
 <tr class="odd">
-<td align="left"><em>Blennius ocellaris</em></td>
+<td align="left"><em>Buglossidium luteum</em></td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
@@ -2627,14 +2539,14 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="right">0</td>
 </tr>
 <tr class="even">
-<td align="left"><em>Capros aper</em></td>
+<td align="left"><em>Callionymus lyra</em></td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">2</td>
 <td align="right">0</td>
 </tr>
 <tr class="odd">
@@ -2644,89 +2556,45 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">17</td>
-<td align="right">17</td>
-<td align="right">6</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
 </tr>
 <tr class="even">
-<td align="left"><em>Chelon labrosus</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1</td>
+<td align="left"><em>Ceratoscopelus warmingii</em></td>
 <td align="right">1</td>
 <td align="right">0</td>
-</tr>
-<tr class="odd">
-<td align="left"><em>Chlamydoselachus anguineus</em></td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
 <td align="right">1</td>
 <td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="left"><em>Cobitis taenia</em></td>
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">2</td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
 </tr>
 <tr class="odd">
-<td align="left"><em>Coptodon zillii</em></td>
+<td align="left"><em>Cheilopogon heterurus</em></td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">0</td>
-<td align="right">29</td>
-<td align="right">29</td>
 <td align="right">0</td>
 </tr>
 <tr class="even">
-<td align="left"><em>Coregonus lavaretus</em></td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
+<td align="left"><em>Chelon auratus</em></td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">0</td>
 </tr>
 <tr class="odd">
-<td align="left"><em>Coryphoblennius galerita</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
 <td align="left"><em>Cyprinus carpio</em></td>
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">1</td>
-<td align="right">90</td>
-<td align="right">90</td>
-<td align="right">1</td>
-</tr>
-<tr class="odd">
-<td align="left"><em>Dentex maroccanus</em></td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
@@ -2737,120 +2605,98 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="right">0</td>
 </tr>
 <tr class="even">
-<td align="left"><em>Dipturus oxyrinchus</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
 <td align="left"><em>Engraulis encrasicolus</em></td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">0</td>
-<td align="right">10</td>
-<td align="right">10</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">2</td>
 <td align="right">0</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><em>Etmopterus spinax</em></td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left"><em>Euthynnus alletteratus</em></td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">0</td>
-<td align="right">3</td>
-<td align="right">3</td>
 <td align="right">0</td>
 </tr>
 <tr class="odd">
-<td align="left"><em>Gadus morhua</em></td>
+<td align="left"><em>Eutrigla gurnardus</em></td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">2</td>
 <td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left"><em>Gaidropsarus mediterraneus</em></td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left"><em>Gobius niger</em></td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left"><em>Gobius paganellus</em></td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">0</td>
 </tr>
-<tr class="even">
-<td align="left"><em>Gasterosteus aculeatus</em></td>
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">2</td>
+<tr class="odd">
+<td align="left"><em>Gymnocephalus cernua</em></td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
 <td align="right">5</td>
-</tr>
-<tr class="odd">
-<td align="left"><em>Helicolenus dactylopterus</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">1</td>
+<td align="right">5</td>
 <td align="right">0</td>
 </tr>
 <tr class="even">
-<td align="left"><em>Hoplostethus mediterraneus</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
-<td align="left"><em>Ictalurus punctatus</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="left"><em>Isurus oxyrinchus</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
 <td align="left"><em>Katsuwonus pelamis</em></td>
+<td align="right">2</td>
 <td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">3</td>
-<td align="right">3</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="left"><em>Lampetra planeri</em></td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
+<td align="right">2</td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
@@ -2858,69 +2704,25 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="right">0</td>
 </tr>
 <tr class="odd">
-<td align="left"><em>Lepidorhombus whiffiagonis</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
 <td align="left"><em>Lethrinus nebulosus</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">3</td>
-<td align="right">3</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
-<td align="left"><em>Leuciscus idus</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
 <td align="right">2</td>
+<td align="right">1</td>
 <td align="right">2</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
 <td align="right">0</td>
 </tr>
 <tr class="even">
-<td align="left"><em>Lophius budegassa</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
 <td align="left"><em>Lota lota</em></td>
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">2</td>
-</tr>
-<tr class="even">
-<td align="left"><em>Macroramphosus scolopax</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">1</td>
-<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
 <td align="right">0</td>
 </tr>
 <tr class="odd">
@@ -2930,184 +2732,96 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">5</td>
-<td align="right">5</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="left"><em>Melanogrammus aeglefinus</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
-<td align="left"><em>Merluccius merluccius</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
 <td align="right">2</td>
-<td align="right">4</td>
-<td align="right">4</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="left"><em>Micromesistius poutassou</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">14</td>
-<td align="right">14</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
-<td align="left"><em>Molva molva</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">1</td>
+<td align="right">2</td>
 <td align="right">0</td>
 </tr>
 <tr class="even">
 <td align="left"><em>Mugil cephalus</em></td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">15</td>
-<td align="right">15</td>
+<td align="right">6</td>
+<td align="right">6</td>
 <td align="right">0</td>
 </tr>
 <tr class="odd">
-<td align="left"><em>Naucrates ductor</em></td>
+<td align="left"><em>Mullus barbatus</em></td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">0</td>
+<td align="right">2</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">0</td>
 </tr>
 <tr class="even">
-<td align="left"><em>Neogobius melanostomus</em></td>
+<td align="left"><em>Myoxocephalus scorpius</em></td>
+<td align="right">3</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">0</td>
+<td align="right">0</td>
 <td align="right">3</td>
 <td align="right">3</td>
-<td align="right">3</td>
-<td align="right">3</td>
-<td align="right">3</td>
-<td align="right">4</td>
-<td align="right">4</td>
-<td align="right">3</td>
+<td align="right">0</td>
 </tr>
 <tr class="odd">
-<td align="left"><em>Nezumia sclerorhynchus</em></td>
+<td align="left"><em>Nerophis lumbriciformis</em></td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">3</td>
-<td align="right">3</td>
+<td align="right">2</td>
+<td align="right">2</td>
 <td align="right">0</td>
 </tr>
 <tr class="even">
 <td align="left"><em>Oncorhynchus gorbuscha</em></td>
-<td align="right">7</td>
-<td align="right">0</td>
-<td align="right">7</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
-<td align="left"><em>Oncorhynchus mykiss</em></td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">2</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="left"><em>Ophidion barbatum</em></td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">1</td>
-<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">4</td>
 <td align="right">0</td>
 </tr>
 <tr class="odd">
 <td align="left"><em>Oreochromis niloticus</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">305</td>
-<td align="right">305</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="left"><em>Pagrus pagrus</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">2</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
-<td align="left"><em>Petromyzon marinus</em></td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">2</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
-<td align="left"><em>Pholis gunnellus</em></td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
+<td align="left"><em>Pagellus erythrinus</em></td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">0</td>
 </tr>
 <tr class="odd">
-<td align="left"><em>Phoxinus phoxinus</em></td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
+<td align="left"><em>Pegusa lascaris</em></td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">2</td>
 <td align="right">0</td>
 </tr>
 <tr class="even">
@@ -3117,107 +2831,19 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="right">1</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
-<td align="left"><em>Pollachius pollachius</em></td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="left"><em>Prionace glauca</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">16</td>
-<td align="right">19</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
-<td align="left"><em>Pseudorasbora parva</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">33</td>
-<td align="right">33</td>
-<td align="right">3</td>
-</tr>
-<tr class="even">
-<td align="left"><em>Pteroplatytrygon violacea</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
-<td align="left"><em>Pungitius pungitius</em></td>
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">2</td>
-</tr>
-<tr class="even">
-<td align="left"><em>Raja clavata</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">2</td>
-<td align="right">2</td>
 <td align="right">0</td>
 </tr>
 <tr class="odd">
 <td align="left"><em>Reinhardtius hippoglossoides</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1</td>
 <td align="right">1</td>
 <td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="left"><em>Rhinochimaera atlantica</em></td>
+<td align="right">1</td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">0</td>
-<td align="right">3</td>
-<td align="right">3</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
-<td align="left"><em>Rhodeus amarus</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">2</td>
-<td align="right">2</td>
 <td align="right">0</td>
 </tr>
 <tr class="even">
@@ -3227,56 +2853,45 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">1</td>
-<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">2</td>
 <td align="right">0</td>
 </tr>
 <tr class="odd">
-<td align="left"><em>Salmo salar</em></td>
+<td align="left"><em>Sardina pilchardus</em></td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">0</td>
-<td align="right">10</td>
-<td align="right">10</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">2</td>
 <td align="right">0</td>
 </tr>
 <tr class="even">
-<td align="left"><em>Salmo trutta</em></td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">5</td>
+<td align="left"><em>Scophthalmus maximus</em></td>
 <td align="right">0</td>
 <td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">1</td>
 <td align="right">0</td>
 </tr>
 <tr class="odd">
-<td align="left"><em>Salvelinus fontinalis</em></td>
-<td align="right">4</td>
-<td align="right">4</td>
-<td align="right">4</td>
-<td align="right">4</td>
-<td align="right">5</td>
+<td align="left"><em>Scophthalmus rhombus</em></td>
 <td align="right">0</td>
 <td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">1</td>
 <td align="right">0</td>
 </tr>
 <tr class="even">
-<td align="left"><em>Sander lucioperca</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">5</td>
-<td align="right">5</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
-<td align="left"><em>Scomber scombrus</em></td>
+<td align="left"><em>Scorpaena porcus</em></td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
@@ -3286,19 +2901,8 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="right">2</td>
 <td align="right">0</td>
 </tr>
-<tr class="even">
-<td align="left"><em>Scorpaena scrofa</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">4</td>
-<td align="right">4</td>
-<td align="right">0</td>
-</tr>
 <tr class="odd">
-<td align="left"><em>Scyliorhinus canicula</em></td>
+<td align="left"><em>Serranus cabrilla</em></td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
@@ -3306,50 +2910,6 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="right">0</td>
 <td align="right">3</td>
 <td align="right">3</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="left"><em>Sebastes norvegicus</em></td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-</tr>
-<tr class="odd">
-<td align="left"><em>Seriola dumerili</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="left"><em>Solea solea</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
-<td align="left"><em>Sphyrna zygaena</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">2</td>
-<td align="right">2</td>
 <td align="right">0</td>
 </tr>
 <tr class="even">
@@ -3358,16 +2918,16 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">1</td>
 <td align="right">0</td>
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">4</td>
 </tr>
 <tr class="odd">
-<td align="left"><em>Taurulus bubalis</em></td>
+<td align="left"><em>Thunnus alalunga</em></td>
+<td align="right">1</td>
 <td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
+<td align="right">1</td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
@@ -3375,102 +2935,58 @@ The total number of accepted UK species is estimated to be around 531, with 176 
 <td align="right">0</td>
 </tr>
 <tr class="even">
-<td align="left"><em>Thunnus albacares</em></td>
+<td align="left"><em>Trachinotus ovatus</em></td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">0</td>
-<td align="right">4</td>
-<td align="right">4</td>
 <td align="right">0</td>
 </tr>
 <tr class="odd">
-<td align="left"><em>Thunnus thynnus</em></td>
+<td align="left"><em>Trachinus draco</em></td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">2</td>
 <td align="right">0</td>
 </tr>
 <tr class="even">
-<td align="left"><em>Thymallus thymallus</em></td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-</tr>
-<tr class="odd">
-<td align="left"><em>Tinca tinca</em></td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">1</td>
-</tr>
-<tr class="even">
-<td align="left"><em>Torpedo marmorata</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
 <td align="left"><em>Trachurus trachurus</em></td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">0</td>
+<td align="right">2</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="left"><em>Trichiurus lepturus</em></td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">19</td>
-<td align="right">19</td>
 <td align="right">0</td>
 </tr>
 <tr class="odd">
-<td align="left"><em>Xiphias gladius</em></td>
+<td align="left"><em>Trichiurus lepturus</em></td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">0</td>
-<td align="right">4</td>
-<td align="right">4</td>
 <td align="right">0</td>
 </tr>
 <tr class="even">
-<td align="left"><em>Zameus squamulosus</em></td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
+<td align="left"><em>Umbrina cirrosa</em></td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">2</td>
 <td align="right">0</td>
 </tr>
 </tbody>
