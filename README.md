@@ -122,6 +122,7 @@ scripts/references-assemble.R -t 4 -m all
 ### phylogenetic quality control (QC) ###
 # argument "-p" [~/Software/standard-RAxML/raxmlHPC-AVX] is the path on your system to raxml
 # argument "-t" [8] is the number of processing cores to run in parallel
+# do not request more processing cores than metabarcode markers
 scripts/qc.R -p ~/Software/standard-RAxML/raxmlHPC-AVX -t 8
 
 # now manually review the phylogenetic tree PDFs output into 'reports/qc_GBVERSION_MONTH-YEAR' 
