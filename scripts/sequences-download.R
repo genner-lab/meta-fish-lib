@@ -14,14 +14,21 @@ source(here("assets","ncbi-key.R"))
 # get args
 option_list <- list( 
     make_option(c("-l","--list"), type="character"),
-    make_option(c("-t","--threads"), type="numeric")
+    make_option(c("-t","--threads"), type="numeric"),
+    make_option(c("-e","--exhaustive"), type="character")
     )
 
 # set args
 opt <- parse_args(OptionParser(option_list=option_list,add_help_option=FALSE))
 
+# opts if running line-by-line
+#opt <- NULL
+#opt$list <- here("assets/species-table-testing.csv")
+#opt$threads <- 1
+#opt$exhaustive <- "false"
+
 # load up the species table
-species.table <- suppressMessages(read_csv(file=opt$list))
+species.table <- suppressMessages(read_csv(file=here(opt$list)))
 # report
 writeLines(paste0("\nSpecies table contains ",length(pull(species.table,speciesName))," species names"))
 
@@ -32,9 +39,17 @@ writeLines(paste0("\nGenBank is at version ",gb.version))
 ### Download all GenBank sequences for species in species table (including synonyms) with mtDNA
 # make a query for genbank
 range <- "40:20000" # includes mt genomes, no bigger
-gene.syns <- c("COI","12S","16S","rRNA","ribosomal","cytb","CO1","cox1","cytochrome","subunit","COB","CYB","mitochondrial","mitochondrion")
+
+# choose exhaustive or simple search for number of strings to search
+if(opt$exhaustive == "true") {
+    gene.syns <- "(COI[ALL] OR 12S[ALL] OR 16S[ALL] OR rRNA[ALL] OR ribosomal[ALL] OR cytb[ALL] OR CO1[ALL] OR cox1[ALL] OR cytochrome[ALL] OR subunit[ALL] OR COB[ALL] OR CYB[ALL] OR mitochondrial[ALL] OR mitochondrion[ALL])"
+} else if (opt$exhaustive == "false") {
+    gene.syns <- "(mitochondrial[ALL] OR mitochondrion[ALL])"
+} else stop(writeLines("'-e' value must be 'true' or 'false'."))
+
+# make query
 spp.list <- unique(c(pull(species.table,speciesName),pull(species.table,validName)))
-query <- unlist(mapply(function(x) paste0("(",spp.list,"[ORGN] AND ",x,"[ALL] AND ",range,"[SLEN])"), gene.syns, SIMPLIFY=FALSE, USE.NAMES=FALSE))
+query <- unlist(mapply(function(x) paste0("(",spp.list,"[ORGN] AND ",x," AND ",range,"[SLEN])"), gene.syns, SIMPLIFY=FALSE, USE.NAMES=FALSE))
 
 # randomise the query
 set.seed(42)
@@ -51,11 +66,14 @@ cores <- opt$threads
 
 # break up into chunks
 # longest query should be no larger than about 2500 chars - reduce chunk.size to get smaller queries
-chunk.size.rentrez <- 35
+chunk.size.rentrez <- floor(2500/max(unlist(lapply(query,nchar))))
 query.split  <- split(query, ceiling(seq_along(query)/chunk.size.rentrez))
 
 # collapse into strings of n species per string
 query.cat <- unname(sapply(query.split, paste, collapse=" OR "))
+# get length
+query.cat.max <- max(unlist(lapply(query.cat,nchar)))
+#query.cat.max
 
 # chunk queries over the n cores
 queries.chunked  <- split(query.cat, ceiling(seq_along(query.cat)/cores))
