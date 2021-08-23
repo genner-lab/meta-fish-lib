@@ -11,7 +11,7 @@ source(here::here("scripts","load-libs.R"))
 # get args
 option_list <- list( 
     make_option(c("-t","--threads"), type="numeric"),
-    make_option(c("-m","--metabarcodes"), type="character")
+    make_option(c("-m","--metabarcode"), type="character")
     )
 
 # set args
