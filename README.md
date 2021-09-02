@@ -88,9 +88,9 @@ You will also require an API key from NCBI in order to access GenBank data at a 
 
 ```bash
 ### admin - clone the repository and create temporary directories ###
-git clone https://github.com/genner-lab/meta-fish-lib.git
+git clone https://github.com/genner-lab/meta-fish-lib.git meta-fish-lib
 cd meta-fish-lib
-mkdir reports temp
+mkdir -p reports temp/fasta-temp
 
 ### create NCBI API key (this is ignored by git) ###
 # substitute the 'my-ncbi-key' part for your actual key obtained from NCBI
@@ -103,13 +103,17 @@ Rscript -e "renv::restore()"
 # you can update if the remote or local versions are behind genbank
 scripts/check-genbank.R
 
+### replace the species table with your custom list ###
+# change to file location on your machine
+# this will overwrite the table 
+cp ~/path/to/my-species-table.csv assets/species-table.csv
+
 ### search GenBank ###
-# argument "-l" [assets/species-table.csv] is the list of species to search for
 # argument "-t" [4] is the number of processing cores to run in parallel
 # argument "-e" [true] is to run an exhaustive ("true") or simple search ("false")
 # more threads are faster, but more prone to errors by overloading the server with requests
 # make sure not to request more cores than are present on your system
-scripts/sequences-download.R -l assets/species-table.csv -t 4 -e true
+scripts/sequences-download.R -t 4 -e true
 
 ### assemble the reference library with hidden Markov models and obtain metadata ###
 # argument "-t" [4] is the number of processing cores to run in parallel
@@ -145,6 +149,9 @@ git push --tags
 
 ### confirm changes are made ###
 scripts/check-genbank.R
+
+### if all worked, clean up to save disk space ###
+rm -r temp/fasta-temp temp/bold-dump.csv temp/mtdna-dump.fas
 ```
 
 ### FAQ
