@@ -9,7 +9,8 @@
 source(here::here("scripts","load-libs.R"))
 
 # get args
-option_list <- list( 
+option_list <- list(
+#    make_option(c("-l","--list"), type="character"),
     make_option(c("-t","--threads"), type="numeric"),
     make_option(c("-m","--metabarcode"), type="character")
     )
@@ -150,7 +151,7 @@ dbs.merged.all %<>% mutate(fbSpecCode=pull(fishbase.synonyms.acc,SpecCode)[match
 
 # drop missing taxa
 missing <- dbs.merged.all %>% filter(is.na(sciNameValid)) %>% pull(sciNameOrig) %>% unique()
-writeLines(paste("\nThe following taxa could not be found in UK fishes database and have been dropped:",paste(missing,collapse=", ")))
+writeLines(paste("\nThe following taxa could not be found in the species database and have been dropped:",paste(missing,collapse=", ")))
 dbs.merged.all %<>% filter(!is.na(sciNameValid))
 
 # print all the species that had their names updated
