@@ -58,15 +58,20 @@ entrez_search_parallel <- function(query,threads,key){
 
 # MODIFIED `read.GenBank` FUN INCLUDES API KEY FOR NCBI 
 read_GenBank <- function (access.nb, seq.names = access.nb, species.names = TRUE, 
-    gene.names = FALSE, as.character = FALSE, api.key) 
+    as.character = FALSE, chunk.size = 400, quiet = TRUE, api.key) 
 {
+    chunk.size <- as.integer(chunk.size)
     N <- length(access.nb)
     a <- 1L
-    b <- if (N > 400) 
-        400L
+    b <- if (N > chunk.size) 
+        chunk.size
     else N
-    fl <- tempfile()
+    fl <- paste0(tempfile(tmpdir=here::here("temp/fasta-temp")), ".fas")
+    if (!quiet) 
+        cat("Note: chunk.size =", chunk.size, "(max nb of sequences downloaded together)\n")
     repeat {
+        if (!quiet) 
+            cat("\rDownloading sequences:", b, "/", N, "...")
         URL <- paste0("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nucleotide&id=", 
             paste(access.nb[a:b], collapse = ","), "&rettype=fasta&retmode=text&api_key=", api.key)
         X <- scan(file = URL, what = "", sep = "\n", quiet = TRUE)
@@ -74,9 +79,14 @@ read_GenBank <- function (access.nb, seq.names = access.nb, species.names = TRUE
         if (b == N) 
             break
         a <- b + 1L
-        b <- b + 400L
+        b <- b + chunk.size
         if (b > N) 
             b <- N
+    }
+    if (!quiet) {
+        cat(" Done.\nNote: the downloaded sequences are in file:", 
+            fl)
+        cat("\nReading sequences...")
     }
     res <- read.FASTA(fl)
     if (is.null(res)) 
@@ -86,19 +96,23 @@ read_GenBank <- function (access.nb, seq.names = access.nb, species.names = TRUE
         names(res) <- gsub("\\..*$", "", names(res))
         failed <- paste(access.nb[!access.nb %in% names(res)], 
             collapse = ", ")
-        warning(paste0("cannot get the following sequences:\n", 
+        warning(paste0("cannot get the following sequence(s):\n", 
             failed))
     }
     else names(res) <- access.nb
     if (as.character) 
         res <- as.character(res)
+    if (!quiet) 
+        cat("\n")
     if (species.names) {
         a <- 1L
-        b <- if (N > 400) 
-            400L
+        b <- if (N > chunk.size) 
+            chunk.size
         else N
         sp <- character(0)
         repeat {
+            if (!quiet) 
+                cat("\rDownloading species names:", b, "/", N)
             URL <- paste("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nucleotide&id=", 
                 paste(access.nb[a:b], collapse = ","), "&rettype=gb&retmode=text&api_key=", api.key,
                 sep = "")
@@ -109,16 +123,19 @@ read_GenBank <- function (access.nb, seq.names = access.nb, species.names = TRUE
             if (b == N) 
                 break
             a <- b + 1L
-            b <- b + 400L
+            b <- b + chunk.size
             if (b > N) 
                 b <- N
         }
+        if (!quiet) 
+            cat(".\n")
         attr(res, "species") <- gsub(" ", "_", sp)
     }
-    if (gene.names) 
-        warning("you used 'gene.names = TRUE': this option is obsolete; please update your code.")
+    if (!quiet) 
+        cat("Done.\n")
     res
 }
+
 
 
 # R script to run a hidden markov model on a sequence
@@ -216,7 +233,7 @@ haps2fas <- function(df){
 # FUN TO ALIGN SEQS AND MAKE A PHYLOGENTIC TREE
 phylogenize <- function(fas,prefix,binLoc,version){
     fas <- ips::mafft(fas,exec="mafft",method="retree 2",maxiterate=2)
-    tr <- ips::raxml(fas, file=paste0("fromR-",prefix), m="GTRCAT", f="d", p=42, exec=binLoc, N=1)
+    tr <- ips::raxml(fas, file=paste0("fromR-",prefix), m="GTRCAT", f="d", p=42, exec=binLoc, N=1, threads=1)
     tr <- tr$bestTree
     tmp.path <- paste0("qc_v",version,"_",paste(month(ymd(Sys.Date()),label=TRUE),year(ymd(Sys.Date())),sep="-"))
     dir.create(path=tmp.path)
