@@ -13,7 +13,7 @@ source(here("assets","ncbi-key.R"))
 
 # get args
 option_list <- list( 
-    make_option(c("-l","--list"), type="character"),
+#    make_option(c("-l","--list"), type="character"),
     make_option(c("-t","--threads"), type="numeric"),
     make_option(c("-e","--exhaustive"), type="character")
     )
@@ -28,7 +28,7 @@ opt <- parse_args(OptionParser(option_list=option_list,add_help_option=FALSE))
 #opt$exhaustive <- "false"
 
 # load up the species table
-species.table <- suppressMessages(read_csv(file=here(opt$list)))
+species.table <- suppressMessages(read_csv(file=here("assets","species-table.csv")))
 # report
 writeLines(paste0("\nSpecies table contains ",length(pull(species.table,speciesName))," species names"))
 
