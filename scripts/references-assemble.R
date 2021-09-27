@@ -20,7 +20,7 @@ opt <- parse_args(OptionParser(option_list=option_list,add_help_option=FALSE))
 # if running line-by-line
 #opt <- NULL
 #opt$threads <- 1
-#opt$metabarcode <- "12s.miya,coi.ward"
+#opt$metabarcode <- "12s.taberlet"
 
 # set cores - mc.cores=1 is the safest option, but try extra cores to speed up if there are no errors
 cores <- opt$threads
@@ -142,28 +142,46 @@ fishbase.synonyms.acc <- fishbase.synonyms %>% mutate(TaxonLevel=str_replace_all
 fishbase.synonyms.syn <- fishbase.synonyms %>% mutate(Status=str_replace_all(Status,"Synonym","synonym")) %>% filter(Status=="synonym")
 
 # make ref of valid uk species 
-uk.species.valid <- species.table %>% select(fbSpecCode,validName,class,order,family,genus,commonName) %>% distinct()
+uk.species.valid <- species.table %>% distinct(fbSpecCode,validName,class,order,family,genus,commonName) %>% mutate(rank=if_else(grepl(" ",validName),"species","genus"))
+uk.species.genera <- uk.species.valid %>% filter(rank=="genus") %>% pull(validName)
 
 # annotate with fishbase codes and valid species names
 dbs.merged.all %<>% mutate(fbSpecCode=pull(fishbase.synonyms.acc,SpecCode)[match(sciNameBinomen,pull(fishbase.synonyms.acc,synonym))]) %>% 
     mutate(fbSpecCode=if_else(is.na(fbSpecCode),pull(fishbase.synonyms.syn,SpecCode)[match(sciNameBinomen,pull(fishbase.synonyms.syn,synonym))],fbSpecCode)) %>%
-    mutate(sciNameValid=pull(uk.species.valid,validName)[match(fbSpecCode,pull(uk.species.valid,fbSpecCode))])
+    mutate(genus=str_split_fixed(sciNameBinomen," ",2)[,1]) %>%
+    mutate(rank=if_else(genus %in% uk.species.genera,"genus","species")) %>%
+    mutate(sciNameValid=if_else(rank=="species",pull(uk.species.valid,validName)[match(fbSpecCode,pull(uk.species.valid,fbSpecCode))],sciNameBinomen))
 
 # drop missing taxa
 missing <- dbs.merged.all %>% filter(is.na(sciNameValid)) %>% pull(sciNameOrig) %>% unique()
-writeLines(paste("\nThe following taxa could not be found in the species database and have been dropped:",paste(missing,collapse=", ")))
-dbs.merged.all %<>% filter(!is.na(sciNameValid))
+if(length(missing)>0) {
+    writeLines(paste("\nThe following taxa could not be found in the species database and have been dropped:",paste(missing,collapse=", ")))
+    dbs.merged.all %<>% filter(!is.na(sciNameValid))
+}
+
+# flag genus level taxa
+only.genera <- dbs.merged.all %>% filter(rank=="genus") %>% distinct(sciNameValid) %>% pull()
+if(length(only.genera)>0) {
+    writeLines(paste("\nThe following taxa were searched for at the genus level:",paste(only.genera,collapse=", ")))
+}
 
 # print all the species that had their names updated
-writeLines("\nThe following taxa had their GenBank names updated using FishBase:")
-dbs.merged.all %>% filter(sciNameOrig != sciNameValid) %>% select(sciNameOrig,sciNameValid) %>% arrange(sciNameOrig) %>% distinct() %>% print(n=Inf)
+updated <- dbs.merged.all %>% filter(sciNameOrig != sciNameValid) %>% select(sciNameOrig,sciNameValid) %>% arrange(sciNameOrig) %>% distinct()
+if(nrow(updated)>0) {
+    writeLines("\nThe following taxa had their GenBank names updated using FishBase:")
+    print(updated,n=Inf)
+}
 
 # add taxonomy
-dbs.merged.all %<>% mutate(subphylum="Vertebrata",
-    class=pull(uk.species.valid,class)[match(fbSpecCode,pull(uk.species.valid,fbSpecCode))],
-    order=pull(uk.species.valid,order)[match(fbSpecCode,pull(uk.species.valid,fbSpecCode))],
-    family=pull(uk.species.valid,family)[match(fbSpecCode,pull(uk.species.valid,fbSpecCode))],
-    genus=pull(uk.species.valid,genus)[match(fbSpecCode,pull(uk.species.valid,fbSpecCode))])
+dbs.merged.all %<>% mutate(subphylum="Vertebrata") %>%
+    left_join(distinct(uk.species.valid,class,order,family,genus),by="genus")
+
+# report and remove any incomplete taxonomy
+no.tax <- dbs.merged.all %>% filter(is.na(class) | is.na(order) | is.na(family)) %>% select(class,order,family,sciNameOrig,sciNameValid) %>% arrange(sciNameOrig) %>% distinct()
+if(nrow(no.tax)>0) {
+    writeLines("\nThe following taxa could not be assigned taxonomy. Consider adding these to the species table if you want to keep them.")
+    print(no.tax,n=Inf)
+}
 
 # clean up nucs
 dbs.merged.all %<>% mutate(nucleotides=str_to_lower(nucleotides))
