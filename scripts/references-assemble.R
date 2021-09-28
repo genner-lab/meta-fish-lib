@@ -133,7 +133,8 @@ dbs.merged.all <- dplyr::left_join(dbs.merged.all,dat.frag.merged,by="dbid")
 ## Get the proper fishbase taxonomy, not the NCBI nonsense
 
 # make a binomial scientific name - clean mess
-dbs.merged.all %<>% mutate(sciNameBinomen=apply(str_split_fixed(sciNameOrig, " ", 3)[,1:2], 1, paste, collapse=" "))
+dbs.merged.all %<>% mutate(sciNameBinomen=sciNameOrig,sciNameBinomen=str_replace_all(sciNameBinomen," sp\\. "," sp."),sciNameBinomen=str_replace_all(sciNameBinomen," cf\\. "," cf."),sciNameBinomen=str_replace_all(sciNameBinomen," aff\\. "," aff.")) %>% 
+    mutate(sciNameBinomen=apply(str_split_fixed(sciNameBinomen, " ", 3)[,1:2], 1, paste, collapse=" "))
 
 # get up to date spp list and taxonomy
 fishbase.synonyms <- rfishbase::synonyms(server="fishbase")
