@@ -35,12 +35,10 @@ source("https://raw.githubusercontent.com/legalLab/protocols-scripts/master/scri
 # FUNCTION TO RUN PARALLEL ENTREZ SEARCHES 
 entrez_search_parallel <- function(query,threads,key){  
     start_time <- Sys.time()
-    options("scipen"=100)
-    n.res <- suppressWarnings(mcmapply(FUN=function(x) entrez_search(db="nuccore", term=x, retmax=100000, api_key=key, use_history=FALSE), query, SIMPLIFY=FALSE, USE.NAMES=FALSE, mc.cores=threads))
+    n.res <- suppressWarnings(mcmapply(FUN=function(x) entrez_search(db="nuccore", term=x, retmax=as.integer(99999), api_key=key, use_history=TRUE), query, SIMPLIFY=FALSE, USE.NAMES=FALSE, mc.cores=threads))
     errs <- grepl("Error",n.res)
     if(any(errs==TRUE)) {
-        options("scipen"=100)
-        n.res.rep <- suppressWarnings(mcmapply(FUN=function(x) entrez_search(db="nuccore", term=x, retmax=100000, api_key=key, use_history=FALSE), query[which(errs==TRUE)], SIMPLIFY=FALSE, USE.NAMES=FALSE, mc.cores=1))
+        n.res.rep <- suppressWarnings(mcmapply(FUN=function(x) entrez_search(db="nuccore", term=x, retmax=as.integer(99999), api_key=key, use_history=TRUE), query[which(errs==TRUE)], SIMPLIFY=FALSE, USE.NAMES=FALSE, mc.cores=1))
         n.res[which(errs==TRUE)] <- n.res.rep
     } else {
         n.res <- n.res
@@ -56,9 +54,23 @@ entrez_search_parallel <- function(query,threads,key){
 }
 
 
+# FUNCTION TO RUN PARALLEL ENTREZ FETCH 
+entrez_fetch_parallel <- function(search,key){
+    start_time <- Sys.time()
+    fas.path <- here("temp/fasta-temp",paste0(search$web_history$WebEnv,".fas"))
+    Sys.sleep(time=runif(n=1,min=0,max=2))
+        for(i in seq(0,search$count,as.integer(9999))){
+        n.res <- entrez_fetch(db="nuccore",web_history=search$web_history,retstart=i,retmax=as.integer(9999),rettype="fasta",api_key=key)
+        write(n.res,file=fas.path,append=TRUE)
+        }
+    end_time <- Sys.time()
+    writeLines(paste("Query",search$web_history$WebEnv,"written to file.","Download took",round(as.numeric(end_time-start_time),digits=2),"seconds.",sep=" "))
+}
+
+
 # MODIFIED `read.GenBank` FUN INCLUDES API KEY FOR NCBI 
-read_GenBank <- function (access.nb, seq.names = access.nb, species.names = TRUE, 
-    as.character = FALSE, chunk.size = 400, quiet = TRUE, api.key) 
+read_GenBank <- function (access.nb, seq.names = access.nb, species.names = FALSE, 
+    as.character = FALSE, chunk.size = 200, quiet = FALSE, api.key) 
 {
     chunk.size <- as.integer(chunk.size)
     N <- length(access.nb)
@@ -66,9 +78,9 @@ read_GenBank <- function (access.nb, seq.names = access.nb, species.names = TRUE
     b <- if (N > chunk.size) 
         chunk.size
     else N
-    fl <- paste0(tempfile(tmpdir=here::here("temp/fasta-temp")), ".fas")
+    fl <- paste0(tempfile(pattern=paste0(access.nb[1],"_"),tmpdir=here::here("temp/fasta-temp")), ".fas")
     if (!quiet) 
-        cat("Note: chunk.size =", chunk.size, "(max nb of sequences downloaded together)\n")
+        #cat("Note: chunk.size =", chunk.size, "(max nb of sequences downloaded together)\n")
     repeat {
         if (!quiet) 
             cat("\rDownloading sequences:", b, "/", N, "...")
@@ -84,9 +96,8 @@ read_GenBank <- function (access.nb, seq.names = access.nb, species.names = TRUE
             b <- N
     }
     if (!quiet) {
-        cat(" Done.\nNote: the downloaded sequences are in file:", 
-            fl)
-        cat("\nReading sequences...")
+        cat(" Done.")
+        #cat("\nReading sequences...")
     }
     res <- read.FASTA(fl)
     if (is.null(res)) 
@@ -131,8 +142,7 @@ read_GenBank <- function (access.nb, seq.names = access.nb, species.names = TRUE
             cat(".\n")
         attr(res, "species") <- gsub(" ", "_", sp)
     }
-    if (!quiet) 
-        cat("Done.\n")
+    Sys.sleep(time=runif(n=1,min=0,max=2))
     res
 }
 
@@ -225,7 +235,7 @@ haps2fas <- function(df){
     df <- bind_rows(mcmapply(FUN=function(x) hap_collapse_df(df=x,lengthcol="lengthFrag",nuccol="nucleotidesFrag",cores=1), split(df,pull(df,sciNameValid)), SIMPLIFY=FALSE,mc.cores=1))
     sames <- mclapply(FUN=function(x) get_sames(df=df,ids="dbid",nucs="nucleotidesFrag",sppVec="sciNameValid",query=x), pull(df,nucleotidesFrag), mc.cores=1)
     df %<>% mutate(nMatches=sapply(sames, function(x) length(unique(x))), matchTax=sapply(sames, function(x) paste(unique(x),collapse=" | ")))
-    df %<>% mutate(noms=paste(dbid,str_replace_all(sciNameValid," |:","_"),nHaps,sep="|")) %>% arrange(class,order,family,genus,sciNameValid,lengthFrag,dbid)
+    df %<>% mutate(noms=paste(dbid,str_replace_all(sciNameValid," |:|'","_"),nHaps,sep="|")) %>% arrange(class,order,family,genus,sciNameValid,lengthFrag,dbid)
     return(df)
 }
 

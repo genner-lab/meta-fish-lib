@@ -19,8 +19,8 @@ option_list <- list(
 opt <- parse_args(OptionParser(option_list=option_list,add_help_option=FALSE))
 # if running line-by-line
 #opt <- NULL
-#opt$threads <- 1
-#opt$metabarcode <- "12s.taberlet"
+#opt$threads <- 4
+#opt$metabarcode <- "coi.lerayxt" #"12s.taberlet"
 
 # set cores - mc.cores=1 is the safest option, but try extra cores to speed up if there are no errors
 cores <- opt$threads
@@ -79,7 +79,7 @@ ncbi.frag <- mcmapply(FUN=ncbi_byid, chunk.frag, SIMPLIFY=FALSE, USE.NAMES=FALSE
     end_time-start_time
 
 # check for errors (should all be "data.frame")
-if(length(sapply(ncbi.frag,class)) == length(sapply(ncbi.frag,class) == "data.frame")) {
+if(length(sapply(ncbi.frag,class)) == length(which(sapply(ncbi.frag,class) == "data.frame"))) {
     writeLines("\nNCBI metadata sucessfully retrieved")
     } else {writeLines("\nNCBI search failed, try again")}
 
@@ -91,7 +91,8 @@ frag.df <- as_tibble(bind_rows(ncbi.frag))
 frag.df %<>% filter(gi_no!="NCBI_GENOMES") %>% 
     mutate(genbankVersion=pull(filter(stats,stat=="genbankVersion"),n),searchDate=pull(filter(stats,stat=="date"),n)) %>%
     distinct(gi_no, .keep_all=TRUE) %>% 
-    mutate(acc_no=str_replace_all(acc_no,"\\.[0-9]",""), source="GENBANK") %>%
+    #mutate(acc_no=str_replace_all(acc_no,"\\.[0-9]",""), source="GENBANK") %>%
+    mutate(source="GENBANK") %>%
     mutate(lat=paste(str_split_fixed(lat_lon, " ", 4)[,1], str_split_fixed(lat_lon, " ", 4)[,2]), lon=paste(str_split_fixed(lat_lon, " ", 4)[,3], str_split_fixed(lat_lon, " ", 4)[,4])) %>%
     mutate(lat=if_else(grepl(" N",lat), true=str_replace_all(lat," N",""), false=if_else(grepl(" S",lat), true=paste0("-",str_replace_all(lat," S","")), false=lat))) %>%
     mutate(lon=if_else(grepl(" E",lon), true=str_replace_all(lon," E",""), false=if_else(grepl(" W",lon), true=paste0("-",str_replace_all(lon," W","")), false=lon))) %>% 
@@ -102,8 +103,8 @@ frag.df %<>% filter(gi_no!="NCBI_GENOMES") %>%
 
 # do the same for BOLD
 # run
-bold.red %<>% filter(processidUniq %in% in.bold) %>% 
-    filter(!genbank_accession %in% frag.df$gbAccession) %>% 
+bold.red %<>% filter(processidUniq %in% in.bold & !is.na(species_name)) %>% 
+    filter(!genbank_accession %in% str_replace_all(frag.df$gbAccession,"\\..+","")) %>% 
     mutate(source="BOLD",nucleotides=str_to_lower(nucleotides), length=as.character(str_length(nucleotides))) %>% 
     select(source,processidUniq,genbank_accession,species_name,lat,lon,country,institution_storing,catalognum,nucleotides,length) %>%
     rename(dbid=processidUniq,gbAccession=genbank_accession,sciNameOrig=species_name,decimalLatitude=lat,decimalLongitude=lon,institutionCode=institution_storing,catalogNumber=catalognum)
@@ -124,10 +125,10 @@ dat.frag.df <- lapply(dat.frag.flat, function(x) tibble(names=names(x), seqs=unl
 dat.frag.df <- mapply(function(x,y,z) dplyr::rename(x,dbid=names, !!y:=seqs, !!z:=lengthFrag), dat.frag.df, paste("nucleotidesFrag",names(dat.frag.df),sep="."), paste("lengthFrag",names(dat.frag.df),sep="."), SIMPLIFY=FALSE)
 
 # merge all the data frames 
-dat.frag.merged <- dat.frag.df %>% purrr::reduce(full_join, by="dbid")
+dat.frag.merged <- dat.frag.df %>% purrr::reduce(full_join, by="dbid") %>% rename(gbAccession=dbid)
 
 # join with the metadata dataframe
-dbs.merged.all <- dplyr::left_join(dbs.merged.all,dat.frag.merged,by="dbid")
+dbs.merged.all <- dplyr::left_join(dbs.merged.all,dat.frag.merged,by="gbAccession")
 
 
 ## Get the proper fishbase taxonomy, not the NCBI nonsense
@@ -142,7 +143,7 @@ fishbase.synonyms <- rfishbase::synonyms(server="fishbase")
 fishbase.synonyms.acc <- fishbase.synonyms %>% mutate(TaxonLevel=str_replace_all(TaxonLevel,"^species","Species")) %>% filter(Status=="accepted name" & TaxonLevel=="Species")
 fishbase.synonyms.syn <- fishbase.synonyms %>% mutate(Status=str_replace_all(Status,"Synonym","synonym")) %>% filter(Status=="synonym")
 
-# make ref of valid uk species 
+# make ref of valid species 
 uk.species.valid <- species.table %>% distinct(fbSpecCode,validName,class,order,family,genus,commonName) %>% mutate(rank=if_else(grepl(" ",validName),"species","genus"))
 uk.species.genera <- uk.species.valid %>% filter(rank=="genus") %>% pull(validName)
 

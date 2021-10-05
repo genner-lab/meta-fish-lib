@@ -13,7 +13,8 @@ source(here("assets","ncbi-key.R"))
 
 # get args
 option_list <- list( 
-#    make_option(c("-l","--list"), type="character"),
+    make_option(c("-q","--qlength"), type="numeric"),
+    #make_option(c("-d","--dlength"), type="numeric"),
     make_option(c("-t","--threads"), type="numeric"),
     make_option(c("-e","--exhaustive"), type="character")
     )
@@ -23,12 +24,15 @@ opt <- parse_args(OptionParser(option_list=option_list,add_help_option=FALSE))
 
 # opts if running line-by-line
 #opt <- NULL
-#opt$list <- here("assets/species-table-testing.csv")
-#opt$threads <- 1
+#opt$qlength <- 1000
+#opt$dlength <- 200
+#opt$threads <- 2
 #opt$exhaustive <- "false"
 
 # load up the species table
 species.table <- suppressMessages(read_csv(file=here("assets","species-table.csv")))
+#
+#species.table %<>% slice(1:20)#############################
 # report
 writeLines(paste0("\nSpecies table contains ",length(pull(species.table,speciesName))," species names"))
 
@@ -61,12 +65,11 @@ query <- sample(query,length(query))
 # do not try more than 10 cores (with api key)
 # do not try more than 3 cores (without api key)
 # important - try to run the search when server loads are lowest, i.e. at weekends or when the USA is not at work.
-# should take about 1.5 h with 4 cores
 cores <- opt$threads
 
 # break up into chunks
 # longest query should be no larger than about 2500 chars - reduce chunk.size to get smaller queries
-chunk.size.rentrez <- floor(2500/max(unlist(lapply(query,nchar))))
+chunk.size.rentrez <- floor(opt$qlength/max(unlist(lapply(query,nchar))))
 query.split  <- split(query, ceiling(seq_along(query)/chunk.size.rentrez))
 
 # collapse into strings of n species per string
@@ -78,6 +81,16 @@ query.cat.max <- max(unlist(lapply(query.cat,nchar)))
 # chunk queries over the n cores
 queries.chunked  <- split(query.cat, ceiling(seq_along(query.cat)/cores))
 
+# stop if chars too few
+if(opt$qlength < min(unlist(lapply(query,nchar)))) {
+    stop(writeLines(paste("\nYou requested total query character length of",opt$qlength,"characters, but the smallest query is",min(unlist(lapply(query,nchar))),"characters. Increase the query string length '-q'.")))
+}
+
+# stop if too many cores
+if(length(query.split) < cores) {
+    stop(writeLines(paste("\nYou requested",length(query.split),"queries over",cores,"cores. Use equal or fewer cores to number of queries, or decrease the query string length '-q'.")))
+}
+
 # run NCBI search and time
 writeLines(paste("\nNow searching GenBank on",cores,"cores ...\n"))
     start_time <- Sys.time()
@@ -87,40 +100,44 @@ search.res <- lapply(queries.chunked,entrez_search_parallel,threads=cores,key=nc
 
 # check for errors - should be all false
 if(TRUE %in% grepl("Error",search.res)) {
-    writeLines("\nSome of the searches failed, try again with fewer cores or when the USA is not online")
+    stop(writeLines("\nSome of the searches failed, try again with fewer cores or when the USA is not online."))
     } else {writeLines("\nAll search batches successful")
 }
 
+
+# download using webenvs
+
 # flatten the searches
-search.flat <- search.res %>% purrr::flatten()
+search.flat <- search.res %>% purrr::flatten() %>% unname()
 
-# get the ids out the the non-zero results
-search.ids <- search.flat[which(search.flat %>% purrr::map(~{unname(.x$count)}) > 0)] %>% purrr::map(~{unname(.x$ids)}) %>% purrr::flatten_chr() %>% unique()
+# remove empty searches
+search.full <- search.flat[which(search.flat %>% purrr::map(~{unname(.x$count)}) > 0)]
 
+# check number of hits
+if(search.flat %>% purrr::map(~{unname(.x$count)}) %>% purrr::flatten_int() %>% max() > 99999){
+    stop(writeLines("One of your search comprises more hits than the NCBI limit (99999). Consider making the searches more specific (e.g. searching for genera rather than families)."))
+    }
 
-### now download ids using ape
-# chunk up into 70s to stop server from rejecting request 
-chunk.size.ape <- 70
-id.split <- unname(split(search.ids, ceiling(seq_along(search.ids)/chunk.size.ape)))
+# delete temp folder contents (if left from prev fail)
+invisible(file.remove(list.files(here("temp","fasta-temp"),full.name=TRUE)))
 
-# download with modifed ape function (fast)
-writeLines(paste("\nNow downloading",length(search.ids),"sequences from GenBank ..."))
-    start_time <- Sys.time()
-ncbi.all <- mcmapply(FUN=function(x) read_GenBank(x, species.names=FALSE, api.key=ncbi.key), id.split, SIMPLIFY=FALSE, USE.NAMES=FALSE, mc.cores=cores)
-    end_time <- Sys.time()
-    end_time-start_time
+# download
+writeLines(paste("\nNow downloading",length(search.full),"batches of FASTA sequences from NCBI ..."))
+invisible(mcmapply(FUN=function(x) entrez_fetch_parallel(search=x,key=ncbi.key), search.full, SIMPLIFY=FALSE, USE.NAMES=FALSE, mc.cores=cores))
 
-# check for errors (should be all DNAbin)
-if(length(sapply(ncbi.all, class)) == length(sapply(ncbi.all, class) == "DNAbin")) {
-    writeLines("\nAll sequences sucessfully downloaded")
-    } else {writeLines("\nDownload failed, try again with fewer cores or when the USA is not online")}
+# read in the files and cat
+all.fas <- mcmapply(FUN=function(x) read.FASTA(x), list.files(here("temp","fasta-temp"),full.name=TRUE), SIMPLIFY=FALSE, USE.NAMES=FALSE, mc.cores=cores)
+all.fas.cat <- do.call(c,all.fas)
 
-# write out a temporary file
+# edit names
+names(all.fas.cat) <- str_replace_all(names(all.fas.cat)," .*","")
+
+# write out
 writeLines("\nWriting out in FASTA format ...")
-suppressMessages({
-    file.create(here("temp","mtdna-dump.fas"))
-    invisible(lapply(ncbi.all, write.FASTA, file=here("temp","mtdna-dump.fas"), append=TRUE))
-})
+write.FASTA(all.fas.cat,file=here("temp","mtdna-dump.fas"))
+
+# delete temp folder contents (if left from prev fail)
+invisible(file.remove(list.files(here("temp","fasta-temp"),full.name=TRUE)))
 
 
 ### Now repeat the same for the BOLD database
@@ -140,9 +157,9 @@ bold.all <- mcmapply(FUN=function(x) bold_seqspec(x,format="tsv",sepfasta=FALSE,
     end_time-start_time
 
 # check for errors (should be "data.frame" or "logical", not "character")
-if(length(sapply(bold.all, class)) == length(sapply(bold.all, class) == "data.frame")) {
+if(length(sapply(bold.all, class)) == length(which(sapply(bold.all, class) == "data.frame"))) {
     writeLines("\nBOLD results sucessfully retrieved")
-    } else {writeLines("\nBOLD search failed, try again")}
+    } else {stop(writeLines("\nBOLD search failed, try again"))}
 
 # remove the non-dataframes
 bold.all <- bold.all[which(sapply(bold.all, class)=="data.frame")]
@@ -166,7 +183,6 @@ bold.fas <- tab2fas(df=bold.red,seqcol="nucleotides",namecol="processidUniq")
 # add it to the GenBank file already created
 write.FASTA(bold.fas, file=here("temp","mtdna-dump.fas"), append=TRUE)
 
-
 ### report a summary table
 stats <- tibble(
     stat=c("speciesTotal","speciesValid","speciesSynonyms","genbankVersion","date","queriesUnique","queriesMerged","queriesPerMerge","queriesMergedPerBatch","batches","maxRecordsPerMerge","totalRecordsGenbank","totalRecordsBold"),
@@ -181,7 +197,7 @@ stats <- tibble(
         cores,
         length(queries.chunked),
         search.flat %>% purrr::map(~{unname(.x$count)}) %>% purrr::flatten_int() %>% max(),
-        length(search.ids),
+        search.flat %>% purrr::map(~{unname(.x$count)}) %>% purrr::flatten_int() %>% sum(),
         length(pull(bold.red,processidUniq))
         )
 )
