@@ -164,7 +164,7 @@ rm -r temp/fasta-temp temp/bold-dump.csv temp/mtdna-dump.fas
 
 speciesName | status | fbSpecCode | validName | class | order | family | genus | commonName | commonSpecies
 ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | -----
-Anguilla | accepted name | NA | Anguilla | Actinopteri | Anguilliformes | Anguillidae | Anguilla | NA | NA
+Anguilla | accepted name | NA | Anguilla | Actinopterygii | Anguilliformes | Anguillidae | Anguilla | NA | NA
 
 * **Can I make a reference library for a taxonomic group that isn't fishes?** - At the moment I  use the [rfishbase](https://docs.ropensci.org/rfishbase/index.html) package to generate higher taxonomic ranks and validate scientific names etc, because this is the best source of data for fishes. However, more general solutions could easily be employed using the [taxize](https://docs.ropensci.org/taxize/) package or [taxadb](https://docs.ropensci.org/taxadb/index.html) package, with minimal changes to the code. One thing to bear in mind is that the hidden Markov models were designed on fishes, and while these would probably work well for other vertebrates, they would need to be recreated for other groups (see below).
 * **How do I get synonyms?** - I used the `synonyms()` function in the [rfishbase](https://docs.ropensci.org/rfishbase/index.html) package, but the [taxize](https://docs.ropensci.org/taxize/) package or [taxadb](https://docs.ropensci.org/taxadb/index.html) package would achieve similar results for other groups.

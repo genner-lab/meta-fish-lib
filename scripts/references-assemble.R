@@ -20,7 +20,7 @@ opt <- parse_args(OptionParser(option_list=option_list,add_help_option=FALSE))
 # if running line-by-line
 #opt <- NULL
 #opt$threads <- 4
-#opt$metabarcode <- "coi.lerayxt" #"12s.taberlet"
+#opt$metabarcode <- "12s.taberlet"#"coi.lerayxt"#
 
 # set cores - mc.cores=1 is the safest option, but try extra cores to speed up if there are no errors
 cores <- opt$threads
@@ -175,7 +175,7 @@ if(nrow(updated)>0) {
 }
 
 # add taxonomy
-dbs.merged.all %<>% mutate(subphylum="Vertebrata") %>%
+dbs.merged.all %<>% mutate(phylum="Chordata") %>%
     left_join(distinct(uk.species.valid,class,order,family,genus),by="genus")
 
 # report and remove any incomplete taxonomy
@@ -193,7 +193,7 @@ dbs.merged.all %<>% mutate(nucleotides=str_to_lower(nucleotides))
 
 # drop the DNA fragments and reorder the columns 
 dbs.merged.info <- dbs.merged.all %>% select(-matches("Frag")) %>% 
-   select(source,dbid,gbAccession,sciNameValid,subphylum,class,order,family,genus,sciNameOrig,fbSpecCode,
+   select(source,dbid,gbAccession,sciNameValid,phylum,class,order,family,genus,sciNameOrig,fbSpecCode,
     country,catalogNumber,institutionCode,decimalLatitude,decimalLongitude,publishedAs,publishedIn,publishedBy,
     date,notesGenBank,genbankVersion,searchDate,length,nucleotides)
 
