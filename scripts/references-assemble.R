@@ -19,8 +19,9 @@ option_list <- list(
 opt <- parse_args(OptionParser(option_list=option_list,add_help_option=FALSE))
 # if running line-by-line
 #opt <- NULL
-#opt$threads <- 4
-#opt$metabarcode <- "12s.taberlet"#"coi.lerayxt"#
+#opt$threads <- 1
+#opt$metabarcode <- "coi.lerayxt"
+#"all"#"12s.taberlet"#"coi.lerayxt"#
 
 # set cores - mc.cores=1 is the safest option, but try extra cores to speed up if there are no errors
 cores <- opt$threads
@@ -34,10 +35,7 @@ bold.red <- suppressMessages(read_csv(file=here("temp","bold-dump.csv"), guess_m
 # load up stats
 stats <- suppressMessages(read_csv(file=here("reports","stats.csv")))
 
-## Extract the frag of interest using the HMMs
-# now run hmmer
-# need to have "hmmer" and "biosquid" installed 
-# if not, run 'sudo apt install hmmer biosquid'
+## Extract the frag of interest using the HMMs in hmmer
 # assumes the hidden markov model is located in assets/hmms directory and is named '$prefix.hmm'
 # returns a DNAbin object of the sequences matched by hmmer 
 
@@ -54,7 +52,7 @@ if(opt$metabarcode == "all") {
 } else stop(writeLines("'-m' value must be metabarcode(s) listed in Table 1, and separated by a comma, e.g. '12s.miya,coi.ward'."))
 
 
-# run hmmer (takes about 5 mins)
+# run hmmer
 writeLines("\nExtracting metabarcode fragments with HMMER (may take several minutes) ...")
 dat.frag.all <- lapply(prefixes.all, function(x) run_hmmer3(dir="temp", infile="mtdna-dump.fas", prefix=x, evalue="10", coords="env"))
 writeLines("\nDone")
@@ -103,14 +101,15 @@ frag.df %<>% filter(gi_no!="NCBI_GENOMES") %>%
 
 # do the same for BOLD
 # run
-bold.red %<>% filter(processidUniq %in% in.bold & !is.na(species_name)) %>% 
-    filter(!genbank_accession %in% str_replace_all(frag.df$gbAccession,"\\..+","")) %>% 
+bold.red %<>% filter(!is.na(species_name)) %>%
+    filter(processidUniq %in% in.bold) %>%
+    filter(!genbank_accession %in% str_replace_all(frag.df$gbAccession,"\\..+","")) %>%
     mutate(source="BOLD",nucleotides=str_to_lower(nucleotides), length=as.character(str_length(nucleotides))) %>% 
     select(source,processidUniq,genbank_accession,species_name,lat,lon,country,institution_storing,catalognum,nucleotides,length) %>%
     rename(dbid=processidUniq,gbAccession=genbank_accession,sciNameOrig=species_name,decimalLatitude=lat,decimalLongitude=lon,institutionCode=institution_storing,catalogNumber=catalognum)
 
 # merge gb and bold data
-dbs.merged.all <- bind_rows(frag.df,bold.red)
+dbs.merged.all <- bind_rows(frag.df,bold.red) %>% mutate(matchCol=if_else(grepl("\\.COI-5P",dbid),dbid,gbAccession)) 
 
 # name each DNAbin object
 names(dat.frag.all) <- prefixes.all
@@ -125,10 +124,10 @@ dat.frag.df <- lapply(dat.frag.flat, function(x) tibble(names=names(x), seqs=unl
 dat.frag.df <- mapply(function(x,y,z) dplyr::rename(x,dbid=names, !!y:=seqs, !!z:=lengthFrag), dat.frag.df, paste("nucleotidesFrag",names(dat.frag.df),sep="."), paste("lengthFrag",names(dat.frag.df),sep="."), SIMPLIFY=FALSE)
 
 # merge all the data frames 
-dat.frag.merged <- dat.frag.df %>% purrr::reduce(full_join, by="dbid") %>% rename(gbAccession=dbid)
+dat.frag.merged <- dat.frag.df %>% purrr::reduce(full_join, by="dbid") %>% rename(matchCol=dbid)
 
 # join with the metadata dataframe
-dbs.merged.all <- dplyr::left_join(dbs.merged.all,dat.frag.merged,by="gbAccession")
+dbs.merged.all <- dplyr::left_join(dbs.merged.all,dat.frag.merged,by="matchCol")
 
 
 ## Get the proper fishbase taxonomy, not the NCBI nonsense
@@ -152,7 +151,8 @@ dbs.merged.all %<>% mutate(fbSpecCode=pull(fishbase.synonyms.acc,SpecCode)[match
     mutate(fbSpecCode=if_else(is.na(fbSpecCode),pull(fishbase.synonyms.syn,SpecCode)[match(sciNameBinomen,pull(fishbase.synonyms.syn,synonym))],fbSpecCode)) %>%
     mutate(genus=str_split_fixed(sciNameBinomen," ",2)[,1]) %>%
     mutate(rank=if_else(genus %in% uk.species.genera,"genus","species")) %>%
-    mutate(sciNameValid=if_else(rank=="species",pull(uk.species.valid,validName)[match(fbSpecCode,pull(uk.species.valid,fbSpecCode))],sciNameBinomen))
+    mutate(sciNameValid=if_else(rank=="species",pull(uk.species.valid,validName)[match(fbSpecCode,pull(uk.species.valid,fbSpecCode))],sciNameBinomen)) %>%
+    mutate(genus=if_else(rank=="species",str_split_fixed(sciNameValid," ",2)[,1],genus)) # update genus from valid name
 
 # drop missing taxa
 missing <- dbs.merged.all %>% filter(is.na(sciNameValid)) %>% pull(sciNameOrig) %>% unique()
@@ -193,7 +193,7 @@ dbs.merged.all %<>% mutate(nucleotides=str_to_lower(nucleotides))
 
 # drop the DNA fragments and reorder the columns 
 dbs.merged.info <- dbs.merged.all %>% select(-matches("Frag")) %>% 
-   select(source,dbid,gbAccession,sciNameValid,phylum,class,order,family,genus,sciNameOrig,fbSpecCode,
+    select(source,dbid,gbAccession,sciNameValid,phylum,class,order,family,genus,sciNameOrig,fbSpecCode,
     country,catalogNumber,institutionCode,decimalLatitude,decimalLongitude,publishedAs,publishedIn,publishedBy,
     date,notesGenBank,genbankVersion,searchDate,length,nucleotides)
 
