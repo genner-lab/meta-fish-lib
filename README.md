@@ -15,7 +15,7 @@ In addition to providing quality controlled and curated fish references, this re
 * Exhaustive - searching by species names can exclude potential hits because of changes in taxonomy, but here we search for all species synonyms, and then subsequently validate those names to provide a taxonomically up-to-date reference library. 
 * Reliable - sequence data on GenBank are frequently misannotated with incorrect species names, but we have created a list of dubious quality accessions that are automatically excluded when the reference library is loaded each time. We use phylogenetic quality control methods to assist in screening each new GenBank version and update this list accordingly.
 * Dynamic - it's easy to update to each new GenBank release (see code [below](#bash-terminal)), and the versioning of this repository reflects the GenBank release on which it was made.
-* Quick - the final reference library can be downloaded onto your computer in just a few seconds with only two packages loaded and seven lines of R code ([below](#retrieve-latest-reference-library)). Generating the reference library from scratch ([below](#bash-terminal)) takes a couple of hours, with the phylogenetic quality control steps completing overnight.
+* Quick - the final reference library can be downloaded onto your computer in just a few seconds with only two packages loaded and seven lines of R code ([below](#retrieve-latest-reference-library)). Generating this reference library from scratch ([below](#bash-terminal)) takes a couple of hours, with the phylogenetic quality control steps completing overnight.
 * Customisable - by forking or cloning the repository, custom modifications can be made, e.g. excluding particular species, making taxonomic changes, or using a completely different list of species.
 * Self contained - to recreate the reference libraries, all code and R package versions are found within in this self contained project, courtesy of [renv](https://rstudio.github.io/renv/articles/renv.html). This means less risk of clashing installations or broken code when packages and R versions upgrade.
 * Citable - DOIs are issued with each new GenBank release.
@@ -80,7 +80,7 @@ Study | Official name | Nickname | Locus
 
 You don't need to run this code below if you just want a copy of the reference library (run code above). This code below is if you want to update it yourself or want to modify and make a new library. I will endeavour to keep this repository up-to-date with GenBank, but if hasn't been updated, email me. 
 
-System requirements: [R](https://cran.r-project.org/), [git](https://git-scm.com/), [hmmer](http://hmmer.org/), [mafft](https://mafft.cbrc.jp/alignment/software/) and [raxml](https://cme.h-its.org/exelixis/web/software/raxml/) need to be installed on your system. Unfortunately, these scripts are optimised for a Unix system, and I'm unable to offer any Windows support here ([Windows is now able to run Ubuntu Linux ](https://tutorials.ubuntu.com/tutorial/tutorial-ubuntu-on-windows#0)).
+System requirements: [R](https://cran.r-project.org/), [git](https://git-scm.com/), [hmmer](http://hmmer.org/), [mafft](https://mafft.cbrc.jp/alignment/software/) and [raxml-ng](https://github.com/amkozlov/raxml-ng) need to be installed on your system, and available on your [$PATH](https://www.howtogeek.com/658904/how-to-add-a-directory-to-your-path-in-linux/). With the exception of raxml-ng, the programs can be installed from Ubuntu repositories using `sudo apt install`. In case of difficulties, check the developer's website and update to newer versions if required. Unfortunately, these scripts are optimised for a Unix system, and I'm unable to offer any Windows support here ([Windows is now able to run Ubuntu Linux ](https://tutorials.ubuntu.com/tutorial/tutorial-ubuntu-on-windows#0)).
 
 You will also require an API key from NCBI in order to access GenBank data at a decent rate. See info here for how to get a key: [ncbiinsights.ncbi.nlm.nih.gov/2017/11/02/new-api-keys-for-the-e-utilities/](https://ncbiinsights.ncbi.nlm.nih.gov/2017/11/02/new-api-keys-for-the-e-utilities/)
 
@@ -105,32 +105,47 @@ scripts/check-genbank.R
 
 ### replace the species table with your custom list ###
 # change to file location on your machine
-# this will overwrite the table 
+# this will overwrite the current table 
 cp ~/path/to/my-species-table.csv assets/species-table.csv
 
 ### search GenBank ###
-# argument "-q" [2000] is the max search query length (in characters)
-# argument "-t" [4] is the number of processing cores (threads) to run in parallel
+# argument "-q" [2000] is the max search batch query length (in characters)
+#     the maximum search query length allowed by NCBI is 2500
+#     bigger queries will be faster, but more prone to server errors
+# argument "-t" [4] is the number of processing threads to run in parallel
+#     more threads are faster, but more prone to errors by overloading the server with requests
+#     most laptops and desktops are hyperthreaded with two virtual CPUs (threads) for each physical CPU (cores)
+#     run "lscpu | grep -E '^Thread|^Core|^Socket|^CPU\('" to obtain info on available cores/threads
+#     make sure not to request more threads than are present on your system
 # argument "-e" [true] is to run an exhaustive ("true") or simple search ("false")
-# more cores are faster, but more prone to errors by overloading the server with requests
-# make sure not to request more cores than are present on your system
-# the max search query length allowed is 2500. Bigger queries will be faster, but more prone to server errors
+#     the simple search just uses the terms "mitochondrion,mitochondrial"  
+#     the exhaustive search in addition uses "COI,CO1,cox1,cytb,cytochrome,subunit,COB,CYB,12S,16S,rRNA,ribosomal"
+#     the simple search will pick up 99% of mtDNA sequences, but may miss older sequences that were not well annotated
+#     the simple search is faster, less prone to error, and may help if you need to search for a lot of species 
 scripts/sequences-download.R -q 2000 -t 4 -e true
 
 ### assemble the reference library with hidden Markov models and obtain metadata ###
-# argument "-t" [4] is the number of processing cores to run in parallel
-# argument "-m" [all] is the metabarcode marker, choosing "all"
-# to choose specific metabarcode marker(s), use the codes in Table 1 and separate with a comma and no space
-# e.g. "-m 12s.miya,coi.ward"
-# do not request more processing cores than metabarcode markers
-# this script overwrites the local master reference library 'assets/reference-library-master.csv.gz'
+# argument "-t" [4] is the number of processing threads to run in parallel
+#     do not request more threads than metabarcode markers
+#     do not request more threads than are present on your system
+# argument "-m" [all] is the metabarcode marker, here choosing "all" eight available metabarcodes
+#     if you don't require all metabarcodes, it's strongly recommended to specify only the one(s) you want
+#     to choose a specific metabarcode marker(s), use the codes in Table 1 and separate with a comma and no space
+#     e.g. "-m 12s.miya,coi.ward"
+# note this script overwrites the local master reference library 'assets/reference-library-master.csv.gz'
 scripts/references-assemble.R -t 4 -m all
 
 ### phylogenetic quality control (QC) ###
-# argument "-p" [~/Software/standard-RAxML/raxmlHPC-AVX] is the path on your system to raxml
-# argument "-t" [8] is the number of processing cores to run in parallel
-# do not request more processing cores than metabarcode markers
-scripts/qc.R -p ~/Software/standard-RAxML/raxmlHPC-AVX -t 8
+# argument "-t" [4] is the number of processing threads to run in parallel
+#    note that the threads argument doesn't influence the performance operation of raxml-ng or mafft
+#    these applications automatically determine the optimum number of threads for your system
+#    the argument only applies to preparing/plotting
+#    do not request more threads than metabarcode markers
+#    do not request more threads than are present on your system
+# argument "-v" [false] is verbosity (information printed to screen) from the alignment and phylogenetic steps
+#    a value of "true" prints program info, a value of "false" prevents printing of info
+#    seeing the output on screen is useful if you run into problems and need to debug, otherwise it's not required
+scripts/qc.R -t 4 -v false
 
 # now manually review the phylogenetic tree PDFs output into 'reports/qc_GBVERSION_MONTH-YEAR' 
 # if found, add suspect accessions manually to 'assets/exclusions.csv'
@@ -152,8 +167,9 @@ git push --tags
 ### confirm changes are made ###
 scripts/check-genbank.R
 
-### if all worked, clean up to save disk space ###
-rm -r temp/fasta-temp temp/bold-dump.csv temp/mtdna-dump.fas
+### if all worked, you can clean up to save disk space ###
+# be sure that you want to do this!
+rm -r temp
 ```
 
 ### FAQ
@@ -172,8 +188,8 @@ Anguilla | accepted name | NA | Anguilla | Actinopterygii | Anguilliformes | Ang
 * **What if I want more than fishes?** - Indeed, for many metabarcoding applications you would want to identify 'off-target' reads, so a wider reference library is required as a supplement to the one presented here. I use the NCBI RefSeq mitochondrial DNA database ([ftp://ftp.ncbi.nlm.nih.gov/refseq/release/mitochondrion](ftp://ftp.ncbi.nlm.nih.gov/refseq/release/mitochondrion)), which should have a sufficiently broad coverage to roughly classify most eukaryote mtDNA.
 * **How does the exclusions blacklist file work?** -  The file `assets/exclusions.csv` is permanently available on this GitHub repository, and contains all the accessions that have been flagged by me as potentially erroneous, as part of the work on the UK fish reference library. New records are added manually each time a new GenBank version becomes available and the quality control steps are performed. When the `scripts/references-clean.R` script is run, the exclusion file is called and these blacklisted accessions are removed from the library. The user does not need to regenerate or interact with this exclusions file if they are simply wanting to use the UK reference library as provided. If the user wishes to create their own custom reference library then they have the option of tailoring the contents of this exclusions file to their own requirements by keeping, deleting, or adding accessions to it.
 * **Is the reference library guaranteed error free?** - LOL, no! I have tried to curate a reliable reference library as best as I can. However, the phylogenetic quality control step is tedious and subjective and takes a lot of effort. Here, phylogenetic QC trees for each primer set need to be manually checked. To help with this tips are coloured by monophyly and haplotype sharing to visually assist identifying dubious accessions. This is a much easier task for loci where taxa are well differentiated and large numbers of sequences exist (such as for COI). It is not easy for ribosomal fragments with fewer informative nucleotides and fewer sequences. The choice of which accessions to blacklist in `assets/exclusions.csv` has been entirely at my discretion thus far. However, I hope I have caught the majority of the most egregious examples. As a rule of thumb, an accession is blacklisted if: (a) individual(s) of species x are identical to or nested within a cluster of sequences of species y, but with other individuals of species x forming an independent cluster; and (b) the putatively spurious sequences coming from a single study, while the putatively correct sequences of species x and y coming from multiple studies. It is important to note that this is far from foolproof, and many species will naturally be non-monophyletic and/or share haplotypes with other species. I tried to be conservative, and not remove too many sequences if there was doubt, and especially so for taxa that I am not familar with. Mistakes certainly remain, so I recommend running the QC step to check yourself (or email me for the trees). [NCBI blast](https://blast.ncbi.nlm.nih.gov/Blast.cgi) is also useful for checking for matches against species not in the reference library. 
-* **The search step takes too long, hangs, or errors!** - The GenBank search step relies on NCBI servers, and if they are overloaded then the searches can fail. I suggest: (i) reducing the number of cores ("-t" option in the `scripts/sequences-download.R` step) to lower the frequency of requests; (ii) running searches at USA off-peak times; (iii) disabling the exhaustive search option (use "-e false" instead of "-e true" in the `scripts/sequences-download.R` step), which will still give you 99% of the sequences, but will take much less time and consume less RAM and disk space; (iv) making each concatenated search string length shorter with the "-q" option; and (v) requesting only the metabarcodes that you are interested in (use the "-m" option in the `scripts/references-assemble.R` step).
-* **The phylogenetic quality control steps takes too long!** - Making ML trees for many taxa can take a very long time. Here, the largest one (Ward COI) is nearly 9,000 haplotypes, and runs overnight. If your dataset is too big, I suggest: (i) skipping this step if you aren't sure you need it; (ii) requesting only the metabarcodes that you are interested in (use the "-m" option in the `scripts/references-assemble.R` step); or (iii) maybe break up the species input list into smaller chunks and merge the tables later.
+* **The search step takes too long, hangs, or errors!** - The GenBank search step relies on NCBI servers, and if they are overloaded then the searches can fail. I suggest: (i) reducing the number of threads ("-t" option in the `scripts/sequences-download.R` step) to lower the frequency of requests; (ii) running searches at USA off-peak times; (iii) disabling the exhaustive search option (use "-e false" instead of "-e true" in the `scripts/sequences-download.R` step), which searches for fewer search terms, will take less time and consume less RAM and disk space, but will give you 99% of the sequences; (iv) making each concatenated search string length shorter with the "-q" option; and (v) requesting only the metabarcodes that you are interested in (use the "-m" option in the `scripts/references-assemble.R` step).
+* **The phylogenetic quality control steps takes too long!** - Making ML trees for many taxa can take a very long time. Here, the largest one (Ward COI) is over 9,000 haplotypes, and runs overnight. If your dataset is too big, I suggest: (i) skipping this step if you aren't sure you need it; (ii) requesting only the metabarcodes that you are interested in (use the "-m" option in the `scripts/references-assemble.R` step); or (iii) maybe break up the species input list into smaller chunks and merge the tables later.
 * **Why not use [sativa](https://github.com/amkozlov/sativa) for automated quality control?** - Good question.  Software such as [sativa](https://github.com/amkozlov/sativa) is available to automate the process, and while I may investigate this option in the future, for the meantime I think it is always a good idea to eyeball and become familiar with your data and develop an informed judgement.
 * **Why are the sequence labels in the `references.fasta` file just numbers?** - When you download the reference library as shown above, the `references.fasta` file will use the 'dbid' column which is the database identification numbers. For NCBI these are 'GI' numbers (GenInfo Identifiers); these are equivalent to NCBI accession numbers, and will resolve accordingly on NCBI services; for BOLD, these are the 'processid' numbers. As there are many possible formats required for various taxonomy assignment software, I am unable to know which ones you will require, and have therefore chosen a sensible default. To make your own custom labels, just use the dplyr `mutate()` and `paste()` functions to join columns in the table to make a new label column. Below I make a label of format 'dbid_family_genus_species'. Table 2 explains the fields in the reference library table. 
 
