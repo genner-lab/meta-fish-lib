@@ -3,7 +3,7 @@
 # https://rstudio.github.io/renv/index.html
 # initialise renv, install packages, update, snapshot to lock file
 # renv::init()
-# renv::install(packages=c("here","tidyverse","magrittr","lubridate","vroom","rentrez","bold","traits","rfishbase","ape","ips","phangorn","spider","rmarkdown","knitr"))
+# renv::install(packages=c("",""))
 # renv::update()
 # renv::snapshot()
 
@@ -14,7 +14,6 @@ suppressMessages({
     library("tidyverse")
     library("magrittr")
     library("lubridate")
-    #library("vroom")
     library("rentrez")
     library("bold")
     library("traits")
@@ -48,7 +47,7 @@ entrez_search_parallel <- function(query,threads,key){
     if(any(errs.fin==TRUE)) { 
         stop(writeLines("Searches failed ... aborted")) 
     } else {
-        writeLines(paste("Results returned for",length(which(errs.fin==FALSE)), "queries.","Search took",round(as.numeric(end_time-start_time),digits=2),"seconds.",sep=" "))
+        writeLines(paste("Results returned for",length(which(errs.fin==FALSE)), "batches.","Search took",round(as.numeric(end_time-start_time),digits=2),"seconds.",sep=" "))
         return(n.res)
     }
 }
@@ -65,6 +64,19 @@ entrez_fetch_parallel <- function(search,key){
         }
     end_time <- Sys.time()
     writeLines(paste("Query",search$web_history$WebEnv,"written to file.","Download took",round(as.numeric(end_time-start_time),digits=2),"seconds.",sep=" "))
+}
+
+
+# FUNCTION TO RUN PARALLEL BOLD WITH TIMEOUT
+bold_seqspec_timer <- function(species){
+    start.time.bold <- Sys.time()
+    Sys.sleep(time=sample(seq(from=0,to=5,by=0.1),1))
+    bold.res <- bold::bold_seqspec(species,format="tsv",sepfasta=FALSE,response=FALSE)
+    end.time.bold <- Sys.time()
+    if(class(bold.res)=="data.frame"){
+    writeLines(paste(nrow(bold.res),"records for",length(unique(pull(bold.res,species_name))),"species downloaded from BOLD.","Download took",round(as.numeric(end.time.bold-start.time.bold, units="mins"),digits=2),"minutes.",sep=" "))
+    } else {writeLines("No records found.")}
+    return(bold.res)
 }
 
 
@@ -240,17 +252,34 @@ haps2fas <- function(df){
 }
 
 
-# FUN TO ALIGN SEQS AND MAKE A PHYLOGENTIC TREE
-phylogenize <- function(fas,prefix,binLoc,version){
-    fas <- ips::mafft(fas,exec="mafft",method="retree 2",maxiterate=2)
-    tr <- ips::raxml(fas, file=paste0("fromR-",prefix), m="GTRCAT", f="d", p=42, exec=binLoc, N=1, threads=1)
-    tr <- tr$bestTree
-    tmp.path <- paste0("qc_v",version,"_",paste(month(ymd(Sys.Date()),label=TRUE),year(ymd(Sys.Date())),sep="-"))
-    dir.create(path=tmp.path)
-    flist <- list.files(pattern=prefix)
-    file.copy(flist, paste0(tmp.path,"/",flist))
-    file.remove(flist)
-    write.tree(tr,file=paste0(tmp.path,"/",prefix,".nwk"))
+# NEW RAXML-NG FUN
+raxml_ng <- function(file,verbose) {
+    if(verbose == "true") {
+        string.mafft <- paste0("mafft --thread -1 --maxiterate 2 --retree 2 ",file," > ",file,".ali")
+        system(command=string.mafft,ignore.stdout=FALSE)
+        string.parse <- paste0("raxml-ng --parse --msa ",file,".ali --model TN93+F+G --seed 42 --redo --threads auto")
+        system(command=string.parse,ignore.stdout=FALSE)
+        string.search <- paste0("raxml-ng --search --msa ",file,".ali.raxml.rba --tree pars{1} --rate-scalers off --seed 42 --redo --threads auto")
+        system(command=string.search,ignore.stdout=FALSE)
+        rax.tr <- ape::read.tree(file=paste0(file,".ali.raxml.rba.raxml.bestTree"))
+    } else if (verbose == "false") {
+        string.mafft <- paste0("mafft --quiet --thread -1 --maxiterate 2 --retree 2 ",file," > ",file,".ali")
+        system(command=string.mafft,ignore.stdout=FALSE)
+        string.parse <- paste0("raxml-ng --parse --msa ",file,".ali --model TN93+F+G --seed 42 --redo --threads auto")
+        system(command=string.parse,ignore.stdout=TRUE)
+        string.search <- paste0("raxml-ng --search --msa ",file,".ali.raxml.rba --tree pars{1} --rate-scalers off --seed 42 --redo --threads auto")
+        system(command=string.search,ignore.stdout=TRUE)
+        rax.tr <- ape::read.tree(file=paste0(file,".ali.raxml.rba.raxml.bestTree"))
+    } else stop(writeLines("'-v' value must be 'true' or 'false'."))
+    return(rax.tr)
+}
+
+
+# FUN TO ALIGN SEQS AND MAKE A PHYLOGENETIC TREE
+phylogenize <- function(dir,fas,prefix,verbose){
+    file.fas <- here("temp",dir,paste0(prefix,".fas"))
+    ape::write.FASTA(fas,file=file.fas)
+    tr <- raxml_ng(file=file.fas,verbose=verbose)
     return(tr)
 }
 
@@ -265,7 +294,9 @@ plot_trees <- function(tr,df,prefix,version){
     cols[which(allmono==FALSE)] <- "hotpink"
     cols[match(df$noms[which(df$nMatches>1)], tr$tip.label)] <- "green3"
     tmp.path <- paste0("reports/qc_v",version,"_",paste(month(ymd(Sys.Date()),label=TRUE),year(ymd(Sys.Date())),sep="-"))
-    dir.create(path=tmp.path)
+    if(!dir.exists(here(tmp.path))){
+        dir.create(here(tmp.path))
+        }
     dfs <- df %>% summarise(nSeqs=sum(nHaps),nHaps=length(nHaps),nSpp=length(unique(sciNameValid)))
     tit <- paste0(str_replace_all(prefix,"\\.noprimers",""),"\n(n=",pull(dfs,nSeqs),", n haplotypes=",pull(dfs,nHaps),", n spp.=",pull(dfs,nSpp),")\nlabel format = 'dbid|Genus species|n haplotypes'\npink = non-monophyletic species\ngreen = shared haplotypes\nscroll down for tree ...")
     pdf(file=paste0(tmp.path,"/RAxML_bestTree.",prefix,".pdf"), width=15, height=length(tr$tip.label)/10)
