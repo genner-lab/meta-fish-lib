@@ -1,6 +1,9 @@
 #!/usr/bin/env Rscript
 # script to quality control the reference libraries and identify erroneous sequences.
 
+# start timer 
+start_time <- Sys.time()
+
 # load functions and libs
 source(here::here("scripts","load-libs.R"))
 source(here::here("scripts","references-load-local.R"))
@@ -8,20 +11,23 @@ source(here::here("scripts","references-clean.R"))
 
 # get args
 option_list <- list( 
-    make_option(c("-p","--path"), type="character"),
-    make_option(c("-t","--threads"), type="numeric")
+    make_option(c("-t","--threads"), type="numeric"),
+    make_option(c("-v","--verbose"), type="character")
     )
 
 # set args
 opt <- parse_args(OptionParser(option_list=option_list,add_help_option=FALSE))
 
+#opt <- NULL
+#opt$threads <- 1
+#opt$verbose <- "true"
 
 # load stats
 stats <-suppressMessages(read_csv(here("reports","stats.csv")))
 gb.version <- stats %>% filter(stat=="genbankVersion") %>% pull(n)
 
 # message 
-writeLines("\nGenerating phylogenetic trees, may take many hours ...")
+writeLines("\nGenerating phylogenetic trees, may take several hours ...")
 
 # set cores
 cores <- opt$threads
@@ -41,13 +47,19 @@ reflibs.haps <- mcmapply(function(x) haps2fas(df=x), reflibs.sub, SIMPLIFY=FALSE
 # convert to fasta
 reflibs.fas <- mcmapply(function(x) tab2fas(df=x,seqcol="nucleotidesFrag",namecol="noms"), reflibs.haps, SIMPLIFY=FALSE,USE.NAMES=TRUE,mc.cores=cores)
 
-# make trees for each marker - may take up to 6 h for the biggest COI tree
-# outputs into 'temp/qc_GBVERSION_MONTH-YEAR' --- careful if running overnight when months change!
-setwd(here("temp"))
-trs.list <- mcmapply(function(x,y) phylogenize(fas=x, prefix=y, binLoc=opt$path, version=gb.version), reflibs.fas, prefixes, SIMPLIFY=FALSE,USE.NAMES=TRUE,mc.cores=cores)
-setwd(here())
+# make temp output dir
+tmp.path <- paste0("qc_v",gb.version,"_",paste(month(ymd(Sys.Date()),label=TRUE),year(ymd(Sys.Date())),sep="-"))
+if(!dir.exists(here("temp",tmp.path))){
+    dir.create(here("temp",tmp.path))
+}
+
+# run phylo
+trs.list <- mapply(function(x,y) phylogenize(dir=tmp.path, fas=x, prefix=y, verbose=opt$verbose), reflibs.fas, prefixes, SIMPLIFY=FALSE,USE.NAMES=TRUE)
 
 # plot the trees in a temp dir
 mcmapply(function(x,y,z) plot_trees(tr=x, df=y, prefix=z, version=gb.version), trs.list, reflibs.haps, prefixes, SIMPLIFY=FALSE,USE.NAMES=TRUE,mc.cores=cores)
+
+end_time <- Sys.time()
+end_time-start_time
 
 writeLines("\nPhylogenetic trees have been generated, PDFs are available in 'reports/qc_GBVERSION_MONTH-YEAR'")
