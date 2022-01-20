@@ -411,3 +411,6 @@ GENBANK,1893135241,Tinca tinca,REMOVE,D-loop sequences
 GENBANK,1893135240,Tinca tinca,REMOVE,D-loop sequences
 GENBANK,1928144460,Prionace glauca,REMOVE,Blasts as Squatina
 GENBANK,2070998064,Pseudorasbora parva,REMOVE,Nested in Cyprinus carpio
+GENBANK,1102318201,Coryphaenoides guentheri,REMOVE,Closer to Nezumia than other Coryphaenoides
+GENBANK,2018537140,Ammodytes tobianus,REMOVE,Looks like it's a Gymnammodytes
+GENBANK,2095683687,Dicentrarchus labrax,REMOVE,Nested in sparids
