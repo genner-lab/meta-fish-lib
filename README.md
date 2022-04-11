@@ -37,7 +37,7 @@ If you require simply the final reference library file for immediate use, it can
 library("tidyverse")
 library("ape")
 
-# load remote references and scripts (requires internet connection)
+# load REMOTE references and scripts (requires internet connection)
 source("https://raw.githubusercontent.com/genner-lab/meta-fish-lib/main/scripts/references-load-remote.R")
 source("https://raw.githubusercontent.com/genner-lab/meta-fish-lib/main/scripts/references-clean.R")
 source("https://raw.githubusercontent.com/legalLab/protocols-scripts/master/scripts/tab2fas.R")
@@ -53,7 +53,7 @@ reflib.sub <- subset_references(df=reflib.orig, frag="12s.miya")
 # custom labels can be created with 'mutate()' and 'paste()' using other fields and changing 'namecol' argument - see FAQ
 reflib.fas <- tab2fas(df=reflib.sub, seqcol="nucleotides", namecol="dbid")
 
-# write out fasta file and corresponding csv table
+# write out fasta file
 ape::write.FASTA(reflib.fas, file="references.fasta")
 
 # write out corresponding csv table
@@ -170,7 +170,33 @@ scripts/check-genbank.R
 ### if all worked, you can clean up to save disk space ###
 # be sure that you want to do this!
 rm -r temp
+
+### your reference library is now located at 'assets/reference-library-master.csv.gz' ###
+# if you need it in fasta format, please use the R code below
+# see FAQ for changing the label format
 ```
+
+```r
+### TO FORMAT LOCAL REFERENCE LIBRARY AS FASTA ###
+
+# load packages in new R session
+library("here")
+library("tidyverse")
+library("ape")
+
+# load LOCAL references and clean blacklisted sequences
+source("https://raw.githubusercontent.com/genner-lab/meta-fish-lib/main/scripts/references-load-local.R")
+source("https://raw.githubusercontent.com/genner-lab/meta-fish-lib/main/scripts/references-clean.R")
+source("https://raw.githubusercontent.com/legalLab/protocols-scripts/master/scripts/tab2fas.R")
+
+# subset marker - change 'frag' argument as appropriate:
+reflib.sub <- subset_references(df=reflib.orig, frag="12s.miya")
+
+# convert to fasta file and write out fasta file
+reflib.fas <- tab2fas(df=reflib.sub, seqcol="nucleotides", namecol="dbid")
+ape::write.FASTA(reflib.fas, file="references.fasta")
+```
+
 
 ### FAQ
 
