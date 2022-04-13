@@ -40,13 +40,13 @@ stats <- suppressMessages(read_csv(file=here("reports","stats.csv")))
 # returns a DNAbin object of the sequences matched by hmmer 
 
 # get list of metabarodes
-prefixes.list <- c("coi.lerayxt","coi.ward","12s.miya","12s.riaz","12s.valentini","12s.taberlet","16s.berry","cytb.minamoto")
+prefixes.list <- c("coi.lerayxt","coi.ward","12s.miya","12s.riaz","12s.valentini","12s.taberlet","16s.berry","cytb.minamoto","16s.kitano")
 # split the input
 prefixes.chosen <- unlist(str_split(opt$metabarcode,","))
 
 # choose metabarcode
 if(opt$metabarcode == "all") {
-    prefixes.all <- c("coi.lerayxt.noprimers","coi.ward.noprimers","12s.miya.noprimers","12s.riaz.noprimers","12s.valentini.noprimers","12s.taberlet.noprimers","16s.berry.noprimers","cytb.minamoto.noprimers")
+    prefixes.all <- c("coi.lerayxt.noprimers","coi.ward.noprimers","12s.miya.noprimers","12s.riaz.noprimers","12s.valentini.noprimers","12s.taberlet.noprimers","16s.berry.noprimers","cytb.minamoto.noprimers","16s.kitano.noprimers")
 } else if (all(prefixes.chosen %in% prefixes.list)) {
     prefixes.all <- paste(prefixes.chosen,"noprimers",sep=".")
 } else stop(writeLines("'-m' value must be metabarcode(s) listed in Table 1, and separated by a comma, e.g. '12s.miya,coi.ward'."))
