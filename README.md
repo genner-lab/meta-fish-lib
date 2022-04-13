@@ -74,6 +74,7 @@ Study | Official name | Nickname | Locus
 [Wangensteen et al. (2018)](http://dx.doi.org/10.7717/peerj.4705) | Leray-XT | coi.leray | COI
 [Ward et al. (2005)](http://dx.doi.org/10.1098/rstb.2005.1716) | FishF1/R1 | coi.ward | COI
 [Berry et al. (2017)](http://dx.doi.org/10.1002/ece3.3123) | Fish16sF/D | 16s.berry | 16S
+[Kitano et al. (2007)](https://doi.org/10.1007/s00414-006-0113-y) | 	L2513/H2714 | 16s.kitano | 16S
 [Minamoto et al. (2012)](http://dx.doi.org/10.1007/s10201-011-0362-4) | L14912-CYB | cytb.minamoto | cytb
 
 ### Create/update the reference library manually
