@@ -180,9 +180,9 @@ run_hmmer3 <- function(dir, infile, hmm, prefix, evalue, coords){#
     mtdna <- read.FASTA(file=paste0(dir,"/",infile))
     mtdna.sub <- as.character(mtdna[match(hmm.tbl$targetName,names(mtdna))])
     if(coords=="env"){
-    mtdna.sub.coords <- as.DNAbin(mapply(function(x,y,z) x[y:z], mtdna.sub, hmm.tbl$envStart, hmm.tbl$envEnd, SIMPLIFY=TRUE, USE.NAMES=TRUE))
+    mtdna.sub.coords <- as.DNAbin(mapply(function(x,y,z) x[y:z], mtdna.sub, hmm.tbl$envStart, hmm.tbl$envEnd, SIMPLIFY=FALSE, USE.NAMES=TRUE))
     } else if(coords=="ali"){
-    mtdna.sub.coords <- as.DNAbin(mapply(function(x,y,z) x[y:z], mtdna.sub, hmm.tbl$aliStart, hmm.tbl$aliEnd, SIMPLIFY=TRUE, USE.NAMES=TRUE))
+    mtdna.sub.coords <- as.DNAbin(mapply(function(x,y,z) x[y:z], mtdna.sub, hmm.tbl$aliStart, hmm.tbl$aliEnd, SIMPLIFY=FALSE, USE.NAMES=TRUE))
     } else {
     stop("Please provide 'env' or 'ali' as arguments to coords")
     }
