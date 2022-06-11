@@ -414,3 +414,13 @@ GENBANK,2070998064,Pseudorasbora parva,REMOVE,Nested in Cyprinus carpio
 GENBANK,1102318201,Coryphaenoides guentheri,REMOVE,Closer to Nezumia than other Coryphaenoides
 GENBANK,2018537140,Ammodytes tobianus,REMOVE,Looks like it's a Gymnammodytes
 GENBANK,2095683687,Dicentrarchus labrax,REMOVE,Nested in sparids
+GENBANK,2188144265,Lepidorhombus whiffiagonis,REMOVE,Clusters with Arnoglossus
+GENBANK,2018537260,Liparis montagui,REMOVE,Clusters with Liparis liparis
+GENBANK,2019934261,Salmo salar,REMOVE,Blasts as Macrodon
+GENBANK,2019293926,Salmo salar,REMOVE,Nested in Anguilla anguilla
+BOLD,BCAFL347-20.COI-5P,Alburnus alburnus,REMOVE,Nested in Barbus barbus
+GENBANK,1591634261,Cyprinus carpio,REMOVE,Weird sequence
+BOLD,BCAFL042-17.COI-5P,Barbus barbus,REMOVE,Clusters with Leuciscus
+BOLD,BCAFL660-20.COI-5P,Blicca bjoerkna,REMOVE,Clusters with Abramis
+GENBANK,2019293932,Salmo salar,REMOVE,Nested in Thunnus
+GENBANK,2019293928,Salmo salar,REMOVE,Nested in Thunnus
