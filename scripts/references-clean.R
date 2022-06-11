@@ -18,6 +18,7 @@ reflib.orig <- reflib.orig %>%
 reflib.orig <- reflib.orig %>% 
     dplyr::filter(!is.na(nucleotides)) %>% 
     dplyr::filter(!grepl("UNVERIFIED:",notesGenBank)) %>%
+    dplyr::filter(!grepl("PREDICTED:",notesGenBank)) %>%
     dplyr::filter(!grepl("similar to",notesGenBank)) %>% 
     dplyr::filter(!grepl("mRNA",notesGenBank)) %>% 
     dplyr::filter(!grepl("cDNA",notesGenBank)) %>% 
