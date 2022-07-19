@@ -177,6 +177,8 @@ rm -r temp
 # see FAQ for changing the label format
 ```
 
+##### R terminal:
+
 ```r
 ### TO FORMAT LOCAL REFERENCE LIBRARY AS FASTA ###
 
