@@ -94,8 +94,9 @@ cd meta-fish-lib
 mkdir -p reports temp/fasta-temp
 
 ### create NCBI API key (this is ignored by git) ###
-# substitute the 'my-ncbi-key' part for your actual key obtained from NCBI
-echo 'ncbi.key <- "my-ncbi-key"' > assets/ncbi-key.R
+# substitute the "<my-ncbi-key>" part for your actual key obtained from NCBI
+echo 'ncbi.key <- "<my-ncbi-key>"' > assets/ncbi-key.R
+echo 'ENTREZ_KEY=<my-ncbi-key>' > .Renviron
 
 ### install required R packages using renv (only need to run this once) ###
 Rscript -e "renv::restore()"
