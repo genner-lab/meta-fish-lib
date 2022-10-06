@@ -8,6 +8,9 @@
 ## Load functions and libs
 source(here::here("scripts","load-libs.R"))
 
+# check ncbi key loaded
+#Sys.getenv("ENTREZ_KEY", "")
+
 # get args
 option_list <- list(
 #    make_option(c("-l","--list"), type="character"),
@@ -68,11 +71,22 @@ in.bold <- dat.frag.names[dat.frag.names %in% bold.red$processidUniq]
 in.gb <- dat.frag.names[!dat.frag.names %in% bold.red$processidUniq]
 
 # now for the same sequences, get the tabular data from NCBI using 'ncbi_byid' to make a proper reference database
-chunk <- 70
-chunk.frag <- unname(split(in.gb, ceiling(seq_along(in.gb)/chunk)))
+# chunk 200 should result in string of around 2200 chars
+chunk <- 200
+# clean up long genome records with accs > 11 chars 
+in.gb.red <- in.gb[nchar(in.gb)<=11]
+# randomise accessions
+set.seed(42)
+in.gb.sam <- sample(in.gb.red)
+# chunk
+chunk.frag <- unname(split(in.gb.sam, ceiling(seq_along(in.gb.sam)/chunk)))
+#length(chunk.frag)
+#max(sapply(chunk.frag,function(x) nchar(paste(x,collapse=","))))
 writeLines("\nRetrieving metadata from NCBI ...\n")
     start_time <- Sys.time()
-ncbi.frag <- mcmapply(FUN=ncbi_byid, chunk.frag, SIMPLIFY=FALSE, USE.NAMES=FALSE, mc.cores=cores)
+# fixes problem with "Error in the HTTP2 framing layer" 
+httr::set_config(httr::config(http_version = 0))
+ncbi.frag <- mcmapply(FUN=ncbi_byid_parallel, chunk.frag, SIMPLIFY=FALSE, USE.NAMES=FALSE, mc.cores=cores)
     end_time <- Sys.time()
     end_time-start_time
 
