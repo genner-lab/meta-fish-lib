@@ -194,9 +194,14 @@
     "bold": {
       "Package": "bold",
       "Version": "1.2.0",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "270c305e57f4fa2a97141753e585ec20"
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteUsername": "ropensci",
+      "RemoteRepo": "bold",
+      "RemoteRef": "430c28ec9c726a2fd6b409f3aa693527cbc3fd38",
+      "RemoteSha": "430c28ec9c726a2fd6b409f3aa693527cbc3fd38",
+      "Hash": "127b6918c5eb56197d7906139665986b"
     },
     "boot": {
       "Package": "boot",
@@ -333,10 +338,10 @@
     },
     "crul": {
       "Package": "crul",
-      "Version": "1.1.0",
+      "Version": "1.3",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "345d571cc120a54c91ac952c6da4392e"
+      "Hash": "2408d291bf25a9a6c27d912bcfe6ce0c"
     },
     "curl": {
       "Package": "curl",
@@ -641,10 +646,10 @@
     },
     "httr": {
       "Package": "httr",
-      "Version": "1.4.2",
+      "Version": "1.4.4",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "a525aba14184fec243f9eaec62fbed43"
+      "Hash": "57557fac46471f0dbbf44705cc6a5c8c"
     },
     "ids": {
       "Package": "ids",
