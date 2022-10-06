@@ -80,6 +80,18 @@ bold_seqspec_timer <- function(species){
 }
 
 
+# FUNCTION TO RUN PARALLEL NCBI_BYID WITH TIMEOUT
+ncbi_byid_parallel <- function(accs){
+    start_time <- Sys.time()
+    Sys.sleep(time=runif(n=1,min=0,max=2))
+    #writeLines(paste0("Accessions starting ",accs[1],"."))
+    ncbi.tab <- traits::ncbi_byid(accs,verbose=FALSE)
+    end_time <- Sys.time()
+    writeLines(paste0("Metadata for ",length(accs)," accessions downloaded (starting ",accs[1],"). Download took ",round(as.numeric(end_time-start_time),digits=2)," seconds."))
+    return(ncbi.tab)
+}
+
+
 # MODIFIED `read.GenBank` FUN INCLUDES API KEY FOR NCBI 
 read_GenBank <- function (access.nb, seq.names = access.nb, species.names = FALSE, 
     as.character = FALSE, chunk.size = 200, quiet = FALSE, api.key) 
