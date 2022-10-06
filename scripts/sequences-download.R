@@ -175,7 +175,7 @@ set.seed(42)
 spp.list.sam <- sample(spp.list)
 
 # set max length of query
-chunk.size.bold <- floor(4500/mean(unlist(lapply(spp.list.sam,nchar)))) # 5000 chars is 260 species per chunk and 17 chunks
+chunk.size.bold <- floor(4000/mean(unlist(lapply(spp.list.sam,nchar)))) # 4000 chars is 200 species per chunk and 21 chunks
 bold.split <- split(spp.list.sam, ceiling(seq_along(spp.list.sam)/chunk.size.bold))
 #lens <- unlist(lapply(bold.split,function(x) nchar(paste(x,collapse=""))))
 #hist(unlist(lapply(bold.split,function(x) nchar(paste(x,collapse="")))))
