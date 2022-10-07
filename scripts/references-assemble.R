@@ -57,8 +57,9 @@ if(opt$metabarcode == "all") {
 
 # run hmmer
 writeLines("\nExtracting metabarcode fragments with HMMER (may take several minutes) ...")
-#dat.frag.all <- lapply(prefixes.all, function(x) run_hmmer3(dir="temp", infile="mtdna-dump.fas", prefix=x, evalue="10", coords="env"))
-dat.frag.all <- mcmapply(FUN=function(x) run_hmmer3(dir="temp", infile="mtdna-dump.fas", prefix=x, evalue="10", coords="env"), prefixes.all, SIMPLIFY=FALSE, USE.NAMES=FALSE, mc.cores=cores)
+# use single thread because easier on the RAM
+dat.frag.all <- lapply(prefixes.all, function(x) run_hmmer3(dir="temp", infile="mtdna-dump.fas", prefix=x, evalue="10", coords="env"))
+#dat.frag.all <- mcmapply(FUN=function(x) run_hmmer3(dir="temp", infile="mtdna-dump.fas", prefix=x, evalue="10", coords="env"), prefixes.all, SIMPLIFY=FALSE, USE.NAMES=FALSE, mc.cores=cores)
 writeLines("\nDone")
 
 # concatentate all
