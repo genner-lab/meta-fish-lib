@@ -57,8 +57,8 @@ if(opt$metabarcode == "all") {
 
 # run hmmer
 writeLines("\nExtracting metabarcode fragments with HMMER (may take several minutes) ...")
-dat.frag.all <- lapply(prefixes.all, function(x) run_hmmer3(dir="temp", infile="mtdna-dump.fas", prefix=x, evalue="10", coords="env"))
-#dat.frag.all <- mcmapply(FUN=function(x) run_hmmer3(dir="temp", infile="mtdna-dump.fas", prefix=x, evalue="10", coords="env"), prefixes.all, SIMPLIFY=FALSE, USE.NAMES=FALSE, mc.cores=cores)
+#dat.frag.all <- lapply(prefixes.all, function(x) run_hmmer3(dir="temp", infile="mtdna-dump.fas", prefix=x, evalue="10", coords="env"))
+dat.frag.all <- mcmapply(FUN=function(x) run_hmmer3(dir="temp", infile="mtdna-dump.fas", prefix=x, evalue="10", coords="env"), prefixes.all, SIMPLIFY=FALSE, USE.NAMES=FALSE, mc.cores=cores)
 writeLines("\nDone")
 
 # concatentate all
@@ -90,7 +90,7 @@ chunk.frag <- unname(split(in.gb.sam, ceiling(seq_along(in.gb.sam)/chunk)))
 writeLines("\nRetrieving metadata from NCBI ...\n")
     start_time <- Sys.time()
 # fixes problem with "Error in the HTTP2 framing layer" 
-crul::set_opts(http_version=2)
+#crul::set_opts(http_version=2)
 ncbi.frag <- mcmapply(FUN=ncbi_byid_parallel, chunk.frag, SIMPLIFY=FALSE, USE.NAMES=FALSE, mc.cores=cores)
     end_time <- Sys.time()
     end_time-start_time
