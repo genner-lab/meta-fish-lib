@@ -424,3 +424,15 @@ BOLD,BCAFL042-17.COI-5P,Barbus barbus,REMOVE,Clusters with Leuciscus
 BOLD,BCAFL660-20.COI-5P,Blicca bjoerkna,REMOVE,Clusters with Abramis
 GENBANK,2019293932,Salmo salar,REMOVE,Nested in Thunnus
 GENBANK,2019293928,Salmo salar,REMOVE,Nested in Thunnus
+GENBANK,1750468605,Petromyzon marinus,REMOVE,Not 16S
+GENBANK,253971256,Petromyzon marinus,REMOVE,Not 16S
+GENBANK,1635513707,Petromyzon marinus,REMOVE,Not 16S
+GENBANK,56968093,Myxine glutinosa,REMOVE,Not 16S
+GENBANK,19067977,Chlamydoselachus anguineus,REMOVE,Not 16S
+GENBANK,19067974,Centroscymnus owstonii,REMOVE,Not 16S
+GENBANK,1144505,Oncorhynchus mykiss,REMOVE,Not 16S
+GENBANK,2088970396,Sparus aurata,REMOVE,Omobranchus again?
+GENBANK,2253754803,Blicca bjoerkna,REMOVE,Clusters with Abramis brama
+BOLD,RYBY091-21.COI-5P,Blicca bjoerkna,Clusters with Abramis brama
+GENBANK,2253754442,Alburnus alburnus,REMOVE,Clusters with Barbus
+GENBANK,951735822,Katsuwonus pelamis,REMOVE,Clusters with Thunnus
