@@ -59,6 +59,8 @@ ape::write.FASTA(reflib.fas, file="references.fasta")
 # write out corresponding csv table
 # this requires readr v1.4 or higher; change to 'path="references.csv"' for older versions, or use write.csv() instead
 readr::write_csv(reflib.sub, file="references.csv")
+
+# Important note: the reference library as provided is not dereplicated or filtered on sequence length (see FAQ)
 ```
 
 Particular attention should be paid to cleaning steps in `scripts/references-clean.R`; sequences flagged as unreliable (using phylogenetic quality control) are listed in `assets/exclusions.csv` and excluded, while sequences flagged by NCBI as "unverified" are also removed. Taxonomic changes are also made, automatically via validating names against FishBase, and also custom changes (*Cottus perifretum* relabelled as *Cottus cottus*, *Atherina presbyter* relabelled as *Atherina boyeri*, and *Pungitius laevis* relabelled as *Pungitius pungitius*. Where are changes are made, both the original GenBank names and the validated FishBase names are provided (see Table 2).
@@ -81,7 +83,7 @@ Study | Official name | Nickname | Locus
 
 You don't need to run this code below if you just want a copy of the reference library (run code above). This code below is if you want to update it yourself or want to modify and make a new library. I will endeavour to keep this repository up-to-date with GenBank, but if hasn't been updated, email me. 
 
-System requirements: [R](https://cran.r-project.org/), [git](https://git-scm.com/), [hmmer](http://hmmer.org/), [mafft](https://mafft.cbrc.jp/alignment/software/) and [raxml-ng](https://github.com/amkozlov/raxml-ng) need to be installed on your system, and available on your [$PATH](https://www.howtogeek.com/658904/how-to-add-a-directory-to-your-path-in-linux/). With the exception of raxml-ng, the programs can be installed from Ubuntu repositories using `sudo apt install`. In case of difficulties, check the developer's website and update to newer versions if required. Unfortunately, these scripts are optimised for a Unix system, and I'm unable to offer any Windows support here ([Windows is now able to run Ubuntu Linux ](https://tutorials.ubuntu.com/tutorial/tutorial-ubuntu-on-windows#0)).
+System requirements: [R](https://cran.r-project.org/), [git](https://git-scm.com/), [hmmer](http://hmmer.org/), [mafft](https://mafft.cbrc.jp/alignment/software/) and [raxml-ng](https://github.com/amkozlov/raxml-ng) need to be installed on your system, and available on your [$PATH](https://www.howtogeek.com/658904/how-to-add-a-directory-to-your-path-in-linux/). With the exception of raxml-ng, the programs can be installed from Ubuntu repositories using `sudo apt install` (see also [Homebrew](https://brew.sh/) for MacOS). In case of difficulties, check the developer's website and update to newer versions if required. Unfortunately, these scripts are optimised for a Unix system, and I'm unable to offer any Windows support here ([Windows is now able to run Ubuntu Linux ](https://tutorials.ubuntu.com/tutorial/tutorial-ubuntu-on-windows#0)).
 
 You will also require an API key from NCBI in order to access GenBank data at a decent rate. See info here for how to get a key: [ncbiinsights.ncbi.nlm.nih.gov/2017/11/02/new-api-keys-for-the-e-utilities/](https://ncbiinsights.ncbi.nlm.nih.gov/2017/11/02/new-api-keys-for-the-e-utilities/)
 
@@ -94,9 +96,9 @@ cd meta-fish-lib
 mkdir -p reports temp/fasta-temp
 
 ### create NCBI API key (this is ignored by git) ###
-# substitute the "<my-ncbi-key>" part for your actual key obtained from NCBI
-echo 'ncbi.key <- "<my-ncbi-key>"' > assets/ncbi-key.R
-echo 'ENTREZ_KEY=<my-ncbi-key>' > .Renviron
+# substitute the "<YOUR-NCBI-KEY>" part for your actual key obtained from NCBI
+echo 'ncbi.key <- "<YOUR-NCBI-KEY>"' > assets/ncbi-key.R
+echo 'ENTREZ_KEY=<YOUR-NCBI-KEY>' > .Renviron
 
 ### install required R packages using renv (only need to run this once) ###
 Rscript -e "renv::restore()"
@@ -176,6 +178,7 @@ rm -r temp
 ### your reference library is now located at 'assets/reference-library-master.csv.gz' ###
 # if you need it in fasta format, please use the R code below
 # see FAQ for changing the label format
+# Important note: the reference library as provided is not dereplicated or filtered on sequence length (see FAQ)
 ```
 
 ##### R terminal:
@@ -204,7 +207,28 @@ ape::write.FASTA(reflib.fas, file="references.fasta")
 
 ### FAQ
 
-* **How do I cite the reference library?** - Zenodo DOIs for each version are in see [Releases](https://github.com/genner-lab/meta-fish-lib/releases). An important note: the reference library and code presented here supercedes a previous iteration hosted at [github.com/boopsboops/reference-libraries](https://github.com/boopsboops/reference-libraries). The new version here starts at v241, but I have archived only the final reference library file (`assets/reference-library-master.csv.gz`) for the previous versions here also. Therefore, while the library files are here, the old code used to generate these libraries prior to v241 are not archived together with that library version here. You can also cite the Collins et al. (2021) _Journal of Fish Biology_ article ([https://doi.org/10.1111/jfb.14852](https://doi.org/10.1111/jfb.14852)) describing the software.
+* **It doesn't work!** - There are several things that can go wrong with the installation and running of meta-fish-lib, which may prevent the software working as intended. These include, but are not limited to:
+  + Wrong R version used. The R version that the software was tested on is provided in the `.R-version` file. Some package versions may not compile on different R versions. I recommend using the [renv-installer](https://github.com/jcrodriguez1989/renv-installer) software to manage your R versions across different projects. This software is seperate to the [renv](https://rstudio.github.io/renv/index.html) R package manager that is also used here.
+  + Dependent software not installed. The required software is: [R](https://cran.r-project.org/), [git](https://git-scm.com/), [hmmer](http://hmmer.org/), [mafft](https://mafft.cbrc.jp/alignment/software/) and [raxml-ng](https://github.com/amkozlov/raxml-ng). They are easily installed via `sudo apt install` (Ubuntu) or `brew install` (MacOS). Git is only required if you want to clone the repository or host your own fork of the repository; raxml-ng is only required for the QC step, so you can make the reference library without it if it's not needed. Except in the case of R (see above), these are all stable pieces of software, so I don't think the versions make much difference. Please raise an issue if you suspect a problem.
+  + An NCBI key was not provided. Please see above instructions for how to do this.
+  + The code throws an error. There are three seperate scripts that access the NCBI servers, for querying, downloading, and annotating the sequences. If just one batch call fails in a script, then the whole pipeline will fail. This is the cause of most errors. I have tried to make the code as robust as possible, but it still often fails for various reasons. The bigger the list of species to search for, the more likely it is to fail. Please be patient. Below in the FAQ are some tips for avoiding this problem.
+  + The pipeline wasn't tested. Please, before you start using the software with your own data, ensure that everything is running without problems using the test data provided. This ensures first that the software is working as intended under the conditions I have tested it under. Here is some quick code to run the test data (only takes a few mins to run):
+
+```bash
+git clone https://github.com/genner-lab/meta-fish-lib.git meta-fish-lib-testing
+cd meta-fish-lib-testing
+mkdir -p reports temp/fasta-temp
+echo 'ncbi.key <- "<YOUR-NCBI-KEY>"' > assets/ncbi-key.R
+echo 'ENTREZ_KEY=<YOUR-NCBI-KEY>' > .Renviron
+Rscript -e "renv::restore()"
+cp assets/species-table-testing.csv assets/species-table.csv
+scripts/check-genbank.R
+scripts/sequences-download.R -q 1000 -t 2 -e false
+scripts/references-assemble.R -t 2 -m all
+scripts/qc.R -t 2 -v false
+make -f scripts/Makefile
+```
+
 * **Can I make a reference library for fishes of my country/region?** - Yes, very easily. Just change the list of species in `assets/species-table.csv`. You can provide this list yourself, but make sure the format of the table is the same. If not interested in synonyms, you use the same species name for 'speciesName' and 'validName' and set 'status' set to "accepted name". The 'commonSpecies' field can be all set to TRUE if that is not of interest either, and the other information can be obtained from FishBase ('fbSpecCode' is the FishBase species code). Alternatively, follow the [tutorial here](assets/species-list-synonyms.md) to generate an annotated species/synonyms list using the [rfishbase](https://docs.ropensci.org/rfishbase/index.html) package from scratch.
 * **What if I don't know which species I need?** - This is a common problem in diverse tropical regions where there is often poorly resolved taxonomy and lots of undescribed species. Here you will want to search for genera instead of species. Copy this format below for the `assets/species-table.csv` table:
 
@@ -218,10 +242,12 @@ Anguilla | accepted name | NA | Anguilla | Actinopterygii | Anguilliformes | Ang
 * **What if I want more than fishes?** - Indeed, for many metabarcoding applications you would want to identify 'off-target' reads, so a wider reference library is required as a supplement to the one presented here. I use the NCBI RefSeq mitochondrial DNA database ([ftp://ftp.ncbi.nlm.nih.gov/refseq/release/mitochondrion](ftp://ftp.ncbi.nlm.nih.gov/refseq/release/mitochondrion)), which should have a sufficiently broad coverage to roughly classify most eukaryote mtDNA.
 * **How does the exclusions blacklist file work?** -  The file `assets/exclusions.csv` is permanently available on this GitHub repository, and contains all the accessions that have been flagged by me as potentially erroneous, as part of the work on the UK fish reference library. New records are added manually each time a new GenBank version becomes available and the quality control steps are performed. When the `scripts/references-clean.R` script is run, the exclusion file is called and these blacklisted accessions are removed from the library. The user does not need to regenerate or interact with this exclusions file if they are simply wanting to use the UK reference library as provided. If the user wishes to create their own custom reference library then they have the option of tailoring the contents of this exclusions file to their own requirements by keeping, deleting, or adding accessions to it.
 * **Is the reference library guaranteed error free?** - LOL, no! I have tried to curate a reliable reference library as best as I can. However, the phylogenetic quality control step is tedious and subjective and takes a lot of effort. Here, phylogenetic QC trees for each primer set need to be manually checked. To help with this tips are coloured by monophyly and haplotype sharing to visually assist identifying dubious accessions. This is a much easier task for loci where taxa are well differentiated and large numbers of sequences exist (such as for COI). It is not easy for ribosomal fragments with fewer informative nucleotides and fewer sequences. The choice of which accessions to blacklist in `assets/exclusions.csv` has been entirely at my discretion thus far. However, I hope I have caught the majority of the most egregious examples. As a rule of thumb, an accession is blacklisted if: (a) individual(s) of species x are identical to or nested within a cluster of sequences of species y, but with other individuals of species x forming an independent cluster; and (b) the putatively spurious sequences coming from a single study, while the putatively correct sequences of species x and y coming from multiple studies. It is important to note that this is far from foolproof, and many species will naturally be non-monophyletic and/or share haplotypes with other species. I tried to be conservative, and not remove too many sequences if there was doubt, and especially so for taxa that I am not familar with. Mistakes certainly remain, so I recommend running the QC step to check yourself (or email me for the trees). [NCBI blast](https://blast.ncbi.nlm.nih.gov/Blast.cgi) is also useful for checking for matches against species not in the reference library. 
+* **How do I cite the reference library?** - Zenodo DOIs for each version are in see [Releases](https://github.com/genner-lab/meta-fish-lib/releases). An important note: the reference library and code presented here supercedes a previous iteration hosted at [github.com/boopsboops/reference-libraries](https://github.com/boopsboops/reference-libraries). The new version here starts at v241, but I have archived only the final reference library file (`assets/reference-library-master.csv.gz`) for the previous versions here also. Therefore, while the library files are here, the old code used to generate these libraries prior to v241 are not archived together with that library version here. You can also cite the Collins et al. (2021) _Journal of Fish Biology_ article ([https://doi.org/10.1111/jfb.14852](https://doi.org/10.1111/jfb.14852)) describing the software.
 * **The search step takes too long, hangs, or errors!** - The GenBank search step relies on NCBI servers, and if they are overloaded then the searches can fail. I suggest: (i) reducing the number of threads ("-t" option in the `scripts/sequences-download.R` step) to lower the frequency of requests; (ii) running searches at USA off-peak times; (iii) disabling the exhaustive search option (use "-e false" instead of "-e true" in the `scripts/sequences-download.R` step), which searches for fewer search terms, will take less time and consume less RAM and disk space, but will give you 99% of the sequences; (iv) making each concatenated search string length shorter with the "-q" option; and (v) requesting only the metabarcodes that you are interested in (use the "-m" option in the `scripts/references-assemble.R` step).
 * **The phylogenetic quality control steps takes too long!** - Making ML trees for many taxa can take a very long time. Here, the largest one (Ward COI) is over 9,000 haplotypes, and runs overnight. If your dataset is too big, I suggest: (i) skipping this step if you aren't sure you need it; (ii) requesting only the metabarcodes that you are interested in (use the "-m" option in the `scripts/references-assemble.R` step); or (iii) maybe break up the species input list into smaller chunks and merge the tables later.
 * **Why not use [sativa](https://github.com/amkozlov/sativa) for automated quality control?** - Good question.  Software such as [sativa](https://github.com/amkozlov/sativa) is available to automate the process, and while I may investigate this option in the future, for the meantime I think it is always a good idea to eyeball and become familiar with your data and develop an informed judgement.
-* **Why are the sequence labels in the `references.fasta` file just numbers?** - When you download the reference library as shown above, the `references.fasta` file will use the 'dbid' column which is the database identification numbers. For NCBI these are 'GI' numbers (GenInfo Identifiers); these are equivalent to NCBI accession numbers, and will resolve accordingly on NCBI services; for BOLD, these are the 'processid' numbers. As there are many possible formats required for various taxonomy assignment software, I am unable to know which ones you will require, and have therefore chosen a sensible default. To make your own custom labels, just use the dplyr `mutate()` and `paste()` functions to join columns in the table to make a new label column. Below I make a label of format 'dbid_family_genus_species'. Table 2 explains the fields in the reference library table. 
+* **There are identical sequences in the reference library** - The reference library as provided is not dereplicated or filtered in any way, and is provided "as is", including all sequences for each species, and may contain short sequences. I will endeavor to provide some R code to taxonomically dereplicate and filter on sequence length in the future (see https://github.com/genner-lab/meta-fish-lib/issues/23).
+* **Why are the sequence labels in the `references.fasta` file just numbers?** - When you download the reference library as shown above, the `references.fasta` file will use the 'dbid' column which is the database identification numbers. For NCBI these are 'GI' numbers (GenInfo Identifiers); these are equivalent to NCBI accession numbers, and will resolve accordingly on NCBI services; for BOLD, these are the 'processid' numbers. As there are many possible formats required for various taxonomy assignment software, I am unable to know which ones you will require, and have therefore chosen a sensible default. To make your own custom labels, just use the dplyr `mutate()` and `paste()` functions to join columns in the table to make a new label column. Below I make a label of format 'dbid_family_genus_species'. Table 2 explains the fields in the reference library table.
 
 ```r
 reflib.label <- reflib.sub %>% 
@@ -266,6 +292,7 @@ lengthFrag.GENE.FRAGMENT.noprimers | number nucleotides in gene fragment primer 
 
 * **`assets/`** - Required file and reference library.
     - **`hmms/`** - Hidden Markov models (HMMs) of gene markers of interest.
+    - `collins2021_submitted_jfb.pdf` - preprint copy of paper describing software
     - `exclusions.csv` - unreliable accessions to be excluded 
     - `logo.svg` - project logo
     - `reference-library-master.csv.gz` - master copy of the reference library
@@ -287,3 +314,10 @@ lengthFrag.GENE.FRAGMENT.noprimers | number nucleotides in gene fragment primer 
     - `reports-tables.Rmd` - knitr file to prepare species coverage reports
     - `sequences-download.R` - pulls all mitochondrial DNA from NCBI and BOLD for a list of species
 * **`temp/`** - Temporary file directory that is not committed to the repository, but needs to be created locally to run the scripts. Ignored by git.
+* `LICENSE` - Legal stuff
+* `README.md` - This file
+* `renv.lock` - R packages required and managed by renv
+* `.gitignore` - files and directories ignored by git
+* `.Renviron` - contains NCBI key (ignored by git)
+* `.Rprofile` - activates renv
+* `.R-version` - required version of R
