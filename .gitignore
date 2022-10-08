@@ -40,5 +40,6 @@ vignettes/*.pdf
 
 # added
 temp
+temp-dropbox
 assets/ncbi-key.R
 reports
