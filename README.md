@@ -122,7 +122,7 @@ cp ~/path/to/my-species-table.csv assets/species-table.csv
 #     most laptops and desktops are hyperthreaded with two virtual CPUs (threads) for each physical CPU (cores)
 #     run "lscpu | grep -E '^Thread|^Core|^Socket|^CPU\('" to obtain info on available cores/threads
 #     make sure not to request more threads than are present on your system
-# argument "-e" [true] is to run an exhaustive ("true") or simple search ("false")
+# argument "-e" [false] is to run an exhaustive ("true") or simple search ("false")
 #     the simple search just uses the terms "mitochondrion,mitochondrial"  
 #     the exhaustive search in addition uses "COI,CO1,cox1,cytb,cytochrome,subunit,COB,CYB,12S,16S,rRNA,ribosomal"
 #     the simple search will pick up 99% of mtDNA sequences, but may miss older sequences that were not well annotated
