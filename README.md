@@ -115,7 +115,8 @@ cp ~/path/to/my-species-table.csv assets/species-table.csv
 ### search GenBank ###
 # argument "-q" [2000] is the max search batch query length (in characters)
 #     the maximum search query length allowed by NCBI is 2500
-#     bigger queries will be faster, but more prone to server errors
+#     bigger queries will be faster, but can be more prone to server errors
+#     conversely, many small queries can also result in server errors by increasing the individual chances that one will fail
 # argument "-t" [4] is the number of processing threads to run in parallel
 #     more threads are faster, but more prone to errors by overloading the server with requests
 #     most laptops and desktops are hyperthreaded with two virtual CPUs (threads) for each physical CPU (cores)
@@ -126,7 +127,7 @@ cp ~/path/to/my-species-table.csv assets/species-table.csv
 #     the exhaustive search in addition uses "COI,CO1,cox1,cytb,cytochrome,subunit,COB,CYB,12S,16S,rRNA,ribosomal"
 #     the simple search will pick up 99% of mtDNA sequences, but may miss older sequences that were not well annotated
 #     the simple search is faster, less prone to error, and may help if you need to search for a lot of species 
-scripts/sequences-download.R -q 2000 -t 4 -e true
+scripts/sequences-download.R -q 2000 -t 4 -e false
 
 ### assemble the reference library with hidden Markov models and obtain metadata ###
 # argument "-t" [4] is the number of processing threads to run in parallel
