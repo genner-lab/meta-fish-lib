@@ -69,15 +69,15 @@ Particular attention should be paid to cleaning steps in `scripts/references-cle
 
 Study | Official name | Nickname | Locus
 ----- | ----- | ----- | -----
-[Miya et al. (2015)](http://dx.doi.org/10.1098/rsos.150088) | MiFish U/E | 12s.miya | 12S
-[Taberlet et al. (2018)](http://dx.doi.org/10.1093/oso/9780198767220.001.0001) | Tele02 | 12s.taberlet | 12S
-[Valentini et al. (2016)](http://dx.doi.org/10.1111/mec.13428) | L1848/H1913 | 12s.valentini | 12S
-[Riaz et al. (2011)](http://dx.doi.org/10.1093/nar/gkr732) | 12S-V5 | 12s.riaz | 12S
-[Wangensteen et al. (2018)](http://dx.doi.org/10.7717/peerj.4705) | Leray-XT | coi.leray | COI
-[Ward et al. (2005)](http://dx.doi.org/10.1098/rstb.2005.1716) | FishF1/R1 | coi.ward | COI
-[Berry et al. (2017)](http://dx.doi.org/10.1002/ece3.3123) | Fish16sF/D | 16s.berry | 16S
+[Miya et al. (2015)](https://doi.org/10.1098/rsos.150088) | MiFish U/E | 12s.miya | 12S
+[Taberlet et al. (2018)](https://doi.org/10.1093/oso/9780198767220.001.0001) | Tele02 | 12s.taberlet | 12S
+[Valentini et al. (2016)](https://doi.org/10.1111/mec.13428) | L1848/H1913 | 12s.valentini | 12S
+[Riaz et al. (2011)](https://doi.org/10.1093/nar/gkr732) | 12S-V5 | 12s.riaz | 12S
+[Leray et al. (2013)](https://doi.org/10.1186/1742-9994-10-34) | mlCOIintF/jgHCO2198 | coi.leray | COI
+[Ward et al. (2005)](https://doi.org/10.1098/rstb.2005.1716) | FishF1/R1 | coi.ward | COI
+[Berry et al. (2017)](https://doi.org/10.1002/ece3.3123) | Fish16sF/D | 16s.berry | 16S
 [Kitano et al. (2007)](https://doi.org/10.1007/s00414-006-0113-y) | 	L2513/H2714 | 16s.kitano | 16S
-[Minamoto et al. (2012)](http://dx.doi.org/10.1007/s10201-011-0362-4) | L14912-CYB | cytb.minamoto | cytb
+[Minamoto et al. (2012)](https://doi.org/10.1007/s10201-011-0362-4) | L14912-CYB | cytb.minamoto | cytb
 
 ### Create/update the reference library manually
 
