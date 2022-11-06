@@ -91,7 +91,7 @@ You will also require an API key from NCBI in order to access GenBank data at a 
 
 ```bash
 ### admin - clone the repository and create temporary directories ###
-git clone https://github.com/genner-lab/meta-fish-lib.git meta-fish-lib
+git clone --depth 1 https://github.com/genner-lab/meta-fish-lib.git meta-fish-lib
 cd meta-fish-lib
 mkdir -p reports temp/fasta-temp
 
