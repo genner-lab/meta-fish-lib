@@ -28,7 +28,10 @@ suppressMessages({
 
 
 # FUNCTION FOR MAKING FASTA FILES FROM TABLES
-source("https://raw.githubusercontent.com/legalLab/protocols-scripts/master/scripts/tab2fas.R")
+source("https://raw.githubusercontent.com/boopsboops/UTILITIES/main/RScripts/tab2fas.R")
+
+# subset refs
+source("https://raw.githubusercontent.com/boopsboops/UTILITIES/main/RScripts/subset_references.R")
 
 
 # FUNCTION TO RUN PARALLEL ENTREZ SEARCHES 
@@ -227,8 +230,8 @@ subset_nucs <- function(pref,df){
 # species_lost(df=reflib,thresh=0.5)
 # threshold is a proportion of the mean sequence length
 species_lost <- function(df,thresh){
-    removed <- df %>% filter(lengthFrag < (median(lengthFrag)*thresh)) %>% select(sciNameValid)
-    kept <- df %>% filter(lengthFrag >= (median(lengthFrag)*thresh)) %>% select(sciNameValid)
+    removed <- df %>% filter(length < (median(length)*thresh)) %>% select(sciNameValid)
+    kept <- df %>% filter(length >= (median(length)*thresh)) %>% select(sciNameValid)
     tot <- setdiff(removed$sciNameValid, kept$sciNameValid)
     return(tot)
 }
@@ -238,7 +241,7 @@ species_lost <- function(df,thresh){
 # sequences_removed(df=reflib,thresh=0.5)
 # threshold is a proportion of the mean sequence length
 sequences_removed <- function(df,thresh){
-    removed <- df %>% filter(lengthFrag < (median(lengthFrag)*thresh)) %>% select(dbid)
+    removed <- df %>% filter(length < (median(length)*thresh)) %>% select(dbid)
     n.removed <- length(removed$dbid)
     return(n.removed)
 }
