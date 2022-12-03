@@ -33,10 +33,10 @@ writeLines("\nGenerating phylogenetic trees, may take several hours ...")
 cores <- opt$threads
 
 # make a copy so don't have to reload orig
-reflib <- reflib.orig
+reflib <- reflib.cleaned
 
 # get the prefixes 
-prefixes <- reflib.orig %>% select(starts_with("nucleotidesFrag")) %>% names() %>% str_replace_all("nucleotidesFrag\\.","")
+prefixes <- reflib.cleaned %>% select(starts_with("nucleotidesFrag")) %>% names() %>% str_replace_all("nucleotidesFrag\\.","")
 
 # subset each marker
 reflibs.sub <- mcmapply(function(x) subset_nucs(pref=x,df=reflib), prefixes, SIMPLIFY=FALSE,USE.NAMES=TRUE,mc.cores=cores)

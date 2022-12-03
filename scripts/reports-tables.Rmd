@@ -37,10 +37,10 @@ source(here("scripts","references-clean.R"))
 
 ```{r activities, include=FALSE}
 # get dates and genbank version
-gb.version <- reflib.orig %>% select(genbankVersion) %>% drop_na() %>% distinct(genbankVersion) %>% pull(genbankVersion)
-gb.date <- reflib.orig %>% select(searchDate) %>% drop_na() %>% distinct(searchDate) %>% pull(searchDate)
-gb.acc <- reflib.orig %>% distinct(dbid) %>% count() %>% pull(n)
-gb.spp <- reflib.orig %>% distinct(sciNameValid) %>% count() %>% pull(n)
+gb.version <- reflib.cleaned %>% select(genbankVersion) %>% drop_na() %>% distinct(genbankVersion) %>% pull(genbankVersion)
+gb.date <- reflib.cleaned %>% select(searchDate) %>% drop_na() %>% distinct(searchDate) %>% pull(searchDate)
+gb.acc <- reflib.cleaned %>% distinct(dbid) %>% count() %>% pull(n)
+gb.spp <- reflib.cleaned %>% distinct(sciNameValid) %>% count() %>% pull(n)
 ```
 
 
@@ -60,7 +60,7 @@ uk.common <- uk.species.table.val %>% filter(commonSpecies==TRUE) %>% count() %>
 
 ```{r merge_df, include=FALSE}
 # count sequences per species-marker
-reflib.by.marker <- reflib.orig %>% 
+reflib.by.marker <- reflib.cleaned %>% 
     select(sciNameValid,starts_with("nucleotidesFrag")) %>%
     full_join(uk.species.table.val,by="sciNameValid") %>%
     pivot_longer(cols=!c(class,order,family,genus,commonName,commonSpecies,sciNameValid),names_to="marker",values_to="nucleotides") %>% 
@@ -73,9 +73,9 @@ reflib.by.marker <- reflib.orig %>%
 
 ```{r get_haps, include=FALSE}
 # get the prefixes 
-prefixes <- reflib.orig %>% select(starts_with("nucleotidesFrag")) %>% names() %>% str_replace_all("nucleotidesFrag\\.","")
+prefixes <- reflib.cleaned %>% select(starts_with("nucleotidesFrag")) %>% names() %>% str_replace_all("nucleotidesFrag\\.","")
 # subset each marker
-reflibs.sub <- mcmapply(function(x) subset_nucs(pref=x,df=reflib.orig), prefixes, SIMPLIFY=FALSE,USE.NAMES=TRUE,mc.cores=2)
+reflibs.sub <- mcmapply(function(x) subset_nucs(pref=x,df=reflib.cleaned), prefixes, SIMPLIFY=FALSE,USE.NAMES=TRUE,mc.cores=2)
 # collapse dataframe by haps-per-species, annotate with number haps
 reflibs.haps <- mcmapply(function(x) haps2fas(df=x), reflibs.sub, SIMPLIFY=FALSE,USE.NAMES=TRUE,mc.cores=2)
 # summarise
@@ -112,12 +112,12 @@ marker.table.pretty <- marker.table %>% left_join(haps.format) %>% separate(mark
 
 ```{r versions, include=FALSE}
 # rename new local version
-reflib.new <- reflib.orig %>% select(dbid,genbankVersion,searchDate,sciNameValid,starts_with("nucleotidesFrag"))
+reflib.new <- reflib.cleaned %>% select(dbid,genbankVersion,searchDate,sciNameValid,starts_with("nucleotidesFrag"))
 # load remote old version
 source(here("scripts","references-load-remote.R"))
 source(here("scripts","references-clean.R"))
 # rename old remote version and get genbank accessions
-reflib.old <- reflib.orig %>% select(dbid,genbankVersion,searchDate,sciNameValid,starts_with("nucleotidesFrag"))
+reflib.old <- reflib.cleaned %>% select(dbid,genbankVersion,searchDate,sciNameValid,starts_with("nucleotidesFrag"))
 gb.version.old <- reflib.old %>% select(genbankVersion) %>% drop_na() %>% distinct(genbankVersion) %>% pull(genbankVersion)
 gb.date.old <- reflib.old %>% select(searchDate) %>% drop_na() %>% distinct(searchDate) %>% pull(searchDate)
 # in old, not in new
