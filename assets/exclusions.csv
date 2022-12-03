@@ -433,6 +433,6 @@ GENBANK,19067974,Centroscymnus owstonii,REMOVE,Not 16S
 GENBANK,1144505,Oncorhynchus mykiss,REMOVE,Not 16S
 GENBANK,2088970396,Sparus aurata,REMOVE,Omobranchus again?
 GENBANK,2253754803,Blicca bjoerkna,REMOVE,Clusters with Abramis brama
-BOLD,RYBY091-21.COI-5P,Blicca bjoerkna,Clusters with Abramis brama
+BOLD,RYBY091-21.COI-5P,Blicca bjoerkna,REMOVE,Clusters with Abramis brama
 GENBANK,2253754442,Alburnus alburnus,REMOVE,Clusters with Barbus
 GENBANK,951735822,Katsuwonus pelamis,REMOVE,Clusters with Thunnus
