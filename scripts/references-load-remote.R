@@ -20,4 +20,4 @@ taxonomy.changes <- readr::read_csv("https://raw.githubusercontent.com/genner-la
 end_time <- Sys.time()
 writeLines(paste(dim(reflib.orig)[1], "reference sequences loaded in", round(end_time-start_time,digits=1), "seconds"))
 writeLines(paste0("\nGenBank version ", gbv, ", searched ",gbd))
-writeLines("\nReference library objects are now in your memory")
+writeLines("\nReference library objects are now in your memory\n")
