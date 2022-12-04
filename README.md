@@ -15,7 +15,7 @@ In addition to providing quality controlled and curated fish references, this re
 * Exhaustive - searching by species names can exclude potential hits because of changes in taxonomy, but here we search for all species synonyms, and then subsequently validate those names to provide a taxonomically up-to-date reference library. 
 * Reliable - sequence data on GenBank are frequently misannotated with incorrect species names, but we have created a list of dubious quality accessions that are automatically excluded when the reference library is loaded each time. We use phylogenetic quality control methods to assist in screening each new GenBank version and update this list accordingly.
 * Dynamic - it's easy to update to each new GenBank release (see code [below](#bash-terminal)), and the versioning of this repository reflects the GenBank release on which it was made.
-* Quick - the final reference library can be downloaded onto your computer in just a few seconds with only two packages loaded and seven lines of R code ([below](#retrieve-latest-reference-library)). Generating this reference library from scratch ([below](#bash-terminal)) takes a couple of hours, with the phylogenetic quality control steps completing overnight.
+* Quick - the final reference library can be downloaded onto your computer in just a few seconds with only two packages loaded and eight lines of R code ([below](#retrieve-latest-reference-library)). Generating this reference library from scratch ([below](#bash-terminal)) takes a couple of hours, with the phylogenetic quality control steps completing overnight.
 * Customisable - by forking or cloning the repository, custom modifications can be made, e.g. excluding particular species, making taxonomic changes, or using a completely different list of species.
 * Self contained - to recreate the reference libraries, all code and R package versions are found within in this self contained project, courtesy of [renv](https://rstudio.github.io/renv/articles/renv.html). This means less risk of clashing installations or broken code when packages and R versions upgrade.
 * Citable - DOIs are issued with each new GenBank release.
@@ -40,27 +40,20 @@ library("ape")
 # load REMOTE references and scripts (requires internet connection)
 source("https://raw.githubusercontent.com/genner-lab/meta-fish-lib/main/scripts/references-load-remote.R")
 source("https://raw.githubusercontent.com/genner-lab/meta-fish-lib/main/scripts/references-clean.R")
-source("https://raw.githubusercontent.com/legalLab/protocols-scripts/master/scripts/tab2fas.R")
 
-# choose a metabarcode fragment (primer set) from the following:
-print(c("coi.lerayxt","coi.ward","12s.miya","12s.riaz","12s.valentini","12s.taberlet","16s.berry","cytb.minamoto"))
-# change 'frag' argument as appropriate:
-reflib.sub <- subset_references(df=reflib.orig, frag="12s.miya")
+# subset reference library table by metabarcode fragment (primer set) from the following options:
+print(tibble(metabarcodes=c("coi.lerayxt","coi.ward","12s.miya","12s.riaz","12s.valentini","12s.taberlet","16s.berry","cytb.minamoto")))
+# change 'metabarcode' argument as appropriate:
+reflib.sub <- subset_references(df=reflib.cleaned, metabarcode="12s.miya")
 
-# convert to fasta file
-# uses the standard database id field ('dbid') as a label
-# 'dbid' is the GenBank GI number, or the BOLD processID number
-# custom labels can be created with 'mutate()' and 'paste()' using other fields and changing 'namecol' argument - see FAQ
-reflib.fas <- tab2fas(df=reflib.sub, seqcol="nucleotides", namecol="dbid")
+# [OPTIONAL] taxonomically dereplicate and filter on sequence length
+# 'proplen=0.5' removes sequences shorter than 50% of median sequence length
+# 'proplen=0' retains all sequences
+reflib.sub <- derep_filter(df=reflib.sub,derep=TRUE,proplen=0.5,cores=1)
 
-# write out fasta file
-ape::write.FASTA(reflib.fas, file="references.fasta")
-
-# write out corresponding csv table
-# this requires readr v1.4 or higher; change to 'path="references.csv"' for older versions, or use write.csv() instead
-readr::write_csv(reflib.sub, file="references.csv")
-
-# Important note: the reference library as provided is not dereplicated or filtered on sequence length (see FAQ)
+# write out reference library in FASTA and CSV format to current working directory
+# currently supported fasta formats are: sintax, dada2 (taxonomy), dada2 (species), and plain dbid (GenBank or BOLD database identifiers)
+write_references_fasta(df=reflib.sub)
 ```
 
 Particular attention should be paid to cleaning steps in `scripts/references-clean.R`; sequences flagged as unreliable (using phylogenetic quality control) are listed in `assets/exclusions.csv` and excluded, while sequences flagged by NCBI as "unverified" are also removed. Taxonomic changes are also made, automatically via validating names against FishBase, and also custom changes (*Cottus perifretum* relabelled as *Cottus cottus*, *Atherina presbyter* relabelled as *Atherina boyeri*, and *Pungitius laevis* relabelled as *Pungitius pungitius*. Where are changes are made, both the original GenBank names and the validated FishBase names are provided (see Table 2).
