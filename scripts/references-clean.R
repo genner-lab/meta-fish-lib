@@ -1,6 +1,12 @@
 #!/usr/bin/env Rscript
 # script to load up reference libraries and clean them up
 
+# load funs
+source("https://raw.githubusercontent.com/boopsboops/UTILITIES/main/RScripts/tab2fas.R")
+source("https://raw.githubusercontent.com/boopsboops/UTILITIES/main/RScripts/subset_references.R")
+source("https://raw.githubusercontent.com/boopsboops/UTILITIES/main/RScripts/hap_collapse_df.R")
+source("https://raw.githubusercontent.com/boopsboops/UTILITIES/main/RScripts/derep_filter.R")
+
 # exclude bad seqs and clean
 reflib.cleaned <- reflib.orig %>% 
     dplyr::filter(!dbid %in% (exclusions %>% dplyr::filter(action=="REMOVE") %>% dplyr::pull(dbid)))
@@ -33,13 +39,4 @@ tibble::tibble(
 
 rm(reflib.orig)
 # write encouraging words
-writeLines("\nReference library object 'reflib.cleaned' is cleaned and in your memory.\nBlacklisted GenBank accessions were removed.\nThe above taxonomic changes were made.")
-
-# load up cleaning fun
-#subset_references <- function(df,frag) {
-#    frag <- paste0("nucleotidesFrag.",frag,".noprimers")
-#    reflib.sub <- df %>% dplyr::filter(!is.na(!!as.name(frag))) %>%
-#        dplyr::mutate(nucleotides=!!as.name(frag), length=!!as.name(str_replace_all(frag,"nucleotides","length"))) %>%
-#        select(-contains("Frag"))
-#    return(reflib.sub)
-#}
+writeLines("\nReference library object 'reflib.cleaned' is cleaned and in your memory.\nBlacklisted GenBank accessions were removed.\nThe above taxonomic changes were made.\n")
