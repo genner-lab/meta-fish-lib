@@ -49,10 +49,10 @@ reflib.sub <- subset_references(df=reflib.cleaned, metabarcode="12s.miya")
 # [OPTIONAL] taxonomically dereplicate and filter on sequence length
 # 'proplen=0.5' removes sequences shorter than 50% of median sequence length
 # 'proplen=0' retains all sequences
-reflib.sub <- derep_filter(df=reflib.sub,derep=TRUE,proplen=0.5,cores=1)
+reflib.sub <- derep_filter(df=reflib.sub, derep=TRUE, proplen=0.5)
 
 # write out reference library in FASTA and CSV format to current working directory
-# currently supported fasta formats are: sintax, dada2 (taxonomy), dada2 (species), and plain dbid (GenBank or BOLD database identifiers)
+# currently supported fasta formats are: [1] sintax, [2] dada2 (taxonomy), [3] dada2 (species), and [4] plain dbid (GenBank or BOLD database identifiers)
 write_references_fasta(df=reflib.sub)
 ```
 
