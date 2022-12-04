@@ -12,11 +12,12 @@ source("https://raw.githubusercontent.com/boopsboops/UTILITIES/main/RScripts/wri
 reflib.cleaned <- reflib.orig %>% 
     dplyr::filter(!dbid %in% (exclusions %>% dplyr::filter(action=="REMOVE") %>% dplyr::pull(dbid)))
 
-# reassign taxonomy for some recently changed species
+# reassign taxonomy for some ambiguous or recently changed species
 reflib.cleaned <- reflib.cleaned %>% 
-    dplyr::mutate(sciNameValid=str_replace_all(sciNameValid,"Pungitius laevis","Pungitius pungitius")) %>% 
-    dplyr::mutate(sciNameValid=str_replace_all(sciNameValid,"Cottus perifretum","Cottus gobio")) %>% 
-    dplyr::mutate(sciNameValid=str_replace_all(sciNameValid,"Atherina presbyter","Atherina boyeri"))
+    dplyr::left_join(taxonomy.changes,by="sciNameValid") %>%
+    mutate(sciNameValid=if_else(is.na(sciNameValidAmended),sciNameValid,sciNameValidAmended)) %>%
+    select(-sciNameValidAmended)
+    #filter(sciNameValid=="Pungitius laevis" | sciNameValid=="Cottus perifretum" | sciNameValid=="Atherina presbyter")
 
 # remove unverified sequences
 # remove any NA nucleotides
@@ -33,11 +34,13 @@ reflib.cleaned <- reflib.cleaned %>%
     dplyr::filter(!grepl("-like",notesGenBank)) 
 
 # alert taxonomic changes
-tibble::tibble(
-	scientificName=c("Pungitius laevis","Cottus perifretum","Atherina presbyter"),
-	ammendedName=c("Pungitius pungitius","Cottus gobio","Atherina boyeri")
-	) %>% print(n=Inf)
+taxonomy.changes %>% 
+    dplyr::rename(`Original name`=sciNameValid,`Amended name`=sciNameValidAmended) %>%
+    print(n=Inf)
 
+# remove orig df
 rm(reflib.orig)
+rm(taxonomy.changes)
+
 # write encouraging words
 writeLines("\nReference library object 'reflib.cleaned' is cleaned and in your memory.\nBlacklisted GenBank accessions were removed.\nThe above taxonomic changes were made.\n")
