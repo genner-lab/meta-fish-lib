@@ -37,7 +37,7 @@ If you require simply the final reference library file for immediate use, it can
 library("tidyverse")
 library("ape")
 
-# load REMOTE references and scripts (requires internet connection)
+# load REMOTE references and cleaning scripts (requires internet connection)
 source("https://raw.githubusercontent.com/genner-lab/meta-fish-lib/main/scripts/references-load-remote.R")
 source("https://raw.githubusercontent.com/genner-lab/meta-fish-lib/main/scripts/references-clean.R")
 
@@ -56,7 +56,7 @@ reflib.sub <- derep_filter(df=reflib.sub, derep=TRUE, proplen=0.5)
 write_references_fasta(df=reflib.sub)
 ```
 
-Particular attention should be paid to cleaning steps in `scripts/references-clean.R`; sequences flagged as unreliable (using phylogenetic quality control) are listed in `assets/exclusions.csv` and excluded, while sequences flagged by NCBI as "unverified" are also removed. Taxonomic changes are also made, automatically via validating names against FishBase, and also custom changes (*Cottus perifretum* relabelled as *Cottus cottus*, *Atherina presbyter* relabelled as *Atherina boyeri*, and *Pungitius laevis* relabelled as *Pungitius pungitius*. Where are changes are made, both the original GenBank names and the validated FishBase names are provided (see Table 2).
+Particular attention should be paid to cleaning steps in `scripts/references-clean.R`. Sequences flagged as unreliable (using phylogenetic quality control) are listed in `assets/exclusions.csv` and automatically excluded, while sequences flagged by NCBI as "unverified" are also removed. Taxonomic changes are also made, automatically via validating names against FishBase, and also a custom taxonomic changes file `assets/taxonomy-changes.csv`. Here, *Cottus perifretum* is relabelled as *Cottus cottus*, *Atherina presbyter* relabelled as *Atherina boyeri*, and *Pungitius laevis* relabelled as *Pungitius pungitius*. Where are changes are made, both the original GenBank names and the validated FishBase names are provided (see Table 2). It is IMPORTANT to run this cleaning step before the reference library is used.
 
 **Table 1: Available primer sets**
 
@@ -169,35 +169,22 @@ scripts/check-genbank.R
 # be sure that you want to do this!
 rm -r temp
 
-### your reference library is now located at 'assets/reference-library-master.csv.gz' ###
-# if you need it in fasta format, please use the R code below
-# see FAQ for changing the label format
-# Important note: the reference library as provided is not dereplicated or filtered on sequence length (see FAQ)
+### your master reference library is now located at 'assets/reference-library-master.csv.gz' ###
+# IMPORTANT: this reference library contains the unfiltered records, and needs to be cleaned before use
+
+### clean, dereplicate, length filter, and write out the reference library for use ###
+# argument "-m" [12s.miya] is the metabarcode marker
+#    choose one of the eight available metabarcodes in Table 1.
+# argument "-d" [true] is the taxonomic dereplication flag
+#    a value of "true" removes all duplicate sequences within each species, but sequences can be identical between species
+#    subsequences, i.e. shorter sequences that differ only by nucleotides missing at ends, are considered duplicate haplotypes
+#    a value of "false" keeps all sequences
+# argument "-p" [0.5] is the sequence-length filtering flag
+#    for example, a value of 0.5 removes all sequences shorter than 50% of the median sequence length 
+#    can be any value between 0 and 1
+#    a value of 0 retains all sequences
+scripts/clean-derep-write.R -m 12s.miya -d true -p 0.5
 ```
-
-##### R terminal:
-
-```r
-### TO FORMAT LOCAL REFERENCE LIBRARY AS FASTA ###
-
-# load packages in new R session
-library("here")
-library("tidyverse")
-library("ape")
-
-# load LOCAL references and clean blacklisted sequences
-source("https://raw.githubusercontent.com/genner-lab/meta-fish-lib/main/scripts/references-load-local.R")
-source("https://raw.githubusercontent.com/genner-lab/meta-fish-lib/main/scripts/references-clean.R")
-source("https://raw.githubusercontent.com/legalLab/protocols-scripts/master/scripts/tab2fas.R")
-
-# subset marker - change 'frag' argument as appropriate:
-reflib.sub <- subset_references(df=reflib.orig, frag="12s.miya")
-
-# convert to fasta file and write out fasta file
-reflib.fas <- tab2fas(df=reflib.sub, seqcol="nucleotides", namecol="dbid")
-ape::write.FASTA(reflib.fas, file="references.fasta")
-```
-
 
 ### FAQ
 
@@ -221,6 +208,7 @@ scripts/sequences-download.R -q 1000 -t 2 -e false
 scripts/references-assemble.R -t 2 -m all
 scripts/qc.R -t 2 -v false
 make -f scripts/Makefile
+scripts/clean-derep-write.R -m 12s.miya -d true -p 0.5
 ```
 
 * **Can I make a reference library for fishes of my country/region?** - Yes, very easily. Just change the list of species in `assets/species-table.csv`. You can provide this list yourself, but make sure the format of the table is the same. If not interested in synonyms, you use the same species name for 'speciesName' and 'validName' and set 'status' set to "accepted name". The 'commonSpecies' field can be all set to TRUE if that is not of interest either, and the other information can be obtained from FishBase ('fbSpecCode' is the FishBase species code). Alternatively, follow the [tutorial here](assets/species-list-synonyms.md) to generate an annotated species/synonyms list using the [rfishbase](https://docs.ropensci.org/rfishbase/index.html) package from scratch.
@@ -235,18 +223,25 @@ Anguilla | accepted name | NA | Anguilla | Actinopterygii | Anguilliformes | Ang
 * **How do I add a new metabarcode?** - First I downloaded the fish mitochondrial genomes and annotations from Prof. Masaki Miya's MitoFish website at [mitofish.aori.u-tokyo.ac.jp/](http://mitofish.aori.u-tokyo.ac.jp/), and extracted the genes of interest and aligned them with mafft. Then I searched for the primer sequences and cut out the fragments of interest using [Geneious](https://www.geneious.com/prime/) and exported as fasta. Then I ran the hmmer function `hmmbuild` to create the hidden Markov models. Unfortunately, I did not include the code to perform these steps as it is not really general enough to be useful (requires manual actions and checking). Please contact me if you need specific help with these.
 * **What if I want more than fishes?** - Indeed, for many metabarcoding applications you would want to identify 'off-target' reads, so a wider reference library is required as a supplement to the one presented here. I use the NCBI RefSeq mitochondrial DNA database ([ftp://ftp.ncbi.nlm.nih.gov/refseq/release/mitochondrion](ftp://ftp.ncbi.nlm.nih.gov/refseq/release/mitochondrion)), which should have a sufficiently broad coverage to roughly classify most eukaryote mtDNA.
 * **How does the exclusions blacklist file work?** -  The file `assets/exclusions.csv` is permanently available on this GitHub repository, and contains all the accessions that have been flagged by me as potentially erroneous, as part of the work on the UK fish reference library. New records are added manually each time a new GenBank version becomes available and the quality control steps are performed. When the `scripts/references-clean.R` script is run, the exclusion file is called and these blacklisted accessions are removed from the library. The user does not need to regenerate or interact with this exclusions file if they are simply wanting to use the UK reference library as provided. If the user wishes to create their own custom reference library then they have the option of tailoring the contents of this exclusions file to their own requirements by keeping, deleting, or adding accessions to it.
+* **How does the taxonomic changes file work?** -  The file `assets/taxonomy-changes.csv` allows you to make your own custom changes to names, if for example, the same species is represented under multiple different names in GenBank due to historic taxonomic uncertainty. Here, simply change the amended name to reflect the new name you require, and they will be automatically changed when `scripts/references-clean.R` is run.
 * **Is the reference library guaranteed error free?** - LOL, no! I have tried to curate a reliable reference library as best as I can. However, the phylogenetic quality control step is tedious and subjective and takes a lot of effort. Here, phylogenetic QC trees for each primer set need to be manually checked. To help with this tips are coloured by monophyly and haplotype sharing to visually assist identifying dubious accessions. This is a much easier task for loci where taxa are well differentiated and large numbers of sequences exist (such as for COI). It is not easy for ribosomal fragments with fewer informative nucleotides and fewer sequences. The choice of which accessions to blacklist in `assets/exclusions.csv` has been entirely at my discretion thus far. However, I hope I have caught the majority of the most egregious examples. As a rule of thumb, an accession is blacklisted if: (a) individual(s) of species x are identical to or nested within a cluster of sequences of species y, but with other individuals of species x forming an independent cluster; and (b) the putatively spurious sequences coming from a single study, while the putatively correct sequences of species x and y coming from multiple studies. It is important to note that this is far from foolproof, and many species will naturally be non-monophyletic and/or share haplotypes with other species. I tried to be conservative, and not remove too many sequences if there was doubt, and especially so for taxa that I am not familar with. Mistakes certainly remain, so I recommend running the QC step to check yourself (or email me for the trees). [NCBI blast](https://blast.ncbi.nlm.nih.gov/Blast.cgi) is also useful for checking for matches against species not in the reference library. 
 * **How do I cite the reference library?** - Zenodo DOIs for each version are in see [Releases](https://github.com/genner-lab/meta-fish-lib/releases). An important note: the reference library and code presented here supercedes a previous iteration hosted at [github.com/boopsboops/reference-libraries](https://github.com/boopsboops/reference-libraries). The new version here starts at v241, but I have archived only the final reference library file (`assets/reference-library-master.csv.gz`) for the previous versions here also. Therefore, while the library files are here, the old code used to generate these libraries prior to v241 are not archived together with that library version here. You can also cite the Collins et al. (2021) _Journal of Fish Biology_ article ([https://doi.org/10.1111/jfb.14852](https://doi.org/10.1111/jfb.14852)) describing the software.
 * **The search step takes too long, hangs, or errors!** - The GenBank search step relies on NCBI servers, and if they are overloaded then the searches can fail. I suggest: (i) reducing the number of threads ("-t" option in the `scripts/sequences-download.R` step) to lower the frequency of requests; (ii) running searches at USA off-peak times; (iii) disabling the exhaustive search option (use "-e false" instead of "-e true" in the `scripts/sequences-download.R` step), which searches for fewer search terms, will take less time and consume less RAM and disk space, but will give you 99% of the sequences; (iv) making each concatenated search string length longer (or shorter) with the "-q" option; and (v) requesting only the metabarcodes that you are interested in (use the "-m" option in the `scripts/references-assemble.R` step).
 * **The phylogenetic quality control steps takes too long!** - Making ML trees for many taxa can take a very long time. Here, the largest one (Ward COI) is now over 10,000 haplotypes, and takes over 12 h to run. If your dataset is too big, I suggest: (i) skipping this step if you aren't sure you need it; (ii) requesting only the metabarcodes that you are interested in (use the "-m" option in the `scripts/references-assemble.R` step); or (iii) maybe break up the species input list into smaller chunks and merge the tables later.
 * **Why not use [sativa](https://github.com/amkozlov/sativa) for automated quality control?** - Good question.  Software such as [sativa](https://github.com/amkozlov/sativa) is available to automate the process, and while I may investigate this option in the future, for the meantime I think it is always a good idea to eyeball and become familiar with your data and develop an informed judgement.
-* **There are identical sequences in the reference library** - The reference library as provided is not dereplicated or filtered in any way, and is provided "as is", including all sequences for each species, and may contain short sequences. I will endeavor to provide some R code to taxonomically dereplicate and filter on sequence length in the future (see https://github.com/genner-lab/meta-fish-lib/issues/23).
-* **Why are the sequence labels in the `references.fasta` file just numbers?** - When you download the reference library as shown above, the `references.fasta` file will use the 'dbid' column which is the database identification numbers. For NCBI these are 'GI' numbers (GenInfo Identifiers); these are equivalent to NCBI accession numbers, and will resolve accordingly on NCBI services; for BOLD, these are the 'processid' numbers. As there are many possible formats required for various taxonomy assignment software, I am unable to know which ones you will require, and have therefore chosen a sensible default. To make your own custom labels, just use the dplyr `mutate()` and `paste()` functions to join columns in the table to make a new label column. Below I make a label of format 'dbid_family_genus_species'. Table 2 explains the fields in the reference library table.
+* **What are the 'dbid' numbers?** - The 'dbid' column provides database identification numbers. For NCBI these are 'GI' numbers (GenInfo Identifiers); these are equivalent to NCBI accession numbers, and will resolve accordingly on NCBI services; for BOLD, these are the 'processid' numbers. 
+* **My software will not accept the reference library format provided** - As there are so many possible formats required for various taxonomy assignment software, I am unable to know which ones you will require, and have therefore chosen some commonly used defaults (e.g. Sintax, Dada2). Raise a ticket in [Issues](https://github.com/genner-lab/meta-fish-lib/issues) if you think an important one needs to be added. To make your own custom labels, just use the dplyr `mutate()` and `paste()` functions to join columns in the table to make a new label column. Below I make a label of format 'dbid_family_genus_species' and write it out as a FASTA file. Table 2 explains the fields in the reference library table.
 
 ```r
-reflib.label <- reflib.sub %>% 
-    mutate(label=paste(dbid,family,str_replace_all(sciNameValid," ","_"),sep="_"))
+library("tidyverse")
+library("ape")
+source("https://raw.githubusercontent.com/genner-lab/meta-fish-lib/main/scripts/references-load-remote.R")
+source("https://raw.githubusercontent.com/genner-lab/meta-fish-lib/main/scripts/references-clean.R")
+reflib.sub <- subset_references(df=reflib.cleaned, metabarcode="12s.miya")
+# make new label #
+reflib.label <- reflib.sub %>% mutate(label=paste(dbid,family,str_replace_all(sciNameValid," ","_"),sep="_"))
 reflib.fas <- tab2fas(df=reflib.label,seqcol="nucleotides", namecol="label")
+ape::write.FASTA(reflib.fas,file="reflib.fasta")
 ```
 
 
@@ -295,10 +290,12 @@ lengthFrag.GENE.FRAGMENT.noprimers | number nucleotides in gene fragment primer 
     - `species-list-synonyms.md` - tutorial and R code to generate species lists and synonyms
     - `species-table.csv` - list of species to search for
     - `species-table-testing.csv` - a test list of goby species
+    - `taxonomy-changes.csv` - custom table to change species names
 * **`renv/`** - Settings for the R environment.
 * **`reports/`** - Location of QC reports. Temporary directory that is not committed to the repository, but needs to be created locally to run the scripts. Ignored by git.
 * **`scripts/`** - R and shell scripts.
     - `check-genbank.R` - script to get genbank versions
+    - `clean-derep-write.R` - script to clean sequences, dereplicate, length filter, and write out
     - `load-libs.R` - script to load all required packages and functions
     - `Makefile` - makefile to generate the species coverage reports
     - `qc.R` - quality control a reference library
