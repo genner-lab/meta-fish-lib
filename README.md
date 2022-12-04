@@ -196,7 +196,7 @@ scripts/clean-derep-write.R -m 12s.miya -d true -p 0.5
   + The pipeline wasn't tested. Please, before you start using the software with your own data, ensure that everything is running without problems using the test data provided. This ensures first that the software is working as intended under the conditions I have tested it under. Here is some quick code to run the test data (only takes a few mins to run):
 
 ```bash
-git clone https://github.com/genner-lab/meta-fish-lib.git meta-fish-lib-testing
+git clone --depth 1 https://github.com/genner-lab/meta-fish-lib.git meta-fish-lib-testing
 cd meta-fish-lib-testing
 mkdir -p reports temp/fasta-temp
 echo 'ncbi.key <- "<YOUR-NCBI-KEY>"' > assets/ncbi-key.R
