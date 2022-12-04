@@ -6,6 +6,7 @@ source("https://raw.githubusercontent.com/boopsboops/UTILITIES/main/RScripts/tab
 source("https://raw.githubusercontent.com/boopsboops/UTILITIES/main/RScripts/subset_references.R")
 source("https://raw.githubusercontent.com/boopsboops/UTILITIES/main/RScripts/hap_collapse_df.R")
 source("https://raw.githubusercontent.com/boopsboops/UTILITIES/main/RScripts/derep_filter.R")
+source("https://raw.githubusercontent.com/boopsboops/UTILITIES/main/RScripts/write_references_fasta.R")
 
 # exclude bad seqs and clean
 reflib.cleaned <- reflib.orig %>% 
