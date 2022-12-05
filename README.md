@@ -211,7 +211,7 @@ make -f scripts/Makefile
 scripts/clean-derep-write.R -m 12s.miya -d true -p 0.5
 ```
 
-* **How do I actually use the reference library** - The reference library generated is provided in a tabular CSV format. This is because this type of data can be easily manipulated in R using popular packages such as [dplyr](https://dplyr.tidyverse.org/reference/dplyr-package.html). Most taxonomy assignment software, however, requires DNA sequence data in a format such as FASTA. The FASTA headers (lines commencing ">") contain the taxonomic assignment information. Unfortunately, each of the many software implementations available tend to use its own syntax for these headers, and as such I am unable to know which ones you will be using. However, I have chosen some commonly used formats (e.g. sintax, dada2, plain dbid) as default FASTA outputs. Please raise a ticket in [Issues](https://github.com/genner-lab/meta-fish-lib/issues) if you think an important one needs to be added. To make your own custom labels, just use the dplyr `mutate()` and `paste()` functions to join columns in the table to make a new label column. Below I make a label of format 'dbid_family_genus_species' and write it out as a FASTA file. Table 2 explains the fields in the reference library table.
+* **How do I actually use the reference library?** - The reference library generated is provided in a tabular CSV format. This is because this type of data can be easily manipulated in R using popular packages such as [dplyr](https://dplyr.tidyverse.org/reference/dplyr-package.html). Most taxonomy assignment software, however, requires DNA sequence data in a format such as FASTA. The FASTA headers (lines commencing ">") contain the taxonomic assignment information. Unfortunately, each of the many software implementations available tend to use its own syntax for these headers, and as such I am unable to know which ones you will be using. However, I have chosen some commonly used formats (e.g. sintax, dada2, plain dbid) as default FASTA outputs. Please raise a ticket in [Issues](https://github.com/genner-lab/meta-fish-lib/issues) if you think an important one needs to be added. To make your own custom labels, just use the dplyr `mutate()` and `paste()` functions to join columns in the table to make a new label column. Below I make a label of format 'dbid_family_genus_species' and write it out as a FASTA file. Table 2 explains the fields in the reference library table.
 
 ```r
 library("tidyverse")
@@ -220,7 +220,7 @@ source("https://raw.githubusercontent.com/genner-lab/meta-fish-lib/main/scripts/
 source("https://raw.githubusercontent.com/genner-lab/meta-fish-lib/main/scripts/references-clean.R")
 reflib.sub <- subset_references(df=reflib.cleaned, metabarcode="12s.miya")
 # make new label #
-reflib.label <- reflib.sub %>% mutate(label=paste(dbid,family,str_replace_all(sciNameValid," ","_"),sep="_"))
+reflib.label <- reflib.sub %>% dplyr::mutate(label=paste(dbid,family,stringr::str_replace_all(sciNameValid," ","_"),sep="_"))
 reflib.fas <- tab2fas(df=reflib.label,seqcol="nucleotides", namecol="label")
 ape::write.FASTA(reflib.fas,file="reflib.fasta")
 ```
