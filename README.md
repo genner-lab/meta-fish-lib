@@ -211,6 +211,20 @@ make -f scripts/Makefile
 scripts/clean-derep-write.R -m 12s.miya -d true -p 0.5
 ```
 
+* **How do I actually use the reference library** - The reference library generated is provided in a tabular CSV format. This is because this type of data can be easily manipulated in R using popular packages such as [dplyr](https://dplyr.tidyverse.org/reference/dplyr-package.html). Most taxonomy assignment software, however, requires DNA sequence data in a format such as FASTA. The FASTA headers (lines commencing ">") contain the taxonomic assignment information. Unfortunately, each of the many software implementations available tend to use its own syntax for these headers, and as such I am unable to know which ones you will be using. However, I have chosen some commonly used formats (e.g. sintax, dada2, plain dbid) as default FASTA outputs. Please raise a ticket in [Issues](https://github.com/genner-lab/meta-fish-lib/issues) if you think an important one needs to be added. To make your own custom labels, just use the dplyr `mutate()` and `paste()` functions to join columns in the table to make a new label column. Below I make a label of format 'dbid_family_genus_species' and write it out as a FASTA file. Table 2 explains the fields in the reference library table.
+
+```r
+library("tidyverse")
+library("ape")
+source("https://raw.githubusercontent.com/genner-lab/meta-fish-lib/main/scripts/references-load-remote.R")
+source("https://raw.githubusercontent.com/genner-lab/meta-fish-lib/main/scripts/references-clean.R")
+reflib.sub <- subset_references(df=reflib.cleaned, metabarcode="12s.miya")
+# make new label #
+reflib.label <- reflib.sub %>% mutate(label=paste(dbid,family,str_replace_all(sciNameValid," ","_"),sep="_"))
+reflib.fas <- tab2fas(df=reflib.label,seqcol="nucleotides", namecol="label")
+ape::write.FASTA(reflib.fas,file="reflib.fasta")
+```
+
 * **Can I make a reference library for fishes of my country/region?** - Yes, very easily. Just change the list of species in `assets/species-table.csv`. You can provide this list yourself, but make sure the format of the table is the same. If not interested in synonyms, you use the same species name for 'speciesName' and 'validName' and set 'status' set to "accepted name". The 'commonSpecies' field can be all set to TRUE if that is not of interest either, and the other information can be obtained from FishBase ('fbSpecCode' is the FishBase species code). Alternatively, follow the [tutorial here](assets/species-list-synonyms.md) to generate an annotated species/synonyms list using the [rfishbase](https://docs.ropensci.org/rfishbase/index.html) package from scratch.
 * **What if I don't know which species I need?** - This is a common problem in diverse tropical regions where there is often poorly resolved taxonomy and lots of undescribed species. Here you will want to search for genera instead of species. Copy this format below for the `assets/species-table.csv` table:
 
@@ -230,19 +244,6 @@ Anguilla | accepted name | NA | Anguilla | Actinopterygii | Anguilliformes | Ang
 * **The phylogenetic quality control steps takes too long!** - Making ML trees for many taxa can take a very long time. Here, the largest one (Ward COI) is now over 10,000 haplotypes, and takes over 12 h to run. If your dataset is too big, I suggest: (i) skipping this step if you aren't sure you need it; (ii) requesting only the metabarcodes that you are interested in (use the "-m" option in the `scripts/references-assemble.R` step); or (iii) maybe break up the species input list into smaller chunks and merge the tables later.
 * **Why not use [sativa](https://github.com/amkozlov/sativa) for automated quality control?** - Good question.  Software such as [sativa](https://github.com/amkozlov/sativa) is available to automate the process, and while I may investigate this option in the future, for the meantime I think it is always a good idea to eyeball and become familiar with your data and develop an informed judgement.
 * **What are the 'dbid' numbers?** - The 'dbid' column provides database identification numbers. For NCBI these are 'GI' numbers (GenInfo Identifiers); these are equivalent to NCBI accession numbers, and will resolve accordingly on NCBI services; for BOLD, these are the 'processid' numbers. 
-* **My software will not accept the reference library format provided** - As there are so many possible formats required for various taxonomy assignment software, I am unable to know which ones you will require, and have therefore chosen some commonly used defaults (e.g. Sintax, Dada2). Raise a ticket in [Issues](https://github.com/genner-lab/meta-fish-lib/issues) if you think an important one needs to be added. To make your own custom labels, just use the dplyr `mutate()` and `paste()` functions to join columns in the table to make a new label column. Below I make a label of format 'dbid_family_genus_species' and write it out as a FASTA file. Table 2 explains the fields in the reference library table.
-
-```r
-library("tidyverse")
-library("ape")
-source("https://raw.githubusercontent.com/genner-lab/meta-fish-lib/main/scripts/references-load-remote.R")
-source("https://raw.githubusercontent.com/genner-lab/meta-fish-lib/main/scripts/references-clean.R")
-reflib.sub <- subset_references(df=reflib.cleaned, metabarcode="12s.miya")
-# make new label #
-reflib.label <- reflib.sub %>% mutate(label=paste(dbid,family,str_replace_all(sciNameValid," ","_"),sep="_"))
-reflib.fas <- tab2fas(df=reflib.label,seqcol="nucleotides", namecol="label")
-ape::write.FASTA(reflib.fas,file="reflib.fasta")
-```
 
 
 **Table 2: Key to reference library table fields**
