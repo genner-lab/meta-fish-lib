@@ -26,7 +26,7 @@ The work is part of the NERC funded [SeaDNA Project](https://twitter.com/SeaDNAp
 
 ### TL;DR (give me the data)
 
-If you require simply the final reference library file for immediate use, it can be downloaded directly using the R code below, and converted into FASTA and CSV formats for any of the available primer sets in Table 1.
+If you require simply the UK reference library for immediate use, it can be downloaded directly using the R code below, and converted into FASTA and CSV formats for any of the available primer sets in Table 1.
 
 ##### Retrieve latest reference library:
 
@@ -74,7 +74,7 @@ Study | Official name | Nickname | Locus
 
 ### Create/update the reference library manually
 
-You don't need to run this code below if you just want a copy of the reference library (run code above). This code below is if you want to update it yourself or want to modify and make a new library. I will endeavour to keep this repository up-to-date with GenBank, but if hasn't been updated, email me. 
+You don't need to run this code below if you just want a copy of the UK reference library (run code above). This code below is if you want to update it yourself or want to modify and make a new library. I will endeavour to keep up-to-date with GenBank, but if hasn't been updated, email me. 
 
 System requirements: [R](https://cran.r-project.org/), [git](https://git-scm.com/), [hmmer](http://hmmer.org/), [mafft](https://mafft.cbrc.jp/alignment/software/) and [raxml-ng](https://github.com/amkozlov/raxml-ng) need to be installed on your system, and available on your [$PATH](https://www.howtogeek.com/658904/how-to-add-a-directory-to-your-path-in-linux/). With the exception of raxml-ng, the programs can be installed from Ubuntu repositories using `sudo apt install` (see also [Homebrew](https://brew.sh/) `brew install` for MacOS). In case of difficulties, check the developer's website and update to newer versions if required. Unfortunately, these scripts are optimised for a Unix system, and I'm unable to offer any Windows support here ([Windows is now able to run Ubuntu Linux ](https://tutorials.ubuntu.com/tutorial/tutorial-ubuntu-on-windows#0)).
 
