@@ -436,3 +436,7 @@ GENBANK,2253754803,Blicca bjoerkna,REMOVE,Clusters with Abramis brama
 BOLD,RYBY091-21.COI-5P,Blicca bjoerkna,REMOVE,Clusters with Abramis brama
 GENBANK,2253754442,Alburnus alburnus,REMOVE,Clusters with Barbus
 GENBANK,951735822,Katsuwonus pelamis,REMOVE,Clusters with Thunnus
+GENBANK,1523271082,Cyprinus carpio,REMOVE,Blasts as Catla
+GENBANK,2079421867,Arnoglossus thori,REMOVE,Divergent sequence
+GENBANK,2260408445,Cobitis taenia,REMOVE,Blasts as a Pangio
+GENBANK,2253754877,Barbus barbus,REMOVE,Blasts as Alburnoides
