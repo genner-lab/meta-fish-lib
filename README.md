@@ -100,10 +100,18 @@ Rscript -e "renv::restore()"
 # you can update if the remote or local versions are behind genbank
 scripts/check-genbank.R
 
-### replace the species table with your custom list ###
+### OPTION [1] replace the species table with your custom list ###
 # change to file location on your machine
-# this will overwrite the current table 
+# this will overwrite the current table at 'assets/species-table.csv'
 cp ~/path/to/my-species-table.csv assets/species-table.csv
+
+### OPTION [2] use FishBase to generate a species list for a chosen country
+# this will overwrite the current table at 'assets/species-table.csv'
+# argument "-c" [826] is the ISO country code for your chosen country
+#     ISO country codes can be found at https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
+# argument "-s" [true] are species synonyms
+#     a value of "true" provides all accepted names and junior synonyms, a value of "false" provides only the accepted names
+scripts/get-species.R -c 826 -s true
 
 ### search GenBank ###
 # argument "-q" [2000] is the max search batch query length (in characters)
@@ -225,7 +233,7 @@ reflib.fas <- tab2fas(df=reflib.label,seqcol="nucleotides", namecol="label")
 ape::write.FASTA(reflib.fas,file="reflib.fasta")
 ```
 
-* **Can I make a reference library for fishes of my country/region?** - Yes, very easily. Just change the list of species in `assets/species-table.csv`. You can provide this list yourself, but make sure the format of the table is the same. If not interested in synonyms, you use the same species name for 'speciesName' and 'validName' and set 'status' set to "accepted name". The 'commonSpecies' field can be all set to TRUE if that is not of interest either, and the other information can be obtained from FishBase ('fbSpecCode' is the FishBase species code). Alternatively, follow the [tutorial here](assets/species-list-synonyms.md) to generate an annotated species/synonyms list using the [rfishbase](https://docs.ropensci.org/rfishbase/index.html) package from scratch.
+* **Can I make a reference library for fishes of my country/region?** - Yes, very easily. Just change the list of species in `assets/species-table.csv`. You can provide this list yourself, but make sure the format of the table is the same. If not interested in synonyms, you use the same species name for 'speciesName' and 'validName' and set 'status' set to "accepted name". The 'commonSpecies' field can be all set to TRUE if that is not of interest either, and the other information can be obtained from FishBase ('fbSpecCode' is the FishBase species code). Alternatively, run `scripts/get-species.R` to generate an annotated species/synonyms list for a given country using the [rfishbase](https://docs.ropensci.org/rfishbase/index.html) package (see option 2 in the example above).
 * **What if I don't know which species I need?** - This is a common problem in diverse tropical regions where there is often poorly resolved taxonomy and lots of undescribed species. Here you will want to search for genera instead of species. Copy this format below for the `assets/species-table.csv` table:
 
 speciesName | status | fbSpecCode | validName | class | order | family | genus | commonName | commonSpecies
@@ -233,7 +241,7 @@ speciesName | status | fbSpecCode | validName | class | order | family | genus |
 Anguilla | accepted name | NA | Anguilla | Actinopterygii | Anguilliformes | Anguillidae | Anguilla | NA | NA
 
 * **Can I make a reference library for a taxonomic group that isn't fishes?** - At the moment I  use the [rfishbase](https://docs.ropensci.org/rfishbase/index.html) package to generate higher taxonomic ranks and validate scientific names etc, because this is the best source of data for fishes. However, more general solutions could easily be employed using the [taxize](https://docs.ropensci.org/taxize/) package or [taxadb](https://docs.ropensci.org/taxadb/index.html) package, with minimal changes to the code. One thing to bear in mind is that the hidden Markov models were designed on fishes, and while these would probably work well for other vertebrates, they would need to be recreated for other groups (see below).
-* **How do I get synonyms?** - I used the `synonyms()` function in the [rfishbase](https://docs.ropensci.org/rfishbase/index.html) package, but the [taxize](https://docs.ropensci.org/taxize/) package or [taxadb](https://docs.ropensci.org/taxadb/index.html) package would achieve similar results for other groups.
+* **How do I get synonyms?** - Run `scripts/get-species.R` to generate an annotated species/synonyms list for a given country using the [rfishbase](https://docs.ropensci.org/rfishbase/index.html) package (see option 2 in the example above). This uses the `synonyms()` function in the [rfishbase](https://docs.ropensci.org/rfishbase/index.html) package, but the [taxize](https://docs.ropensci.org/taxize/) package or [taxadb](https://docs.ropensci.org/taxadb/index.html) package would achieve similar results for other groups.
 * **How do I add a new metabarcode?** - First I downloaded the fish mitochondrial genomes and annotations from Prof. Masaki Miya's MitoFish website at [mitofish.aori.u-tokyo.ac.jp/](http://mitofish.aori.u-tokyo.ac.jp/), and extracted the genes of interest and aligned them with mafft. Then I searched for the primer sequences and cut out the fragments of interest using [Geneious](https://www.geneious.com/prime/) and exported as fasta. Then I ran the hmmer function `hmmbuild` to create the hidden Markov models. Unfortunately, I did not include the code to perform these steps as it is not really general enough to be useful (requires manual actions and checking). Please contact me if you need specific help with these.
 * **What if I want more than fishes?** - Indeed, for many metabarcoding applications you would want to identify 'off-target' reads, so a wider reference library is required as a supplement to the one presented here. I use the NCBI RefSeq mitochondrial DNA database ([ftp://ftp.ncbi.nlm.nih.gov/refseq/release/mitochondrion](ftp://ftp.ncbi.nlm.nih.gov/refseq/release/mitochondrion)), which should have a sufficiently broad coverage to roughly classify most eukaryote mtDNA.
 * **How does the exclusions blacklist file work?** -  The file `assets/exclusions.csv` is permanently available on this GitHub repository, and contains all the accessions that have been flagged by me as potentially erroneous, as part of the work on the UK fish reference library. New records are added manually each time a new GenBank version becomes available and the quality control steps are performed. When the `scripts/references-clean.R` script is run, the exclusion file is called and these blacklisted accessions are removed from the library. The user does not need to regenerate or interact with this exclusions file if they are simply wanting to use the UK reference library as provided. If the user wishes to create their own custom reference library then they have the option of tailoring the contents of this exclusions file to their own requirements by keeping, deleting, or adding accessions to it.
