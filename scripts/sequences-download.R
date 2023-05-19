@@ -5,11 +5,11 @@
 # downloads all mtDNA sequence data from GenBank/BOLD, for a provided list of species 
 
 # load functions and libs
-source(here::here("scripts","load-libs.R"))
+source(here::here("scripts/load-libs.R"))
 # load up your personal NCBI API key to get 10 requests per sec. This needs to be generated from your account at https://www.ncbi.nlm.nih.gov/
 # DO NOT PUT THIS KEY ON GITHUB
 # if you don't have one, ncbi will rate-limit your access to 3 requests per sec, and errors may occur.
-source(here("assets","ncbi-key.R"))
+source(here("assets/ncbi-key.R"))
 
 # get args
 option_list <- list( 
@@ -30,8 +30,7 @@ opt <- parse_args(OptionParser(option_list=option_list,add_help_option=FALSE))
 #opt$bold <- "true"
 
 # load up the species table
-#species.table <- suppressMessages(read_csv(file=here("assets","species-table-testing.csv")))
-species.table <- suppressMessages(read_csv(file=here("assets","species-table.csv")))
+species.table <- read_csv(file=here("assets/species-table.csv"),show_col_types=FALSE)
 #
 #species.table %<>% slice(1:20)#############################
 # report
@@ -126,11 +125,11 @@ if(search.flat %>% purrr::map(~{unname(.x$count)}) %>% purrr::flatten_int() %>% 
     }
 
 # delete temp dir contents (if left from prev fail)
-invisible(file.remove(list.files(here("temp","fasta-temp"),full.name=TRUE)))
+invisible(file.remove(list.files(here("temp/fasta-temp"),full.name=TRUE)))
 
 # recreate dir if needed
-if(!dir.exists(here("temp","fasta-temp"))){
-    dir.create(here("temp","fasta-temp"))
+if(!dir.exists(here("temp/fasta-temp"))){
+    dir.create(here("temp/fasta-temp"))
 }
 
 # download
@@ -149,7 +148,7 @@ if(length(list.files(here("temp","fasta-temp"))) != length(search.full)) {
 end_time-start_time
 
 # read in the files and cat
-all.fas <- mcmapply(FUN=function(x) read.FASTA(x), list.files(here("temp","fasta-temp"),full.name=TRUE), SIMPLIFY=FALSE, USE.NAMES=FALSE, mc.cores=cores)
+all.fas <- mcmapply(FUN=function(x) read.FASTA(x), list.files(here("temp/fasta-temp"),full.name=TRUE), SIMPLIFY=FALSE, USE.NAMES=FALSE, mc.cores=cores)
 all.fas.cat <- do.call(c,all.fas)
 
 # edit names
@@ -157,10 +156,10 @@ names(all.fas.cat) <- str_replace_all(names(all.fas.cat)," .*","")
 
 # write out
 writeLines("\nWriting out in FASTA format ...")
-write.FASTA(all.fas.cat,file=here("temp","mtdna-dump.fas"))
+write.FASTA(all.fas.cat,file=here("temp/mtdna-dump.fas"))
 
 # delete temp folder contents (if left from prev fail)
-invisible(file.remove(list.files(here("temp","fasta-temp"),full.name=TRUE)))
+invisible(file.remove(list.files(here("temp/fasta-temp"),full.name=TRUE)))
 
 
 ### Now repeat the same for the BOLD database
@@ -207,13 +206,13 @@ bold.red %<>%
     distinct(processidUniq, .keep_all=TRUE)
 
 # write temp copy of the bold dump
-write_csv(bold.red,file=here("temp","bold-dump.csv"))
+write_csv(bold.red,file=here("temp/bold-dump.csv"))
 
 # create a fasta file of BOLD
 bold.fas <- tab2fas(df=bold.red,seqcol="nucleotides",namecol="processidUniq")
 
 # add it to the GenBank file already created
-write.FASTA(bold.fas, file=here("temp","mtdna-dump.fas"), append=TRUE)
+write.FASTA(bold.fas, file=here("temp/mtdna-dump.fas"), append=TRUE)
 
 
 # close bold option
@@ -250,5 +249,5 @@ stats <- tibble(
 # print and save
 writeLines("\nPrinting stats ...\n")
 print(stats,n=Inf)
-write_csv(stats,file=here("reports","stats.csv"))
+write_csv(stats,file=here("reports/stats.csv"))
 writeLines("\nAll operations completed!\nPlease read previous messages in case of error.")

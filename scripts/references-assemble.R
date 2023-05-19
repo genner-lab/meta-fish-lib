@@ -6,14 +6,13 @@
 # output is a csv dataframe of all accessions with data for all primer sets if present
 
 ## Load functions and libs
-source(here::here("scripts","load-libs.R"))
+source(here::here("scripts/load-libs.R"))
 
 # check ncbi key loaded
 #Sys.getenv("ENTREZ_KEY", "")
 
 # get args
 option_list <- list(
-#    make_option(c("-l","--list"), type="character"),
     make_option(c("-t","--threads"), type="numeric"),
     make_option(c("-m","--metabarcode"), type="character")
     )
@@ -31,12 +30,12 @@ cores <- opt$threads
 
 
 ## Data
-# load up the uk species table
-species.table <- suppressMessages(read_csv(file=here("assets","species-table.csv")))
+# load up the species table
+species.table <- read_csv(file=here("assets/species-table.csv"),show_col_types=FALSE)
 # load the BOLD dump
-bold.red <- suppressMessages(read_csv(file=here("temp","bold-dump.csv"), guess_max=100000))
+bold.red <- read_csv(file=here("temp/bold-dump.csv"), guess_max=100000,show_col_types=FALSE)
 # load up stats
-stats <- suppressMessages(read_csv(file=here("reports","stats.csv")))
+stats <- read_csv(file=here("reports/stats.csv"),show_col_types=FALSE)
 
 ## Extract the frag of interest using the HMMs in hmmer
 # assumes the hidden markov model is located in assets/hmms directory and is named '$prefix.hmm'
@@ -59,7 +58,6 @@ if(opt$metabarcode == "all") {
 writeLines("\nExtracting metabarcode fragments with HMMER (may take several minutes) ...")
 # use single thread because easier on the RAM
 dat.frag.all <- lapply(prefixes.all, function(x) run_hmmer3(dir="temp", infile="mtdna-dump.fas", prefix=x, evalue="10", coords="env"))
-#dat.frag.all <- mcmapply(FUN=function(x) run_hmmer3(dir="temp", infile="mtdna-dump.fas", prefix=x, evalue="10", coords="env"), prefixes.all, SIMPLIFY=FALSE, USE.NAMES=FALSE, mc.cores=cores)
 writeLines("\nDone")
 
 # concatentate all
@@ -72,7 +70,7 @@ dat.frag.names <- unique(labels(dat.frag.cat))
 in.bold <- dat.frag.names[dat.frag.names %in% bold.red$processidUniq]
 in.gb <- dat.frag.names[!dat.frag.names %in% bold.red$processidUniq]
 
-# now for the same sequences, get the tabular data from NCBI using 'ncbi_byid' to make a proper reference database
+# now for the same sequences, get the tabular data from NCBI using 'ncbi_byid' 
 # chunk 200 should result in string of around 2200 chars
 chunk <- 200
 # clean up long genome records with accs > 11 chars 
@@ -80,9 +78,6 @@ in.gb.red <- in.gb[nchar(in.gb)<=11]
 # randomise accessions
 set.seed(42)
 in.gb.sam <- sample(in.gb.red)
-#### load up saved for test
-#write_csv(tibble(acc=in.gb.sam),file=here("temp/in.gb.sam.csv"))
-#in.gb.sam <- pull(read_csv(file=here("temp/in.gb.sam.csv"),show_col_types=FALSE))
 
 # chunk
 chunk.frag <- unname(split(in.gb.sam, ceiling(seq_along(in.gb.sam)/chunk)))
@@ -90,8 +85,7 @@ chunk.frag <- unname(split(in.gb.sam, ceiling(seq_along(in.gb.sam)/chunk)))
 #max(sapply(chunk.frag,function(x) nchar(paste(x,collapse=","))))
 writeLines("\nRetrieving metadata from NCBI ...\n")
     start_time <- Sys.time()
-# fixes problem with "Error in the HTTP2 framing layer" 
-#crul::set_opts(http_version=2)
+# parallel ncbi
 ncbi.frag <- mcmapply(FUN=ncbi_byid_parallel, chunk.frag, SIMPLIFY=FALSE, USE.NAMES=FALSE, mc.cores=cores)
     end_time <- Sys.time()
     end_time-start_time
@@ -150,7 +144,7 @@ dat.frag.merged <- dat.frag.df %>% purrr::reduce(full_join, by="dbid") %>% renam
 dbs.merged.all <- dplyr::left_join(dbs.merged.all,dat.frag.merged,by="matchCol")
 
 
-## Get the proper fishbase taxonomy, not the NCBI nonsense
+## Get fishbase taxonomy ##
 
 # make a binomial scientific name - clean mess
 dbs.merged.all %<>% mutate(sciNameBinomen=sciNameOrig,sciNameBinomen=str_replace_all(sciNameBinomen," sp\\. "," sp."),sciNameBinomen=str_replace_all(sciNameBinomen," cf\\. "," cf."),sciNameBinomen=str_replace_all(sciNameBinomen," aff\\. "," aff.")) %>% 
@@ -231,5 +225,5 @@ dbs.merged.final <- left_join(dbs.merged.info,dbs.merged.seqs,by="dbid") %>%
 
 # write out a gzipped file (orig is too big for github)
 writeLines("\nWriting out reference library to 'assets/reference-library-master.csv.gz' ...")
-write_csv(dbs.merged.final, file=gzfile(here("assets","reference-library-master.csv.gz")), na="")
+write_csv(dbs.merged.final, file=gzfile(here("assets/reference-library-master.csv.gz")), na="")
 writeLines("\nAll operations completed!\nPlease read previous messages in case of error")
