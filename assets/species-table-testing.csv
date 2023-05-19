@@ -1,10 +1,24 @@
 speciesName,status,fbSpecCode,validName,class,order,family,genus,commonName,commonSpecies
+Apletodon dentatus,accepted name,9196,Apletodon dentatus,Actinopterygii,Gobiesociformes,Gobiesocidae,Apletodon,Small-headed clingfish,TRUE
+Diplecogaster bimaculata,accepted name,64,Diplecogaster bimaculata,Actinopterygii,Gobiesociformes,Gobiesocidae,Diplecogaster,Two-spotted clingfish,TRUE
+Lepadogaster candolii,accepted name,640,Lepadogaster candolii,Actinopterygii,Gobiesociformes,Gobiesocidae,Lepadogaster,Connemarra clingfish,TRUE
+Lepadogaster purpurea,accepted name,16746,Lepadogaster purpurea,Actinopterygii,Gobiesociformes,Gobiesocidae,Lepadogaster,Cornish sucker,TRUE
+Blennius ocellaris,accepted name,49,Blennius ocellaris,Actinopterygii,Perciformes,Blenniidae,Blennius,Butterfly blenny,TRUE
+Coryphoblennius galerita,accepted name,7644,Coryphoblennius galerita,Actinopterygii,Perciformes,Blenniidae,Coryphoblennius,Montagu's blenny,TRUE
+Lipophrys pholis,accepted name,9200,Lipophrys pholis,Actinopterygii,Perciformes,Blenniidae,Lipophrys,Shanny,TRUE
+Parablennius gattorugine,accepted name,48,Parablennius gattorugine,Actinopterygii,Perciformes,Blenniidae,Parablennius,Tompot blenny,TRUE
 Aphia minuta,accepted name,39,Aphia minuta,Actinopterygii,Perciformes,Gobiidae,Aphia,Transparent goby,TRUE
+Buenia jeffreysii,accepted name,52,Buenia jeffreysii,Actinopterygii,Perciformes,Gobiidae,Buenia,Jeffrey's goby,FALSE
 Crystallogobius linearis,accepted name,60,Crystallogobius linearis,Actinopterygii,Perciformes,Gobiidae,Crystallogobius,Crystal goby,TRUE
 Gobius cobitis,accepted name,4579,Gobius cobitis,Actinopterygii,Perciformes,Gobiidae,Gobius,Giant goby,TRUE
+Gobius couchi,accepted name,9201,Gobius couchi,Actinopterygii,Perciformes,Gobiidae,Gobius,Couch's goby,FALSE
+Gobius cruentatus,accepted name,7648,Gobius cruentatus,Actinopterygii,Perciformes,Gobiidae,Gobius,Red-mouthed goby,FALSE
+Gobius gasteveni,accepted name,7660,Gobius gasteveni,Actinopterygii,Perciformes,Gobiidae,Gobius,Steven's goby,FALSE
 Gobius niger,accepted name,72,Gobius niger,Actinopterygii,Perciformes,Gobiidae,Gobius,Black goby,TRUE
 Gobius paganellus,accepted name,73,Gobius paganellus,Actinopterygii,Perciformes,Gobiidae,Gobius,Rock goby,TRUE
 Gobiusculus flavescens,accepted name,74,Gobiusculus flavescens,Actinopterygii,Perciformes,Gobiidae,Gobiusculus,Two-spotted goby,TRUE
+Lebetus guilleti,accepted name,459,Lebetus guilleti,Actinopterygii,Perciformes,Gobiidae,Lebetus,Guillet's goby,FALSE
+Lebetus scorpioides,accepted name,456,Lebetus scorpioides,Actinopterygii,Perciformes,Gobiidae,Lebetus,Diminutive goby,FALSE
 Lesueurigobius friesii,accepted name,7685,Lesueurigobius friesii,Actinopterygii,Perciformes,Gobiidae,Lesueurigobius,Fries's goby,TRUE
 Pomatoschistus lozanoi,accepted name,9190,Pomatoschistus lozanoi,Actinopterygii,Perciformes,Gobiidae,Pomatoschistus,Lozano's goby,TRUE
 Pomatoschistus microps,accepted name,1344,Pomatoschistus microps,Actinopterygii,Perciformes,Gobiidae,Pomatoschistus,Common goby,TRUE
@@ -12,3 +26,5 @@ Pomatoschistus minutus,accepted name,1345,Pomatoschistus minutus,Actinopterygii,
 Pomatoschistus norvegicus,accepted name,1346,Pomatoschistus norvegicus,Actinopterygii,Perciformes,Gobiidae,Pomatoschistus,Norway goby,TRUE
 Pomatoschistus pictus,accepted name,1347,Pomatoschistus pictus,Actinopterygii,Perciformes,Gobiidae,Pomatoschistus,Painted goby,TRUE
 Thorogobius ephippiatus,accepted name,7689,Thorogobius ephippiatus,Actinopterygii,Perciformes,Gobiidae,Thorogobius,Leopard-spotted goby,TRUE
+Tripterygion delaisi,accepted name,7640,Tripterygion delaisi,Actinopterygii,Perciformes,Tripterygiidae,Tripterygion,Black-faced blenny,FALSE
+Neogobius melanostomus,accepted name,12019,Neogobius melanostomus,Actinopterygii,Perciformes,Gobiidae,Neogobius,Round goby,FALSE
