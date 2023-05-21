@@ -8,6 +8,9 @@
 ## Load functions and libs
 source(here::here("scripts/load-libs.R"))
 
+# load synonyms from rfishbase
+source(here("scripts/load-synonyms.R"))
+
 # check ncbi key loaded
 #Sys.getenv("ENTREZ_KEY", "")
 
@@ -144,17 +147,11 @@ dat.frag.merged <- dat.frag.df %>% purrr::reduce(full_join, by="dbid") %>% renam
 dbs.merged.all <- dplyr::left_join(dbs.merged.all,dat.frag.merged,by="matchCol")
 
 
-## Get fishbase taxonomy ##
+## add fishbase taxonomy ##
 
 # make a binomial scientific name - clean mess
 dbs.merged.all %<>% mutate(sciNameBinomen=sciNameOrig,sciNameBinomen=str_replace_all(sciNameBinomen," sp\\. "," sp."),sciNameBinomen=str_replace_all(sciNameBinomen," cf\\. "," cf."),sciNameBinomen=str_replace_all(sciNameBinomen," aff\\. "," aff.")) %>% 
     mutate(sciNameBinomen=apply(str_split_fixed(sciNameBinomen, " ", 3)[,1:2], 1, paste, collapse=" "))
-
-# get up to date spp list and taxonomy
-fishbase.synonyms <- rfishbase::synonyms(server="fishbase")
-# clean up fishbase - just accepted names and synonyms
-fishbase.synonyms.acc <- fishbase.synonyms %>% mutate(TaxonLevel=str_replace_all(TaxonLevel,"^species","Species")) %>% filter(Status=="accepted name" & TaxonLevel=="Species")
-fishbase.synonyms.syn <- fishbase.synonyms %>% mutate(Status=str_replace_all(Status,"Synonym","synonym")) %>% filter(Status=="synonym")
 
 # make ref of valid species 
 uk.species.valid <- species.table %>% distinct(fbSpecCode,validName,class,order,family,genus,commonName) %>% mutate(rank=if_else(grepl(" ",validName),"species","genus"))

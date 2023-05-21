@@ -109,24 +109,6 @@
       ],
       "Hash": "45f0398006e83a5b10b72a90663d8d8c"
     },
-    "RSQLite": {
-      "Package": "RSQLite",
-      "Version": "2.3.1",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "DBI",
-        "R",
-        "bit64",
-        "blob",
-        "cpp11",
-        "memoise",
-        "methods",
-        "pkgconfig",
-        "plogr"
-      ],
-      "Hash": "207c90cd5438a1f596da2cd54c606fee"
-    },
     "Rcpp": {
       "Package": "Rcpp",
       "Version": "1.0.10",
@@ -255,19 +237,6 @@
         "utils"
       ],
       "Hash": "10705eec964349f270504754d8fe8ef1"
-    },
-    "arkdb": {
-      "Package": "arkdb",
-      "Version": "0.0.16",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "DBI",
-        "R",
-        "tools",
-        "utils"
-      ],
-      "Hash": "690e36ced127ed6eba0d45c40e9f6b9d"
     },
     "askpass": {
       "Package": "askpass",
@@ -540,6 +509,22 @@
       ],
       "Hash": "bb097fccb22d156624fd07cd2894ddb6"
     },
+    "contentid": {
+      "Package": "contentid",
+      "Version": "0.0.17",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "curl",
+        "fs",
+        "httr",
+        "methods",
+        "openssl",
+        "tools"
+      ],
+      "Hash": "b7c2140e8be06feccc068600db35c1ce"
+    },
     "cpp11": {
       "Package": "cpp11",
       "Version": "0.4.3",
@@ -675,6 +660,19 @@
         "vctrs"
       ],
       "Hash": "54ed3ea01b11e81a86544faaecfef8e2"
+    },
+    "duckdb": {
+      "Package": "duckdb",
+      "Version": "0.7.1-1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "DBI",
+        "R",
+        "methods",
+        "utils"
+      ],
+      "Hash": "87a32b8f6439136df276da385ebd4ab0"
     },
     "ellipsis": {
       "Package": "ellipsis",
@@ -866,32 +864,6 @@
         "withr"
       ],
       "Hash": "3a147ee02e85a8941aad9909f1b43b7b"
-    },
-    "gh": {
-      "Package": "gh",
-      "Version": "1.4.0",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "cli",
-        "gitcreds",
-        "httr2",
-        "ini",
-        "jsonlite",
-        "rlang"
-      ],
-      "Hash": "03533b1c875028233598f848fda44c4c"
-    },
-    "gitcreds": {
-      "Package": "gitcreds",
-      "Version": "0.1.2",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R"
-      ],
-      "Hash": "ab08ac61f3e1be454ae21911eb8bc2fe"
     },
     "glue": {
       "Package": "glue",
@@ -1125,25 +1097,6 @@
       ],
       "Hash": "7e5e3cbd2a7bc07880c94e22348fb661"
     },
-    "httr2": {
-      "Package": "httr2",
-      "Version": "0.2.3",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "R6",
-        "cli",
-        "curl",
-        "glue",
-        "magrittr",
-        "openssl",
-        "rappdirs",
-        "rlang",
-        "withr"
-      ],
-      "Hash": "193bb297368afbbb42dc85784a46b36e"
-    },
     "ids": {
       "Package": "ids",
       "Version": "1.0.1",
@@ -1174,13 +1127,6 @@
         "utils"
       ],
       "Hash": "3e476b375c746d899fd53a7281d78191"
-    },
-    "ini": {
-      "Package": "ini",
-      "Version": "0.3.1",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "6154ec2223172bce8162d4153cda21f7"
     },
     "ips": {
       "Package": "ips",
@@ -1543,13 +1489,6 @@
       ],
       "Hash": "01f28d4278f15c76cddbea05899c5d6f"
     },
-    "plogr": {
-      "Package": "plogr",
-      "Version": "0.2.0",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "09eb987710984fc2905c7129c7d85e65"
-    },
     "plyr": {
       "Package": "plyr",
       "Version": "1.8.8",
@@ -1784,18 +1723,19 @@
     },
     "rfishbase": {
       "Package": "rfishbase",
-      "Version": "3.1.9",
+      "Version": "4.1.1",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
         "DBI",
         "R",
-        "RSQLite",
-        "arkdb",
-        "curl",
+        "contentid",
         "dbplyr",
         "dplyr",
-        "gh",
+        "duckdb",
+        "fs",
+        "glue",
+        "jsonlite",
         "magrittr",
         "memoise",
         "methods",
@@ -1803,11 +1743,13 @@
         "purrr",
         "readr",
         "rlang",
+        "rstudioapi",
         "stringr",
+        "tibble",
         "tools",
         "utils"
       ],
-      "Hash": "5c33659a57c16dd0292234bf6e3d89f3"
+      "Hash": "2b6f1eee9a79888bc1e7287368bc7c51"
     },
     "ritis": {
       "Package": "ritis",

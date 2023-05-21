@@ -3,7 +3,15 @@
 # scripts/get-species.R -c 826 -s true
 
 # load functions and libs
-source(here::here("scripts","load-libs.R"))
+source(here::here("scripts/load-libs.R"))
+
+# load synonyms from rfishbase
+source(here("scripts/load-synonyms.R"))
+
+# load fishbase tables
+fishbase.country <- suppressMessages(rfishbase::country(server="fishbase",version="23.01"))
+fishbase.taxonomy <- suppressMessages(rfishbase::load_taxa(server="fishbase",version="23.01"))
+fishbase.species <- suppressMessages(rfishbase::species(server="fishbase",version="23.01"))
 
 # get args
 option_list <- list( 
@@ -13,14 +21,14 @@ option_list <- list(
 
 # set args
 opt <- parse_args(OptionParser(option_list=option_list,add_help_option=FALSE))
-
-# status
-writeLines(paste0("\nSearching FishBase ..."))
-
 # dummy args
 #opt <- NULL
 #opt$country <- "826"
 #opt$synonyms <- "true"
+
+# status
+writeLines(paste0("\nSearching FishBase ..."))
+
 
 ### Species lists
 
@@ -28,45 +36,26 @@ writeLines(paste0("\nSearching FishBase ..."))
 # filter on country of interest - use ISO country codes
 # ISO country code "826" is "United Kingdom"
 # also remove subspecific names
-species.list <- suppressMessages(rfishbase::country(server="fishbase")) %>% 
-    filter(C_Code==opt$country) %>% 
-    mutate(Species=paste(str_split_fixed(Species," ",3)[,1],str_split_fixed(Species," ",3)[,2])) %>%
-    distinct(SpecCode,Species)
+species.list <- fishbase.country %>% 
+    filter(C_Code==opt$country) %>%
+    distinct(C_Code,SpecCode,country) %>%
+    left_join(distinct(fishbase.taxonomy,SpecCode,Species),by=join_by(SpecCode))
 
 
 ### Synonyms
 
-# load synonyms
-# clean up to get only synonyms and accepted names
-# remove records with non alphabetic characters
-# remove species with >1 accepted names
-fishbase.synonyms.clean <- rfishbase::synonyms(server="fishbase") %>% 
-    select(synonym,Status,SpecCode,TaxonLevel) %>% 
-    mutate(Status=str_replace_all(Status,"Synonym","synonym")) %>% 
-    filter(Status=="synonym" | Status=="accepted name") %>% 
-    filter(!str_detect(synonym,"[^a-zA-Z\\d\\s:]")) %>%
-    group_by(SpecCode) %>% 
-    mutate(nacc=length(unique(synonym[Status=="accepted name"]))) %>%
-    ungroup() %>%
-    mutate(dup=if_else(nacc>1 & TaxonLevel=="Nominotypical" & Status=="accepted name",TRUE,FALSE)) %>%
-    filter(dup==FALSE) %>%
-    select(!dup)
-
 # join the countries and synonyms tables
-species.list.syn <- species.list %>% left_join(distinct(fishbase.synonyms.clean,synonym,Status,SpecCode),by="SpecCode")
+species.list.syn <- species.list %>% left_join(bind_rows(fishbase.synonyms.acc,fishbase.synonyms.syn),by=join_by(SpecCode))
+#species.list.syn %>% print(n=100)
 
 
 ### Taxonomy and common names
 
-# load taxonomy and common name tables
-fishbase.taxonomy <- rfishbase::load_taxa(server="fishbase")
-fishbase.species <- rfishbase::species(server="fishbase")
-
 # add the taxonomy
-species.list.tax <- species.list.syn %>% left_join(distinct(as_tibble(fishbase.taxonomy),SpecCode,Genus,Family,Order,Class),by="SpecCode")
+species.list.tax <- species.list.syn %>% left_join(distinct(fishbase.taxonomy,SpecCode,Genus,Family,Order,Class),by=join_by(SpecCode))
 
 # add the common names
-species.list.com <- species.list.tax %>% left_join(distinct(fishbase.species,SpecCode,Species,FBname),by=c("SpecCode","Species"))
+species.list.com <- species.list.tax %>% left_join(distinct(fishbase.species,SpecCode,FBname),by=join_by(SpecCode))
 
 
 ### Format
@@ -76,7 +65,8 @@ species.list.form <- species.list.com %>%
     rename(speciesName=synonym,status=Status,fbSpecCode=SpecCode,validName=Species,class=Class,order=Order,family=Family,genus=Genus,commonName=FBname) %>% 
     mutate(commonSpecies=TRUE) %>%
     relocate(speciesName,status,fbSpecCode,validName,class,order,family,genus,commonName,commonSpecies) %>% 
-    arrange(class,order,family,genus,validName,status,speciesName) 
+    arrange(class,order,family,genus,validName,status,speciesName) %>%
+    select(!all_of(c("C_Code","country","SynCode","TaxonLevel")))
 
 # keep or remove synonyms
 if(opt$synonyms == "true") {
@@ -86,7 +76,9 @@ if(opt$synonyms == "true") {
 } else stop(writeLines("'-s' value must be 'true' or 'false'."))
 
 
-### Write out
+### Clean up and write out
+# close connections
+rfishbase::db_disconnect()
 
 # get stats
 if(opt$synonyms == "true") {
@@ -97,8 +89,10 @@ if(opt$synonyms == "true") {
     syn <- "0"
 } else stop(writeLines("'-s' value must be 'true' or 'false'."))
 
+# get country name
+c.name <- species.list.com %>% distinct(country) %>% pull(country)
 
 # write out
 species.list.form %>% write_csv(file="assets/species-table.csv")
 # print info
-writeLines(paste0("\nWriting out species list ","for country ISO ",opt$country,", comprising ",acc," accepted names and ",syn," synonyms, to 'assets/species-table.csv'.\n"))
+writeLines(paste0("\nWriting out species list ","for country ISO ",opt$country," (",c.name,") comprising ",acc," accepted names and ",syn," synonyms, to 'assets/species-table.csv'.\n"))
