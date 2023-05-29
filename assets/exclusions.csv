@@ -440,3 +440,25 @@ GENBANK,1523271082,Cyprinus carpio,REMOVE,Blasts as Catla
 GENBANK,2079421867,Arnoglossus thori,REMOVE,Divergent sequence
 GENBANK,2260408445,Cobitis taenia,REMOVE,Blasts as a Pangio
 GENBANK,2253754877,Barbus barbus,REMOVE,Blasts as Alburnoides
+GENBANK,2440745850,Carassius carassius,REMOVE,Probably C. aurata
+GENBANK,2440745851,Carassius carassius,REMOVE,Probably C. aurata
+GENBANK,2440745852,Carassius carassius,REMOVE,Probably C. aurata
+BOLD,SCAFB817-07.COI-5P,Amblyraja hyperborea,REMOVE,Probaby A. radiata
+BOLD,SCAFB819-07.COI-5P,Amblyraja hyperborea,REMOVE,Probaby A. radiata
+BOLD,MDMM014-17.COI-5P,Platichthys flesus,REMOVE,Nested in Pleuronectes platessa
+GENBANK,1948837795,Trichiurus lepturus,REMOVE,Blasts as Trypauchen
+GENBANK,1948837787,Trichiurus lepturus,REMOVE,Blasts as Trypauchen
+BOLD,MDMM065-17.COI-5P,Myoxocephalus scorpius,REMOVE,Nested in Taurulus
+BOLD,NBMF173-16.COI-5P,Anarhichas denticulatus,REMOVE,Nested in A. minor
+BOLD,MDMM025-17.COI-5P,Pomatoschistus microps,REMOVE,Nested in P. minutus
+BOLD,MDMM023-17.COI-5P,Pomatoschistus microps,REMOVE,Nested in P. minutus
+BOLD,MDMM026-17.COI-5P,Pomatoschistus microps,REMOVE,Nested in P. minutus
+BOLD,MDMM024-17.COI-5P,Pomatoschistus microps,REMOVE,Nested in P. minutus
+GENBANK,2095683727,Gaidropsarus mediterraneus,REMOVE,Nested in G. macrophthalmus
+GENBANK,2095683725,Gaidropsarus mediterraneus,REMOVE,Nested in G. macrophthalmus
+GENBANK,2095683735,Gaidropsarus mediterraneus,REMOVE,Nested in G. macrophthalmus
+GENBANK,2095683731,Gaidropsarus mediterraneus,REMOVE,Nested in G. macrophthalmus
+GENBANK,2095683729,Gaidropsarus mediterraneus,REMOVE,Nested in G. macrophthalmus
+GENBANK,2095683733,Gaidropsarus mediterraneus,REMOVE,Nested in G. macrophthalmus
+GENBANK,674653026,Syngnathus acus,REMOVE,Nested in S. typhle
+GENBANK,1052251477,Syngnathus acus,REMOVE,Nested in S. typhle
