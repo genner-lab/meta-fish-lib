@@ -6,7 +6,7 @@
 
 
 # get up to date spp list and taxonomy
-fishbase.synonyms <- rfishbase::synonyms(server="fishbase",version="23.01")
+fishbase.synonyms <- rfishbase::synonyms(server="fishbase",version="23.05")
 
 # clean up synonyms table - just accepted names and synonyms
 fishbase.synonyms.clean <- fishbase.synonyms %>% 

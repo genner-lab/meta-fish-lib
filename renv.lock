@@ -1723,7 +1723,7 @@
     },
     "rfishbase": {
       "Package": "rfishbase",
-      "Version": "4.1.1",
+      "Version": "4.1.2",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -1749,7 +1749,7 @@
         "tools",
         "utils"
       ],
-      "Hash": "2b6f1eee9a79888bc1e7287368bc7c51"
+      "Hash": "a6926904a0ffce6a1c80014cfb9e8a38"
     },
     "ritis": {
       "Package": "ritis",
