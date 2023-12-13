@@ -188,7 +188,7 @@ GENBANK,1605372422,Cyprinus carpio,REMOVE,Nested in a cluster of Carassius aurat
 GENBANK,6523023,Scardinius erythrophtalmus,REMOVE,Nested in a cluster of Rutilus rutilus
 GENBANK,1565944283,Barbus barbus,REMOVE,Nested in a cluster of Squalius cephalus
 GENBANK,1565944285,Barbus barbus,REMOVE,Nested in a cluster of Squalius cephalus
-BOLD,AJS290-19.COI−5P,Oreochromis niloticus,REMOVE,Nested in a cluster of Gadus morhua
+BOLD,AJS290-19.COI-5P,Oreochromis niloticus,REMOVE,Nested in a cluster of Gadus morhua
 GENBANK,261343168,Acipenser ruthenus,REMOVE,Nowhere near Acipenser
 BOLD,FSHN231-19.COI-5P,Salmo trutta,REMOVE,Nested in cluster of Salmo salar
 GENBANK,339431652,Mugil cephalus,REMOVE,"Nowhere near Mugil, blasts as a Seriola"
@@ -462,3 +462,19 @@ GENBANK,2095683729,Gaidropsarus mediterraneus,REMOVE,Nested in G. macrophthalmus
 GENBANK,2095683733,Gaidropsarus mediterraneus,REMOVE,Nested in G. macrophthalmus
 GENBANK,674653026,Syngnathus acus,REMOVE,Nested in S. typhle
 GENBANK,1052251477,Syngnathus acus,REMOVE,Nested in S. typhle
+GENBANK,672918342,Belone belone,REMOVE,clustered in B. svetovodivi
+GENBANK,1591634263,Carassius auratus,REMOVE,separate from main cluster
+BOLD,FTW824-09.COI-5P,Halosauropsis macrochir,REMOVE,separate from main cluster
+GENBANK,574957609,Pteroplatytrygon violacea,REMOVE,separate from main cluster
+GENBANK,296748195,Rostroraja alba,REMOVE,separate from main cluster
+BOLD,FNZA963-10.COI-5P,Centroscymnus crepidater,REMOVE,nested in C. coelolepis
+BOLD,FNZC395-10.COI-5P,Centrophorus granulosus,REMOVE,nested in C. squamosus
+BOLD,FNZC299-07.COI-5P,Centrophorus squamosus,REMOVE,separate from main cluster
+GENBANK,2587939605,Cyprinus carpio,REMOVE,nested in Carassius
+BOLD,NIBA088-23.COI-5P,Lophius piscatorius,REMOVE,blasts as tunicate
+GENBANK,2605890381,Oreochromis niloticus,REMOVE,blasts as Aplocheilus
+GENBANK,321151569,Flagellostomias boureei,REMOVE,separate from main cluster
+GENBANK,868611581,Acipenser ruthenus,REMOVE,separate from main cluster
+BOLD,FISCO127-10.COI-5P,Symbolophorus veranyi,REMOVE,separate from main cluster
+BOLD,FISCO121-10.COI-5P,Notoscopelus elongatus,REMOVE,nested in Benthosema
+GENBANK,584296214,Magnisudis atlantica,REMOVE,separate from main cluster
