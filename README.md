@@ -64,6 +64,7 @@ Study | Official name | Nickname | Locus
 ----- | ----- | ----- | -----
 [Miya et al. (2015)](https://doi.org/10.1098/rsos.150088) | MiFish U/E | 12s.miya | 12S
 [Taberlet et al. (2018)](https://doi.org/10.1093/oso/9780198767220.001.0001) | Tele02 | 12s.taberlet | 12S
+[Taberlet et al. (2018)](https://doi.org/10.1093/oso/9780198767220.001.0001) | Elas02 | 12s.miya | 12S
 [Valentini et al. (2016)](https://doi.org/10.1111/mec.13428) | L1848/H1913 | 12s.valentini | 12S
 [Riaz et al. (2011)](https://doi.org/10.1093/nar/gkr732) | 12S-V5 | 12s.riaz | 12S
 [Leray et al. (2013)](https://doi.org/10.1186/1742-9994-10-34) | mlCOIintF/jgHCO2198 | coi.leray | COI
