@@ -34,7 +34,7 @@ reflib.cleaned.sub <- subset_references(df=reflib.cleaned,metabarcode=opt$metaba
 if(opt$derep == "true") {
     reflib.cleaned.sub.haps <- derep_filter(df=reflib.cleaned.sub, derep=TRUE, proplen=0)
 } else if (opt$derep == "false") {
-    reflib.cleaned.sub.haps <- derep_filter(df=reflib.cleaned.sub, derep=FALSE, proplen=0)
+    reflib.cleaned.sub.haps <- derep_filter(df=reflib.cleaned.sub, derep=FALSE, proplen=0) %>% mutate(nHaps=NA)
 } else stop(writeLines("'-d' value must be 'true' or 'false'."))
 
 # filter by median length
