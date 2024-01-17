@@ -23,7 +23,8 @@ option_list <- list(
 opt <- parse_args(OptionParser(option_list=option_list,add_help_option=FALSE))
 # dummy args
 #opt <- NULL
-#opt$country <- "826"
+#opt$country <- "826" # uk
+#opt$country <- "710" # za
 #opt$synonyms <- "true"
 
 # status
@@ -93,6 +94,18 @@ if(opt$synonyms == "true") {
 c.name <- species.list.com %>% distinct(country) %>% pull(country)
 
 # write out
-species.list.form %>% write_csv(file="assets/species-table.csv")
+species.list.form %>% 
+    filter(!is.na(speciesName)) %>% 
+    write_csv(file="assets/species-table.csv")
+
 # print info
 writeLines(paste0("\nWriting out species list ","for country ISO ",opt$country," (",c.name,") comprising ",acc," accepted names and ",syn," synonyms, to 'assets/species-table.csv'.\n"))
+
+# to give warning if NAs in speciesName
+if(nrow(species.list.form) != nrow(filter(species.list.form,!is.na(speciesName)))) {
+    writeLines("\nWarning! The following FishBase species names were removed as NA:")
+    species.list.form %>% 
+        filter(is.na(speciesName)) %>% 
+        select(speciesName,fbSpecCode,validName) %>%
+        print(n=Inf)
+}
