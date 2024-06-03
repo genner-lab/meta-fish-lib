@@ -67,7 +67,7 @@ Study | Official name | Nickname | Locus
 [Taberlet et al. (2018)](https://doi.org/10.1093/oso/9780198767220.001.0001) | Elas02 | 12s.miya | 12S
 [Valentini et al. (2016)](https://doi.org/10.1111/mec.13428) | L1848/H1913 | 12s.valentini | 12S
 [Riaz et al. (2011)](https://doi.org/10.1093/nar/gkr732) | 12S-V5 | 12s.riaz | 12S
-[Leray et al. (2013)](https://doi.org/10.1186/1742-9994-10-34) | mlCOIintF/jgHCO2198 | coi.leray | COI
+[Leray et al. (2013)](https://doi.org/10.1186/1742-9994-10-34) | mlCOIintF/jgHCO2198 | coi.lerayxt | COI
 [Ward et al. (2005)](https://doi.org/10.1098/rstb.2005.1716) | FishF1/R1 | coi.ward | COI
 [Berry et al. (2017)](https://doi.org/10.1002/ece3.3123) | Fish16sF/D | 16s.berry | 16S
 [Kitano et al. (2007)](https://doi.org/10.1007/s00414-006-0113-y) | 	L2513/H2714 | 16s.kitano | 16S
