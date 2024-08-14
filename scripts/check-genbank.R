@@ -15,5 +15,5 @@ capture.output(source(here("scripts","references-load-local.R")),file="/dev/null
 writeLines(paste0("\nLocal reference library is at GenBank version ",gbv," (accessed ",gbd,")."))
 
 # load GenBank version and print
-gb.version <- read.table("ftp://ftp.ncbi.nih.gov/genbank/GB_Release_Number")$V1
+gb.version <- read.table("https://ftp.ncbi.nih.gov/genbank/GB_Release_Number")$V1
 writeLines(paste0("\nNCBI GenBank is currently at version ",gb.version," (accessed ",format(Sys.time(), '%d %b %Y'),").\n"))
