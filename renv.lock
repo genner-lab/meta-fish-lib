@@ -28,7 +28,29 @@
       }
     ]
   },
+  "Bioconductor": {
+    "Version": "3.18"
+  },
   "Packages": {
+    "BiocManager": {
+      "Package": "BiocManager",
+      "Version": "1.30.23",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "utils"
+      ],
+      "Hash": "47e968dfe563c1b22c2e20a067ec21d5"
+    },
+    "BiocVersion": {
+      "Package": "BiocVersion",
+      "Version": "3.18.1",
+      "Source": "Bioconductor",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "2ecaed86684f5fae76ed5530f9d29c4a"
+    },
     "DBI": {
       "Package": "DBI",
       "Version": "1.1.3",
@@ -1449,7 +1471,7 @@
     "phangorn": {
       "Package": "phangorn",
       "Version": "2.11.1",
-      "Source": "Repository",
+      "Source": "Bioconductor",
       "Repository": "CRAN",
       "Requirements": [
         "Matrix",
@@ -2242,14 +2264,9 @@
     },
     "traits": {
       "Package": "traits",
-      "Version": "0.5.1",
-      "Source": "GitHub",
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteUsername": "boopsboops",
-      "RemoteRepo": "traits",
-      "RemoteRef": "ccd098a952e61f527a02e8ea356ff9a569cb9ac8",
-      "RemoteSha": "ccd098a952e61f527a02e8ea356ff9a569cb9ac8",
+      "Version": "0.5.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
       "Requirements": [
         "R",
         "crul",
@@ -2263,7 +2280,7 @@
         "tibble",
         "xml2"
       ],
-      "Hash": "d36a06a255a1ca7ca6eba951b7e4b9e8"
+      "Hash": "a208ec766eb37ac2565a6f8c6fd869ee"
     },
     "triebeard": {
       "Package": "triebeard",
