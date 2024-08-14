@@ -37,7 +37,7 @@ species.table <- read_csv(file=here("assets/species-table.csv"),show_col_types=F
 writeLines(paste0("\nSpecies table contains ",length(pull(species.table,speciesName))," species names"))
 
 # check the GenBank data release number against the record of previous download
-gb.version <- read.table("https://ftp.ncbi.nih.gov/genbank/GB_Release_Number")$V1
+gb.version <- read.table("ftp://ftp.ncbi.nih.gov/genbank/GB_Release_Number")$V1
 writeLines(paste0("\nGenBank is at version ",gb.version))
 
 ### Download all GenBank sequences for species in species table (including synonyms) with mtDNA
