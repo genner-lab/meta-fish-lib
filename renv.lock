@@ -2264,9 +2264,14 @@
     },
     "traits": {
       "Package": "traits",
-      "Version": "0.5.0",
-      "Source": "Repository",
-      "Repository": "CRAN",
+      "Version": "0.5.1",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteUsername": "boopsboops",
+      "RemoteRepo": "traits",
+      "RemoteRef": "ccd098a952e61f527a02e8ea356ff9a569cb9ac8",
+      "RemoteSha": "ccd098a952e61f527a02e8ea356ff9a569cb9ac8",
       "Requirements": [
         "R",
         "crul",
@@ -2280,7 +2285,7 @@
         "tibble",
         "xml2"
       ],
-      "Hash": "a208ec766eb37ac2565a6f8c6fd869ee"
+      "Hash": "d36a06a255a1ca7ca6eba951b7e4b9e8"
     },
     "triebeard": {
       "Package": "triebeard",
