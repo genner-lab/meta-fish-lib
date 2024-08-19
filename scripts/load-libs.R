@@ -34,21 +34,41 @@ source("https://raw.githubusercontent.com/boopsboops/UTILITIES/main/RScripts/tab
 source("https://raw.githubusercontent.com/boopsboops/UTILITIES/main/RScripts/subset_references.R")
 
 
+# ENTREZ OFFSET TO TIME DELAY SEARCHES
+entrez_search_offset <- function(string,apikey){
+    Sys.sleep(time=runif(n=1,min=0,max=3))
+    esr <- rentrez::entrez_search(db="nuccore",term=string,retmax=as.integer(99999),api_key=apikey,use_history=TRUE)
+    return(esr)
+}
+
 # FUNCTION TO RUN PARALLEL ENTREZ SEARCHES 
+# uncomment statements to print out progress report (errors)
 entrez_search_parallel <- function(query,threads,key){  
     start_time <- Sys.time()
-    n.res <- suppressWarnings(mcmapply(FUN=function(x) entrez_search(db="nuccore", term=x, retmax=as.integer(99999), api_key=key, use_history=TRUE), query, SIMPLIFY=FALSE, USE.NAMES=FALSE, mc.cores=threads))
-    errs <- grepl("Error",n.res)
-    if(any(errs==TRUE)) {
-        n.res.rep <- suppressWarnings(mcmapply(FUN=function(x) entrez_search(db="nuccore", term=x, retmax=as.integer(99999), api_key=key, use_history=TRUE), query[which(errs==TRUE)], SIMPLIFY=FALSE, USE.NAMES=FALSE, mc.cores=1))
+    n.res <- suppressWarnings(mcmapply(FUN=function(x) tryCatch(entrez_search_offset(string=x,apikey=key), error=function(e) NULL), query, SIMPLIFY=FALSE, USE.NAMES=FALSE, mc.cores=threads))
+    errs <- grepl("NULL", n.res)
+    if(any(errs==TRUE)) {writeLines("Problem detected, repeating search ...")}
+    #cat("Errors for", length(errs), "queries\n", sep = " ")###
+    #print(errs)###
+    i <- 1
+    while(any(errs==TRUE) & i < 3) {
+        n.res.rep <- suppressWarnings(mcmapply(FUN=function(x) tryCatch(entrez_search_offset(string=x,apikey=key), error=function(e) NULL), query[which(errs==TRUE)], SIMPLIFY=FALSE, USE.NAMES=FALSE, mc.cores=threads))
         n.res[which(errs==TRUE)] <- n.res.rep
-    } else {
-        n.res <- n.res
-    }
+        errs <- grepl("NULL", n.res)
+        i <- i + 1
+        #cat("Attempt", i, "\n", sep = " ")###
+        #print(errs)###
+    } 
+    if(any(errs==TRUE)) {writeLines("Three search attempts now made ...")}
+    if(any(errs==TRUE)) {
+        #Sys.sleep(time=3)
+        n.res.rep <- suppressWarnings(mcmapply(FUN=function(x) tryCatch(entrez_search_offset(string=x,apikey=key), error=function(e) NULL), query[which(errs==TRUE)], SIMPLIFY=FALSE, USE.NAMES=FALSE, mc.cores=1))
+        n.res[which(errs==TRUE)] <- n.res.rep
+    } 
     end_time <- Sys.time()
-    errs.fin <- grepl("Error",n.res)
+    errs.fin <- grepl("NULL",n.res)
     if(any(errs.fin==TRUE)) { 
-        stop(writeLines("Searches failed ... aborted")) 
+        stop(writeLines("\n<<< !!! SEARCH ABORTED !!! >>>\n<<< Try reducing query length (-q) and/or number threads (-t). >>>\n")) 
     } else {
         writeLines(paste("Results returned for",length(which(errs.fin==FALSE)), "batches.","Search took",round(as.numeric(end_time-start_time),digits=2),"seconds.",sep=" "))
         return(n.res)
