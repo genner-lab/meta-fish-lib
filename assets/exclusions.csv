@@ -478,3 +478,227 @@ GENBANK,868611581,Acipenser ruthenus,REMOVE,separate from main cluster
 BOLD,FISCO127-10.COI-5P,Symbolophorus veranyi,REMOVE,separate from main cluster
 BOLD,FISCO121-10.COI-5P,Notoscopelus elongatus,REMOVE,nested in Benthosema
 GENBANK,584296214,Magnisudis atlantica,REMOVE,separate from main cluster
+GENBANK,3025627440,Tripterygion delaisi,REMOVE,partial sequence from mt genome
+BOLD,UKFBJ422-08.COI-5P,Glyptocephalus cynoglossus,REMOVE,Nested in Hippoglossoides platessoides
+BOLD,SCFAC772-06.COI-5P,Myxine glutinosa,REMOVE,nested in Glyptocephalus cynoglossus
+BOLD,DPND1831-16.COI-5P,Seriola dumerili,REMOVE,blasts as Elagatis bipinnulata
+BOLD,CBPM119-11.COI-5P,Grammicolepis brachiusculus,REMOVE,blasts as Trichopsetta ventralis
+GENBANK,2293252208,Arnoglossus imperialis,REMOVE,this is A. blachei
+GENBANK,2293252212,Arnoglossus imperialis,REMOVE,this is A. blachei
+GENBANK,2293252210,Arnoglossus imperialis,REMOVE,this is A. blachei
+GENBANK,343223512,Argyropelecus hemigymnus,REMOVE,blasts as A. gigas
+GENBANK,343223528,Argyropelecus olfersii,REMOVE,blasts as A. gigas
+GENBANK,343223510,Argyropelecus hemigymnus,REMOVE,blasts as A. affinis
+GENBANK,343223526,Argyropelecus olfersii,REMOVE,blasts as A. aculeatus
+GENBANK,343223514,Argyropelecus hemigymnus,REMOVE,blasts as A. sladeni
+GENBANK,343223516,Argyropelecus hemigymnus,REMOVE,blasts as A. sladeni
+GENBANK,307604437,Argyropelecus hemigymnus,REMOVE,blasts as A. aculeatus
+BOLD,UKFBI217-08.COI-5P,Helicolenus dactylopterus,REMOVE,blasts as Polymetme thaeocoryla
+GENBANK,2892981674,Leuciscus leuciscus,REMOVE,nested in Stomias boa
+BOLD,FOAG512-08.COI-5P,Arctozenus risso,REMOVE,blasts as Diplophos rebainsi
+GENBANK,2576857024,Psenes maculatus,REMOVE,blasts as Astronesthes nigroides
+BOLD,DSSAF012-11.COI-5P,Borostomius antarcticus,REMOVE,blasts as Borostomius mononema
+BOLD,HSI163-06.COI-5P,Acipenser ruthenus,REMOVE,blasts as A. stellatus
+BOLD,HSI172-06.COI-5P,Acipenser ruthenus,REMOVE,blasts as A. gueldenstaedtii
+GENBANK,357934001,Narcetes stomias,REMOVE,blasts as Maulisia
+BOLD,HVDB137-10.COI-5P,Bajacalifornia megalops,REMOVE,blasts as Alepocephalus
+BOLD,MAECO392-09.COI-5P,Bathylagichthys greyae,REMOVE,blasts as Nansenia
+GENBANK,2867082760,Bathylagus euryops,REMOVE,blasts as Cyclothone
+GENBANK,307604419,Cyclothone braueri,REMOVE,blasts as Cyclothone pseudopallida
+GENBANK,1043219920,Cyclothone braueri,REMOVE,blasts as Cyclothone pseudopallida
+BOLD,FMVIC169-08.COI-5P,Rutilus rutilus,REMOVE,blasts as Fistularia 
+BOLD,GLF138-14.COI-5P,Nezumia aequalis,REMOVE,nested in N. sclerorhynchus
+BOLD,BNSF271-11.COI-5P,Gaidropsarus mediterraneus,REMOVE,nested in G. vulgaris
+BOLD,LTSM044-12.COI-5P,Pollachius pollachius,REMOVE,blasts as Gadus chalcogrammus
+BOLD,LTSM155-12.COI-5P,Pollachius virens,REMOVE,blasts as Gadus chalcogrammus
+BOLD,LTSM029-12.COI-5P,Pollachius pollachius,REMOVE,blasts as Gadus chalcogrammus
+BOLD,FCFUK127-06.COI-5P,Gadus morhua,REMOVE,blasts as Merlangius
+GENBANK,2497601985,Cyprinus carpio,REMOVE,blasts as Ephippus orbis
+GENBANK,2497601987,Cyprinus carpio,REMOVE,blasts as Ephippus orbis
+BOLD,UKFBI682-08.COI-5P,Macrourus berglax,REMOVE,blasts as Masturus lanceolatus
+GENBANK,HVDBF493-12.COI-5P,Lagocephalus lagocephalus,REMOVE,blasts as Sphoeroides pachygaster
+BOLD,FTW278-09.COI-5P,Auxis thazard,REMOVE,blasts as Lestrolepis
+BOLD,FMVIC280-08.COI-5P,Arctozenus risso,REMOVE,blasts as Magnisudis
+BOLD,DSSAF657-11.COI-5P,Arctozenus risso,REMOVE,blasts as Magnisudis
+BOLD,BLSEA165-16.COI-5P,Ctenolabrus rupestris,REMOVE,blasts as Symphodus cinereus
+BOLD,BLSEA166-16.COI-5P,Ctenolabrus rupestris,REMOVE,blasts as Symphodus cinereus
+BOLD,BLSEA167-16.COI-5P,Ctenolabrus rupestris,REMOVE,blasts as Symphodus cinereus
+BOLD,UKFBJ1206-08.COI-5P,Triglops murrayi,REMOVE,blasts as Cookeolus japonicus
+BOLD,HVDBF332-11.COI-5P,Sarpa salpa,REMOVE,blasts as Pomadasys furcatus
+GENBANK,2497602175,Mugil cephalus,REMOVE,blasts as Nemipterus japonicus
+GENBANK,2751581716,Melanocetus johnsonii,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751582482,Melanocetus johnsonii,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751581770,Ceratoscopelus warmingii,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751582060,Ceratoscopelus warmingii,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751582294,Ceratoscopelus warmingii,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751581926,Ceratoscopelus warmingii,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751581800,Ceratoscopelus warmingii,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751580908,Ceratoscopelus warmingii,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751581700,Ceratoscopelus warmingii,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751581930,Ceratoscopelus warmingii,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751581980,Ceratoscopelus warmingii,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751580640,Ceratoscopelus warmingii,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751580452,Ceratoscopelus warmingii,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751581640,Ceratoscopelus warmingii,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751582150,Nesiarchus nasutus,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751580648,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751580578,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751581622,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751581978,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751580958,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751580710,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751581698,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751580656,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751581704,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751581970,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751580660,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751580868,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751581710,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751580476,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751580310,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751581618,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751581190,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751580634,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751580712,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751580582,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751581624,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751581620,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751580740,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751580644,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751581708,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751582340,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751580788,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751580722,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751581956,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751580726,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751580632,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751580692,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751581664,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751581616,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751581738,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751581820,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751581668,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751581662,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751580642,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751581540,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751581380,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751581614,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751581656,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751582224,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751580704,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751581702,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751581748,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751580858,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751580646,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751580782,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751580568,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751581586,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751580554,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751581774,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751580388,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751580590,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751580814,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+GENBANK,2751581706,Ranzania laevis,REMOVE,blanket blacklist of Carlon et al. (2024)
+BOLD,DSSAF284-11.COI-5P,Ceratoscopelus maderensis,REMOVE,nested in C. warmingii
+BOLD,DSSAF286-11.COI-5P,Ceratoscopelus maderensis,REMOVE,nested in C. warmingii
+BOLD,DSSAF285-11.COI-5P,Ceratoscopelus maderensis,REMOVE,nested in C. warmingii
+BOLD,DSSAF283-11.COI-5P,Ceratoscopelus maderensis,REMOVE,nested in C. warmingii
+BOLD,HVDB194-10.COI-5P,Lophius piscatorius,REMOVE,blasts as Lophius vaillanti
+GENBANK,685496969,Howella brodiei,REMOVE,similar to Rosenblattia
+GENBANK,2591501588,Ambloplites rupestris,REMOVE,blasts as Etheostoma
+GENBANK,2497601991,Cyprinus carpio,REMOVE,blasts as Epinephelus
+GENBANK,2874142170,Thunnus albacares,REMOVE,blasts as Epinephelus
+GENBANK,2497601995,Cyprinus carpio,REMOVE,blasts as Epinephelus
+GENBANK,2497601989,Cyprinus carpio,REMOVE,blasts as Epinephelus
+GENBANK,2497601993,Cyprinus carpio,REMOVE,blasts as Epinephelus
+GENBANK,2497660909,Dentex dentex,REMOVE,blasts as Dentex angolensis or canariensis
+BOLD,SABF032-12.COI-5P,Pagrus pagrus,REMOVE,blasts as Cheimerius nufar
+GENBANK,2451341229,Lepidorhombus boscii,REMOVE,nested in Pagrus erythinus
+BOLD,FCFP016-05.COI-5P,Callionymus maculatus,REMOVE,nested in Chelidonichthys lucerna
+GENBANK,2743178023,Leptoclinus maculatus,REMOVE,blasts as Lumpenus sagitta
+BOLD,GLF330-19.COI-5P,Maurolicus muelleri,REMOVE,blasts as Gigantactis vanhoeffeni
+BOLD,AJS257-19.COI-5P,Oreochromis niloticus,REMOVE,short sequence
+BOLD,FBCS102-10.COI-5P,Coptodon zillii,REMOVE,nested in O. niloticus
+BOLD,FBCS104-10.COI-5P,Coptodon zillii,REMOVE,nested in O. niloticus
+BOLD,FBCS103-10.COI-5P,Coptodon zillii,REMOVE,nested in O. niloticus
+BOLD,FBCS101-10.COI-5P,Coptodon zillii,REMOVE,nested in O. niloticus
+BOLD,FBCS105-10.COI-5P,Coptodon zillii,REMOVE,nested in O. niloticus
+BOLD,GUFW122-12.COI-5P,Coptodon zillii,REMOVE,nested in O. niloticus
+BOLD,DPND2138-16.COI-5P,Helicolenus dactylopterus,REMOVE,blasts as Pontinus rathbuni
+BOLD,DPND2224-16.COI-5P,Helicolenus dactylopterus,REMOVE,blasts as Pontinus rathbuni
+BOLD,DPND2237-16.COI-5P,Helicolenus dactylopterus,REMOVE,blasts as Pontinus rathbuni
+BOLD,EHPQ014-19.COI-5P,Helicolenus dactylopterus,REMOVE,blasts as Sebastes oculatus
+GENBANK,2493178241,Sparus aurata,REMOVE,blasts as Omobranchus ferox
+GENBANK,1011597934,Lepadogaster candolii,REMOVE,nested in L. purpurea
+BOLD,HVDBF383-11.COI-5P,Lycodes terraenovae,REMOVE,blasts as Rajella leopardus
+BOLD,FLBAR1784-20.COI-5P,Etmopterus princeps,REMOVE,nested in Centroscyllium fabricii
+GENBANK,2949335864,Centroscymnus coelolepis,REMOVE,nested in Centroscymnus owstoni
+BOLD,FNZA299-07.COI-5P,Centrophorus squamosus,REMOVE,separate from main cluster
+BOLD,GEP379-12.COI-5P,Prionace glauca,REMOVE,nested in Isurus oxyrinchus
+BOLD,GEP397-12.COI-5P,Prionace glauca,REMOVE,nested in Isurus oxyrinchus
+BOLD,BLSEA198-16.COI-5P,Chelon auratus,REMOVE,blasts as Chelon saliens
+BOLD,BLSEA181-16.COI-5P,Chelon auratus,REMOVE,blasts as Chelon saliens
+BOLD,MFLR013-11.COI-5P,Dactylopterus volitans,REMOVE,nested in Pterycombus brama
+BOLD,HVDBF429-11.COI-5P,Hexanchus griseus,REMOVE,nested in Brama brama
+GENBANK,2085182869,Thunnus albacares,REMOVE,blasts as Gempylus serpens
+GENBANK,2101422086,Trichiurus lepturus,REMOVE,blasts as Eupleurogrammus
+GENBANK,1842077829,Trichiurus lepturus,REMOVE,blasts as Eupleurogrammus
+BOLD,HVDBF533-12.COI-5P,Centrolophus niger,REMOVE,nested in Psenes maculatus
+BOLD,TZSAL774-13.COI-5P,Epigonus telescopus,REMOVE,blasts as Hyperoglyphe antarctica
+BOLD,TZSAL059-04.COI-5P,Epigonus telescopus,REMOVE,blasts as Hyperoglyphe antarctica
+BOLD,DSSAF702-11.COI-5P,Euthynnus alletteratus,REMOVE,blasts as Allothunnus fallai
+BOLD,DSSAF704-11.COI-5P,Euthynnus alletteratus,REMOVE,blasts as Allothunnus fallai
+BOLD,DSSAF701-11.COI-5P,Euthynnus alletteratus,REMOVE,blasts as Allothunnus fallai
+BOLD,DSSAF705-11.COI-5P,Euthynnus alletteratus,REMOVE,blasts as Allothunnus fallai
+BOLD,DSSAF703-11.COI-5P,Euthynnus alletteratus,REMOVE,blasts as Allothunnus fallai
+BOLD,MXV353-11.COI-5P,Katsuwonus pelamis,REMOVE,nested in Thunnus
+BOLD,MXV088-11.COI-5P,Katsuwonus pelamis,REMOVE,nested in Thunnus
+GENBANK,296748757,Nemichthys scolopaceus,REMOVE,blasts as Labichthys yanoi
+GENBANK,357934003,Nemichthys scolopaceus,REMOVE,blasts as Labichthys yanoi
+BOLD,CBPM179-11.COI-5P,Histiobranchus bathybius,REMOVE,nested in Synaphobranchus kaupii
+GENBANK,2552485995,Notacanthus bonaparte,REMOVE,blasts as Notacanthus sp.
+GENBANK,1834960270,Notacanthus bonaparte,REMOVE,blasts as Notacanthus sp.
+GENBANK,3008774379,Trichiurus lepturus,REMOVE,Blasts as Stolephorus
+GENBANK,3008774631,Trichiurus lepturus,REMOVE,Blasts as Stolephorus
+GENBANK,2497601983,Cyprinus carpio,REMOVE,blast as Dussumieria
+GENBANK,2806361820,Cyprinus carpio,REMOVE,nested in Carassius
+BOLD,CIUA1426-24.COI-5P,Cyprinus carpio,REMOVE,nested in Carassius
+BOLD,AMS207-08.COI-5P,Cyprinus carpio,REMOVE,nested in Carassius
+BOLD,EEFF404-11.COI-5P,Rutilus rutilus,REMOVE,nested in Scardinius erythrophthalmus
+BOLD,EEFF402-11.COI-5P,Rutilus rutilus,REMOVE,nested in Scardinius erythrophthalmus
+BOLD,EEFF399-11.COI-5P,Rutilus rutilus,REMOVE,nested in Scardinius erythrophthalmus
+BOLD,EEFF400-11.COI-5P,Rutilus rutilus,REMOVE,nested in Scardinius erythrophthalmus
+BOLD,EEFF405-11.COI-5P,Rutilus rutilus,REMOVE,nested in Scardinius erythrophthalmus
+BOLD,EEFF401-11.COI-5P,Rutilus rutilus,REMOVE,nested in Scardinius erythrophthalmus
+BOLD,EEFF397-11.COI-5P,Rutilus rutilus,REMOVE,nested in Scardinius erythrophthalmus
+BOLD,EEFF398-11.COI-5P,Rutilus rutilus,REMOVE,nested in Scardinius erythrophthalmus
+BOLD,EEFF403-11.COI-5P,Rutilus rutilus,REMOVE,nested in Scardinius erythrophthalmus
+BOLD,EEFF406-11.COI-5P,Rutilus rutilus,REMOVE,nested in Scardinius erythrophthalmus
+BOLD,EEFF253-09.COI-5P,Rutilus rutilus,REMOVE,blasts as Rutilus frisii
+GENBANK,2851351814,Carassius carassius,REMOVE,"all nested in C. auratus, maybe hybrids with C. gibelo"
+GENBANK,2851351776,Carassius carassius,REMOVE,"all nested in C. auratus, maybe hybrids with C. gibelo"
+GENBANK,2851351940,Carassius carassius,REMOVE,"all nested in C. auratus, maybe hybrids with C. gibelo"
+GENBANK,2851351756,Carassius carassius,REMOVE,"all nested in C. auratus, maybe hybrids with C. gibelo"
+GENBANK,2851351896,Carassius carassius,REMOVE,"all nested in C. auratus, maybe hybrids with C. gibelo"
+GENBANK,2851351898,Carassius carassius,REMOVE,"all nested in C. auratus, maybe hybrids with C. gibelo"
+GENBANK,2851351972,Carassius carassius,REMOVE,"all nested in C. auratus, maybe hybrids with C. gibelo"
+GENBANK,2851351768,Carassius carassius,REMOVE,"all nested in C. auratus, maybe hybrids with C. gibelo"
+GENBANK,2851351816,Carassius carassius,REMOVE,"all nested in C. auratus, maybe hybrids with C. gibelo"
+GENBANK,2851351910,Carassius carassius,REMOVE,"all nested in C. auratus, maybe hybrids with C. gibelo"
+GENBANK,2851351744,Carassius carassius,REMOVE,"all nested in C. auratus, maybe hybrids with C. gibelo"
+GENBANK,2851351746,Carassius carassius,REMOVE,"all nested in C. auratus, maybe hybrids with C. gibelo"
+GENBANK,2851351770,Carassius carassius,REMOVE,"all nested in C. auratus, maybe hybrids with C. gibelo"
+GENBANK,2851351730,Carassius carassius,REMOVE,"all nested in C. auratus, maybe hybrids with C. gibelo"
+GENBANK,2851351810,Carassius carassius,REMOVE,"all nested in C. auratus, maybe hybrids with C. gibelo"
+GENBANK,2851351812,Carassius carassius,REMOVE,"all nested in C. auratus, maybe hybrids with C. gibelo"
+GENBANK,2851351732,Carassius carassius,REMOVE,"all nested in C. auratus, maybe hybrids with C. gibelo"
+GENBANK,2851351742,Carassius carassius,REMOVE,"all nested in C. auratus, maybe hybrids with C. gibelo"
+GENBANK,2851351942,Carassius carassius,REMOVE,"all nested in C. auratus, maybe hybrids with C. gibelo"
+GENBANK,2851351900,Carassius carassius,REMOVE,"all nested in C. auratus, maybe hybrids with C. gibelo"
+GENBANK,2851351758,Carassius carassius,REMOVE,"all nested in C. auratus, maybe hybrids with C. gibelo"
+GENBANK,2851351888,Carassius carassius,REMOVE,"all nested in C. auratus, maybe hybrids with C. gibelo"
+GENBANK,2851351884,Carassius carassius,REMOVE,"all nested in C. auratus, maybe hybrids with C. gibelo"
+BOLD,EEFF149-06.COI-5P,Alburnus alburnus,REMOVE,nested in Leucaspis delineatus
+BOLD,EEFF017-06.COI-5P,Leuciscus leuciscus,REMOVE,blasts as Leuciscus lehmanni
+GENBANK,2647705828,Cyprinus carpio,REMOVE,nested in Carassius
+GENBANK,2508247912,Tinca tinca,REMOVE,very long branch
