@@ -44,6 +44,9 @@ reflibs.sub <- mcmapply(function(x) subset_nucs(pref=x,df=reflib), prefixes, SIM
 # collapse dataframe by haps-per-species, annotate with number haps
 reflibs.haps <- mcmapply(function(x) haps2fas(df=x), reflibs.sub, SIMPLIFY=FALSE,USE.NAMES=TRUE,mc.cores=cores)
 
+# write out
+reflibs.haps %>% bind_rows() %>% write_csv(here("temp/reference-library-master-haps.csv.gz"))
+
 # convert to fasta
 reflibs.fas <- mcmapply(function(x) tab2fas(df=x,seqcol="nucleotidesFrag",namecol="noms"), reflibs.haps, SIMPLIFY=FALSE,USE.NAMES=TRUE,mc.cores=cores)
 
