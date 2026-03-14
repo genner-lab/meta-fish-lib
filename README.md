@@ -128,8 +128,11 @@ scripts/get-species.R -c 826 -s true
 #     the simple search just uses the terms "mitochondrion,mitochondrial"  
 #     the exhaustive search in addition uses "COI,CO1,cox1,cytb,cytochrome,subunit,COB,CYB,12S,16S,rRNA,ribosomal"
 #     the simple search will pick up 99% of mtDNA sequences, but may miss older sequences that were not well annotated
-#     the simple search is faster, less prone to error, and may help if you need to search for a lot of species 
-scripts/sequences-download.R -q 500 -t 4 -e false
+#     the simple search is faster, less prone to error, and may help if you need to search for a lot of species
+# argument "-b" [false] is to disable the BOLD search
+#     a value of "true" will run the bold search
+#     a value of "false" will not run the bold search
+scripts/sequences-download.R -q 500 -t 4 -e false -b false
 
 ### assemble the reference library with hidden Markov models and obtain metadata ###
 # argument "-t" [4] is the number of processing threads to run in parallel

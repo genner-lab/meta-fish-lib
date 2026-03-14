@@ -25,7 +25,7 @@ opt <- parse_args(OptionParser(option_list=option_list,add_help_option=FALSE))
 # if running line-by-line
 #opt <- NULL
 #opt$threads <- 1
-#opt$metabarcode <- "coi.lerayxt"
+#opt$metabarcode <- "coi.ward"
 #"all"#"12s.taberlet"#"coi.lerayxt"#
 
 # set cores - mc.cores=1 is the safest option, but try extra cores to speed up if there are no errors
@@ -36,7 +36,9 @@ cores <- opt$threads
 # load up the species table
 species.table <- read_csv(file=here("assets/species-table.csv"),show_col_types=FALSE)
 # load the BOLD dump
-bold.red <- read_csv(file=here("temp/bold-dump.csv"), guess_max=100000,show_col_types=FALSE)
+if (file.exists(here("temp/bold-dump.csv"))) {
+    bold.red <- read_csv(file=here("temp/bold-dump.csv"), guess_max=100000,show_col_types=FALSE)
+}
 # load up stats
 stats <- read_csv(file=here("reports/stats.csv"),show_col_types=FALSE)
 
@@ -69,9 +71,13 @@ dat.frag.cat <- do.call(c,dat.frag.all)
 # get unique names
 dat.frag.names <- unique(labels(dat.frag.cat))
 
+if (file.exists(here("temp/bold-dump.csv"))) {
 # separate the extracted sequences that are in GenBank or BOLD
 in.bold <- dat.frag.names[dat.frag.names %in% bold.red$processidUniq]
 in.gb <- dat.frag.names[!dat.frag.names %in% bold.red$processidUniq]
+} else {
+    in.gb <- dat.frag.names
+}
 
 # now for the same sequences, get the tabular data from NCBI using 'ncbi_byid' 
 # chunk 200 should result in string of around 2200 chars
@@ -114,10 +120,13 @@ frag.df %<>% filter(gi_no!="NCBI_GENOMES") %>%
     mutate(lat=str_replace_all(lat,"^ ", NA_character_), lon=str_replace_all(lon,"^ ", NA_character_)) %>%
     mutate(lat=suppressWarnings(as.numeric(lat)), lon=suppressWarnings(as.numeric(lon))) %>% 
     select(-taxonomy,-organelle,-keyword,-lat_lon) %>% 
+    mutate(institutionCode=NA_character_) %>%
     rename(sciNameOrig=taxon,notesGenBank=gene_desc,dbid=gi_no,gbAccession=acc_no,catalogNumber=specimen_voucher,publishedAs=paper_title,publishedIn=journal,publishedBy=first_author,date=uploaded_date,decimalLatitude=lat,decimalLongitude=lon,nucleotides=sequence)
 
 # do the same for BOLD
 # run
+if (file.exists(here("temp/bold-dump.csv"))) {
+
 bold.red %<>% filter(!is.na(species_name)) %>%
     filter(processidUniq %in% in.bold) %>%
     filter(!genbank_accession %in% str_replace_all(frag.df$gbAccession,"\\..+","")) %>%
@@ -127,6 +136,11 @@ bold.red %<>% filter(!is.na(species_name)) %>%
 
 # merge gb and bold data
 dbs.merged.all <- bind_rows(frag.df,bold.red) %>% mutate(matchCol=if_else(grepl("\\.COI-5P",dbid),dbid,gbAccession)) 
+
+} else {
+    dbs.merged.all <- frag.df %>% mutate(matchCol=if_else(grepl("\\.COI-5P",dbid),dbid,gbAccession)) 
+}
+
 
 # name each DNAbin object
 names(dat.frag.all) <- prefixes.all

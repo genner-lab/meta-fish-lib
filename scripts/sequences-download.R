@@ -15,8 +15,8 @@ source(here("assets/ncbi-key.R"))
 option_list <- list( 
     make_option(c("-q","--qlength"), type="numeric"),
     make_option(c("-t","--threads"), type="numeric"),
-    make_option(c("-e","--exhaustive"), type="character")
-#    make_option(c("-b","--bold"), type="character")
+    make_option(c("-e","--exhaustive"), type="character"),
+    make_option(c("-b","--bold"), type="character")
     )
 
 # set args
@@ -24,10 +24,10 @@ opt <- parse_args(OptionParser(option_list=option_list,add_help_option=FALSE))
 
 # opts if running line-by-line
 #opt <- NULL
-#opt$qlength <- 2000
-#opt$threads <- 4
-#opt$exhaustive <- "true"
-#opt$bold <- "true"
+#opt$qlength <- 500
+#opt$threads <- 1
+#opt$exhaustive <- "false"
+#opt$bold <- "false"
 
 # load up the species table
 species.table <- read_csv(file=here("assets/species-table.csv"),show_col_types=FALSE)
@@ -165,7 +165,7 @@ invisible(file.remove(list.files(here("temp/fasta-temp"),full.name=TRUE)))
 ### Now repeat the same for the BOLD database
 
 # turn on bold option
-#if(opt$bold == "true") {
+if(opt$bold == "true") {
 
 writeLines("\nNow searching BOLD ...\n")
 
@@ -216,15 +216,16 @@ write.FASTA(bold.fas, file=here("temp/mtdna-dump.fas"), append=TRUE)
 
 
 # close bold option
-#} else if (opt$bold == "false") {
-#    # dummy bold table
-#    bold.red <- tibble(
-#        processid=NA,sampleid=NA,recordID=NA,catalognum=NA,fieldnum=NA,institution_storing=NA,collection_code=NA,bin_uri=NA,phylum_taxID=NA#,phylum_name=NA,class_taxID=NA,class_name=NA,order_taxID=NA,order_name=NA,family_taxID=NA,family_name=NA,subfamily_taxID=NA,#subfamily_name=NA,genus_taxID=NA,genus_name=NA,species_taxID=NA,species_name=NA,subspecies_taxID=NA,subspecies_name=NA,#identification_provided_by=NA,identification_method=NA,identification_reference=NA,tax_note=NA,voucher_status=NA,tissue_type=NA#,collection_event_id=NA,collectors=NA,collectiondate_start=NA,collectiondate_end=NA,collectiontime=NA,collection_note=NA,#site_code=NA,sampling_protocol=NA,lifestage=NA,sex=NA,reproduction=NA,habitat=NA,associated_specimens=NA,associated_taxa=NA,#extrainfo=NA,notes=NA,lat=NA,lon=NA,coord_source=NA,coord_accuracy=NA,elev=NA,depth=NA,elev_accuracy=NA,depth_accuracy=NA,#country=NA,province_state=NA,region=NA,sector=NA,exactsite=NA,image_ids=NA,image_urls=NA,media_descriptors=NA,captions=NA,#copyright_holders=NA,copyright_years=NA,copyright_licenses=NA,copyright_institutions=NA,photographers=NA,sequenceID=NA,#markercode=NA,genbank_accession=NA,nucleotides=NA,trace_ids=NA,trace_names=NA,trace_links=NA,run_dates=NA,sequencing_centers=NA#,directions=NA,seq_primers=NA,marker_codes=NA,num_bases=NA,processidUniq=NA
-#    )
-## write out dummy file
-#write_csv(bold.red,file=here("temp","bold-dump.csv"))
+} else if (opt$bold == "false") {
+#    rm bold table
+    if (file.exists(here("temp/bold-dump.csv"))) {
+         invisible(file.remove(here("temp/bold-dump.csv")))
+    }
+# dummy for stats
+bold.red <- tibble(processidUniq=numeric())
+# length(pull(bold.red,processidUniq))
 #
-#} else stop(writeLines("'-b' value must be 'true' or 'false'."))
+} else stop(writeLines("'-b' value must be 'true' or 'false'."))
 
 
 ### report a summary table
