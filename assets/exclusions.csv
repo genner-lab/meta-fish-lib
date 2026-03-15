@@ -702,3 +702,82 @@ BOLD,EEFF149-06.COI-5P,Alburnus alburnus,REMOVE,nested in Leucaspis delineatus
 BOLD,EEFF017-06.COI-5P,Leuciscus leuciscus,REMOVE,blasts as Leuciscus lehmanni
 GENBANK,2647705828,Cyprinus carpio,REMOVE,nested in Carassius
 GENBANK,2508247912,Tinca tinca,REMOVE,very long branch
+GENBANK,2547547146,Ctenopharyngodon idella,REMOVE,blasts as Macrochirichthys
+GENBANK,2792661633,Cyprinus carpio,REMOVE,nested in Carassius
+BOLD,AMS206-08.COI-5P,Cyprinus carpio,REMOVE,nested in Carassius
+GENBANK,2497601959,Ctenopharyngodon idella,REMOVE,Nested in Cyprinus carpio
+GENBANK,2497601965,Ctenopharyngodon idella,REMOVE,Nested in Cyprinus carpio
+GENBANK,2497601957,Ctenopharyngodon idella,REMOVE,Nested in Cyprinus carpio
+GENBANK,2497601967,Ctenopharyngodon idella,REMOVE,Nested in Cyprinus carpio
+GENBANK,2497601963,Ctenopharyngodon idella,REMOVE,Nested in Cyprinus carpio
+GENBANK,2497601959,Ctenopharyngodon idella,REMOVE,Nested in Cyprinus carpio
+GENBANK,2497601961,Ctenopharyngodon idella,REMOVE,Nested in Cyprinus carpio
+GENBANK,2497601969,Ctenopharyngodon idella,REMOVE,Nested in Cyprinus carpio
+GENBANK,2497601973,Ctenopharyngodon idella,REMOVE,Blasts as Devario
+GENBANK,2497601977,Ctenopharyngodon idella,REMOVE,Blasts as Devario
+GENBANK,2497601975,Ctenopharyngodon idella,REMOVE,Blasts as Devario
+GENBANK,3055846716,Ctenopharyngodon idella,REMOVE,Nested in Oreochromis
+GENBANK,3055923130,Ctenopharyngodon idella,REMOVE,Nested in Oreochromis
+GENBANK,3055923126,Ctenopharyngodon idella,REMOVE,Nested in Oreochromis
+GENBANK,3055846712,Ctenopharyngodon idella,REMOVE,Nested in Oreochromis
+GENBANK,3055846714,Ctenopharyngodon idella,REMOVE,Nested in Oreochromis
+GENBANK,3055923128,Ctenopharyngodon idella,REMOVE,Nested in Oreochromis
+GENBANK,2497601979,Ctenopharyngodon idella,REMOVE,Blasts as Drepane
+GENBANK,2497601971,Ctenopharyngodon idella,REMOVE,Blasts as Datnoides
+BOLD,EHSI163-06.COI-5P,Acipenser ruthenus,REMOVE,Blasts as Acipenser stellatus
+BOLD,EHSI172-06.COI-5P,Acipenser ruthenus,REMOVE,Blasts as Acipenser gueldenstaedtii
+GENBANK,384369557,Alopias superciliosus,REMOVE,Nested in Prionace
+GENBANK,242027508,Alopias vulpinus,REMOVE,Nested in Alopias superciliosus
+GENBANK,242027504,Alopias vulpinus,REMOVE,Nested in Alopias superciliosus
+GENBANK,242027506,Alopias vulpinus,REMOVE,Nested in Alopias superciliosus
+GENBANK,242027502,Alopias vulpinus,REMOVE,Nested in Alopias superciliosus
+GENBANK,159156841,Benthodesmus elongatus,REMOVE,Nested in Aphanopus carbo
+GENBANK,328484350,Benthodesmus elongatus,REMOVE,Blasts as Benthodesmus simonyi
+BOLD,FMVIC129-08.COI-5P,Beryx decadactylus,REMOVE,Nested in Beryx splendens
+BOLD,FNZA858-09.COI-5P,Beryx decadactylus,REMOVE,Nested in Beryx splendens
+BOLD,FMVIC459-08.COI-5P,Beryx decadactylus,REMOVE,Nested in Beryx splendens
+GENBANK,2119874620,Thunnus obesus,REMOVE,Nested in Beryx splendens
+GENBANK,448258832,Diplodus sargus,REMOVE,Blasts as Diplodus puntazzo
+GENBANK,448258840,Diplodus sargus,REMOVE,Blasts as Diplodus puntazzo
+GENBANK,448258842,Diplodus sargus,REMOVE,Blasts as Diplodus puntazzo
+GENBANK,448258836,Diplodus sargus,REMOVE,Blasts as Diplodus puntazzo
+GENBANK,448258834,Diplodus sargus,REMOVE,Blasts as Diplodus puntazzo
+GENBANK,392974410,Diplodus sargus,REMOVE,Blasts as Diplodus vulgaris
+GENBANK,392974783,Diplodus sargus,REMOVE,Blasts as Diplodus vulgaris
+GENBANK,393716589,Epinephelus marginatus,REMOVE,Blasts as Astyanax
+GENBANK,393716591,Epinephelus marginatus,REMOVE,Blasts as Astyanax
+GENBANK,297593491,Makaira nigricans,REMOVE,Blasts as Istiophorus platypterus
+GENBANK,2620246572,Makaira nigricans,REMOVE,Blasts as Istiophorus platypterus
+GENBANK,322402405,Makaira nigricans,REMOVE,Nested in Sarda
+GENBANK,2751155980,Pomatoschistus marmoratus,REMOVE,Blasts as Pomatoschistus bathi
+GENBANK,328797397,Pomatoschistus minutus,REMOVE,Nested in Pomatoschistus marmoratus
+GENBANK,226975043,Pomatoschistus minutus,REMOVE,Nested in Pomatoschistus marmoratus
+GENBANK,2751155977,Pomatoschistus minutus,REMOVE,Nested in Pomatoschistus marmoratus
+GENBANK,2751155962,Pomatoschistus minutus,REMOVE,Nested in Pomatoschistus marmoratus
+GENBANK,2246883903,Pomatoschistus minutus,REMOVE,Nested in Pomatoschistus marmoratus
+GENBANK,1928144472,Scomber colias,REMOVE,Blasts as Pseudotolithus senegallus
+GENBANK,1170980895,Thunnus albacares,REMOVE,Nested in Thunnus thynnus
+GENBANK,429141321,Triglops pingelii,REMOVE,Nested in Triglops murrayi
+GENBANK,429141323,Triglops pingelii,REMOVE,Nested in Triglops murrayi
+GENBANK,2840878158,Triglops pingelii,REMOVE,Nested in Triglops murrayi
+GENBANK,109158582,Lepadogaster candolii,REMOVE,Nested in Lepadogaster lepadogaster
+GENBANK,307591049,Oncorhynchus mykiss,REMOVE,Nested in Oncorhynchus kisutch
+GENBANK,313875695,Salmo salar,REMOVE,Far away from Salmo salar
+GENBANK,444292747,Scomber scombrus,REMOVE,Nested in Scomber colias
+GENBANK,723115636,Katsuwonus pelamis,REMOVE,Nested in Thynnus
+GENBANK,336327133,Katsuwonus pelamis,REMOVE,Nested in Thynnus
+GENBANK,2840861244,Triglops pingelii,REMOVE,Nested in Triglops murrayi
+GENBANK,112361616,Katsuwonus pelamis,REMOVE,short sequence
+GENBANK,112361611,Auxis thazard,REMOVE,short sequence
+GENBANK,112361617,Euthynnus alletteratus,REMOVE,short sequence
+GENBANK,112361623,Ruvettus pretiosus,REMOVE,short sequence
+GENBANK,112361610,Sarda sarda,REMOVE,short sequence
+GENBANK,112361613,Thunnus albacares,REMOVE,short sequence
+GENBANK,112361628,Balistes capriscus,REMOVE,short sequence
+GENBANK,112361606,Trichiurus lepturus,REMOVE,short sequence
+GENBANK,112361620,Makaira nigricans,REMOVE,short sequence
+GENBANK,112361621,Xiphias gladius,REMOVE,short sequence
+GENBANK,112361607,Scomber scombrus,REMOVE,short sequence
+GENBANK,112361634,Coryphaena hippurus,REMOVE,short sequence
+GENBANK,33325923,Gobius paganellus,REMOVE,Far away from Gobius paganellus
+GENBANK,1918695631,Trachinotus ovatus,REMOVE,Blasts as Alepes melanoptera
