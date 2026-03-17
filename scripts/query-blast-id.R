@@ -54,7 +54,7 @@ if(!file.exists(here(glue::glue("temp/{opt$directory}/{opt$metabarcode}.fasta"))
 }
 
 # make a blast id string
-blast.string <- glue::glue("blastn -task blastn -num_threads {opt$threads} -evalue 1 -word_size 7 -max_target_seqs 500 -db temp/{opt$directory}/{opt$metabarcode}.fasta -outfmt '6 qseqid sseqid evalue length pident nident score bitscore' -out temp/{opt$directory}/{opt$metabarcode}.query.{opt$query}.fasta.out -query temp/{opt$directory}/{opt$metabarcode}.query.{opt$query}.fasta")
+blast.string <- glue::glue("blastn -task blastn -num_threads {opt$threads} -evalue 1 -word_size 7 -max_target_seqs 1000 -db temp/{opt$directory}/{opt$metabarcode}.fasta -outfmt '6 qseqid sseqid evalue length pident nident score bitscore' -out temp/{opt$directory}/{opt$metabarcode}.query.{opt$query}.fasta.out -query temp/{opt$directory}/{opt$metabarcode}.query.{opt$query}.fasta")
 # execute
 writeLines("\nQuerying BLAST database ...\n")
 system(command=blast.string,ignore.stdout=FALSE)
