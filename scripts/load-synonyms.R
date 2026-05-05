@@ -52,7 +52,7 @@ fishbase.synonyms.syn <- fishbase.synonyms.clean %>%
 
 # clean up and close connection
 rm(list=c("fishbase.synonyms","fishbase.synonyms.clean"))
-rfishbase::db_disconnect()
+#rfishbase::db_disconnect()
 
 # message
 writeLines("\nFishBase synonyms loaded")
