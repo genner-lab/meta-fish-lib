@@ -306,17 +306,17 @@ raxml_ng <- function(file,verbose) {
     if(verbose == "true") {
         string.mafft <- paste0("mafft --thread -1 --maxiterate 2 --retree 2 ",file," > ",file,".ali")
         system(command=string.mafft,ignore.stdout=FALSE)
-        string.parse <- paste0("raxml-ng --parse --msa ",file,".ali --model TN93+F+G --seed 42 --redo --threads auto")
+        string.parse <- paste0("raxml-ng --parse --msa ",file,".ali --model TN93+F+G --seed 42 --redo --threads auto --fast")
         system(command=string.parse,ignore.stdout=FALSE)
-        string.search <- paste0("raxml-ng --search --msa ",file,".ali.raxml.rba --tree pars{1} --seed 42 --redo --threads auto")#--lh-epsilon 10 
+        string.search <- paste0("raxml-ng --search --msa ",file,".ali.raxml.rba --tree pars{1} --seed 42 --redo --threads auto --fast")#--lh-epsilon 10 
         system(command=string.search,ignore.stdout=FALSE)
         rax.tr <- ape::read.tree(file=paste0(file,".ali.raxml.rba.raxml.bestTree"))
     } else if (verbose == "false") {
         string.mafft <- paste0("mafft --quiet --thread -1 --maxiterate 2 --retree 2 ",file," > ",file,".ali")
         system(command=string.mafft,ignore.stdout=FALSE)
-        string.parse <- paste0("raxml-ng --parse --msa ",file,".ali --model TN93+F+G --seed 42 --redo --threads auto")
+        string.parse <- paste0("raxml-ng --parse --msa ",file,".ali --model TN93+F+G --seed 42 --redo --threads auto --fast")
         system(command=string.parse,ignore.stdout=TRUE)
-        string.search <- paste0("raxml-ng --search --msa ",file,".ali.raxml.rba --tree pars{1} --seed 42 --redo --threads auto")#--lh-epsilon 10 
+        string.search <- paste0("raxml-ng --search --msa ",file,".ali.raxml.rba --tree pars{1} --seed 42 --redo --threads auto --fast")#--lh-epsilon 10 
         system(command=string.search,ignore.stdout=TRUE)
         rax.tr <- ape::read.tree(file=paste0(file,".ali.raxml.rba.raxml.bestTree"))
     } else stop(cli::cli_alert_danger("'-v' value must be 'true' or 'false'."))

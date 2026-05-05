@@ -77,7 +77,7 @@ Study | Official name | Nickname | Locus
 
 You don't need to run this code below if you just want a copy of the UK reference library (run code above). This code below is if you want to update it yourself or want to modify and make a new library.
 
-System requirements: [R](https://cran.r-project.org/), [git](https://git-scm.com/), [hmmer](http://hmmer.org/), [mafft](https://mafft.cbrc.jp/alignment/software/) and [raxml-ng](https://github.com/amkozlov/raxml-ng) need to be installed on your system, and available on your [$PATH](https://www.howtogeek.com/658904/how-to-add-a-directory-to-your-path-in-linux/). With the exception of raxml-ng, the programs can be installed from Ubuntu repositories using `sudo apt install` (see also [Homebrew](https://brew.sh/) `brew install` for MacOS). In case of difficulties, check the developer's website and update to newer versions if required. Unfortunately, these scripts are optimised for a Unix system, and I'm unable to offer any Windows support here ([Windows is now able to run Ubuntu Linux ](https://tutorials.ubuntu.com/tutorial/tutorial-ubuntu-on-windows#0)).
+System requirements: [R](https://cran.r-project.org/) v4.5.x, [git](https://git-scm.com/), [hmmer](http://hmmer.org/), [mafft](https://mafft.cbrc.jp/alignment/software/) and [raxml-ng](https://github.com/amkozlov/raxml-ng) v2.x need to be installed on your system, and available on your [$PATH](https://www.howtogeek.com/658904/how-to-add-a-directory-to-your-path-in-linux/). With the exception of raxml-ng, the programs can be installed from Ubuntu repositories using `sudo apt install` (see also [Homebrew](https://brew.sh/) `brew install` for MacOS). In case of difficulties, check the developer's website and update to newer versions if required. Unfortunately, these scripts are optimised for a Unix system, and I'm unable to offer any Windows support here ([Windows is now able to run Ubuntu Linux ](https://tutorials.ubuntu.com/tutorial/tutorial-ubuntu-on-windows#0)).
 
 You will also require an API key from NCBI in order to access GenBank data at a decent rate. See info here for how to get a key: [ncbiinsights.ncbi.nlm.nih.gov/2017/11/02/new-api-keys-for-the-e-utilities/](https://ncbiinsights.ncbi.nlm.nih.gov/2017/11/02/new-api-keys-for-the-e-utilities/)
 
@@ -132,6 +132,7 @@ scripts/get-species.R -c 826 -s true
 # argument "-b" [false] is to disable the BOLD search
 #     a value of "true" will run the bold search
 #     a value of "false" will not run the bold search
+#     IMPORTANT NOTE - bold search currently not working as of May 2026 due to an API change at BOLD.
 scripts/sequences-download.R -q 500 -t 4 -e false -b false
 
 ### assemble the reference library with hidden Markov models and obtain metadata ###
@@ -216,7 +217,7 @@ echo 'ENTREZ_KEY=<YOUR-NCBI-KEY>' > .Renviron
 Rscript -e "renv::restore()"
 cp assets/species-table-testing.csv assets/species-table.csv
 scripts/check-genbank.R
-scripts/sequences-download.R -q 1000 -t 2 -e false
+scripts/sequences-download.R -q 1000 -t 2 -e false -b false
 scripts/references-assemble.R -t 2 -m all
 scripts/qc.R -t 2 -v false
 make -f scripts/Makefile
