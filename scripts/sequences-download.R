@@ -34,11 +34,12 @@ species.table <- read_csv(file=here("assets/species-table.csv"),show_col_types=F
 #
 #species.table %<>% slice(1:20)#############################
 # report
-writeLines(paste0("\nSpecies table contains ",length(pull(species.table,speciesName))," species names"))
+cli_report(txt=glue::glue("Species table contains {length(pull(species.table,speciesName))} species names."),rule=FALSE,alert="info")
+
 
 # check the GenBank data release number against the record of previous download
 gb.version <- read.table("https://ftp.ncbi.nih.gov/genbank/GB_Release_Number")$V1
-writeLines(paste0("\nGenBank is at version ",gb.version))
+cli_report(txt=glue::glue("GenBank is at version {gb.version}."),rule=FALSE,alert="info")
 
 ### Download all GenBank sequences for species in species table (including synonyms) with mtDNA
 # make a query for genbank
@@ -49,7 +50,7 @@ if(opt$exhaustive == "true") {
     gene.syns <- "(COI[ALL] OR 12S[ALL] OR 16S[ALL] OR rRNA[ALL] OR ribosomal[ALL] OR cytb[ALL] OR CO1[ALL] OR cox1[ALL] OR cytochrome[ALL] OR subunit[ALL] OR COB[ALL] OR CYB[ALL] OR mitochondrial[ALL] OR mitochondrion[ALL])"
 } else if (opt$exhaustive == "false") {
     gene.syns <- "(mitochondrial[ALL] OR mitochondrion[ALL])"
-} else stop(writeLines("'-e' value must be 'true' or 'false'."))
+} else stop(cli::cli_alert_danger("'-e' value must be 'true' or 'false'."))
 
 # make query
 spp.list <- unique(c(pull(species.table,speciesName),pull(species.table,validName)))
@@ -82,17 +83,18 @@ queries.chunked  <- split(query.cat, ceiling(seq_along(query.cat)/cores))
 
 # stop if chars too few
 if(opt$qlength < min(unlist(lapply(query,nchar)))) {
-    stop(writeLines(paste("\nYou requested max batch query string length of",opt$qlength,"characters, but the smallest query is",min(unlist(lapply(query,nchar))),"characters. Increase the max batch query string length '-q'.")))
+    stop(cli::cli_alert_danger(glue::glue("You requested max batch query string length of {opt$qlength} characters, but the smallest query is {min(unlist(lapply(query,nchar)))} characters. Increase the max batch query string length '-q'.")))
 }
 
 # stop if too many cores
 if(length(query.split) < cores) {
-    stop(writeLines(paste("\nYou requested",length(query.split),"batches over",cores,"cores. Use equal or fewer cores to number of batches, or decrease the batch query string length '-q'.")))
+    stop(cli::cli_alert_danger(glue::glue("You requested {length(query.split)} batches over {cores} cores. Use equal or fewer cores to number of batches, or decrease the batch query string length '-q'.")))
 }
 
 # run NCBI search and time
-writeLines(paste0("\nA total of ",length(query)," queries have been merged into ",length(query.split)," batches with maximum length ",opt$qlength,"."))
-writeLines(paste("\nNow searching GenBank on",cores,"cores ...\n"))
+cli_report(txt=glue::glue("A total of {length(query)} queries have been merged into {length(query.split)} batches with maximum length {opt$qlength}."),rule=FALSE,alert="info")
+cli_report(txt=glue::glue("Now searching GenBank on {cores} cores ..."),rule=FALSE,alert="info")
+
     start_time <- Sys.time()
 search.res <- lapply(queries.chunked,entrez_search_parallel,threads=cores,key=ncbi.key)
     end_time <- Sys.time()
@@ -103,25 +105,25 @@ search.flat <- search.res %>% purrr::flatten() %>% unname()
 # check for search length errors
 if(length(search.flat) != length(query.cat)) {
     query.diff <- length(query.cat)-length(search.flat)
-    stop(writeLines(paste0("\n",query.diff," query batches failed out of total ",length(query.cat),". Try again with fewer cores or decrease the max batch query string length '-q'.")))
-    } else {writeLines("\nAll search batches retrieved.")
+    stop(cli::cli_alert_danger(glue::glue("{query.diff} query batches failed out of total {length(query.cat)}. Try again with fewer cores or decrease the max batch query string length '-q'.")))
+    } else { cli_report(txt="All search batches retrieved.",rule=FALSE,alert="success")
 }
 
 # check for errors - should be all false
 if(TRUE %in% grepl("Error",search.res)) {
-    stop(writeLines("\nSome of the search batches failed, try again with fewer cores or when the USA is not online."))
-    } else {writeLines("\nNo errors detected in the batch searches.\n")
+    stop(cli::cli_alert_danger("Some of the search batches failed, try again with fewer cores or when the USA is not online."))
+    } else {cli_report(txt="No errors detected in the batch searches.",rule=FALSE,alert="success")
 }
 
 # report time
-end_time-start_time
+cli_report(txt=glue::glue("Total time taken: {round(as.numeric(end_time-start_time,units='mins'),digits=2)} minutes."),rule=FALSE,alert="info")
 
 # remove empty searches
 search.full <- search.flat[which(search.flat %>% purrr::map(~{unname(.x$count)}) > 0)]
 
 # check number of hits
 if(search.flat %>% purrr::map(~{unname(.x$count)}) %>% purrr::flatten_int() %>% max() > 99999){
-    stop(writeLines("One or more of your search batches comprises more hits than the NCBI limit (99999). Consider decreasing the max batch query string length '-q', or making the searches more specific (e.g. searching for genera rather than families)."))
+    stop(cli::cli_alert_danger("One or more of your search batches comprises more hits than the NCBI limit (99,999). Consider decreasing the max batch query string length '-q', or making the searches more specific (e.g. searching for genera rather than families)."))
     }
 
 # delete temp dir contents (if left from prev fail)
@@ -133,7 +135,7 @@ if(!dir.exists(here("temp/fasta-temp"))){
 }
 
 # download
-writeLines(paste("\nNow downloading",length(search.full),"batches of FASTA sequences from NCBI ...\n"))
+cli_report(txt=glue::glue("Now downloading {length(search.full)} batches of FASTA sequences from NCBI ..."),rule=FALSE,alert="info")
 start_time <- Sys.time()
     invisible(mcmapply(FUN=function(x) entrez_fetch_parallel(search=x,key=ncbi.key), search.full, SIMPLIFY=FALSE, USE.NAMES=FALSE, mc.cores=cores))
 end_time <- Sys.time()
@@ -141,11 +143,11 @@ end_time <- Sys.time()
 # check number downloaded correctly
 if(length(list.files(here("temp","fasta-temp"))) != length(search.full)) {
     dl.diff <- length(search.full) - length(list.files(here("temp","fasta-temp")))
-    stop(writeLines(paste0("\n",dl.diff," download batches failed out of total ",length(search.full),". Try again with fewer cores or when the USA is not online.")))
-    } else {writeLines("\nNo errors detected in the NCBI downloads.\n")
+    stop(cli::cli_alert_danger(glue::glue("{dl.diff} download batches failed out of total {length(search.full)}. Try again with fewer cores or when the USA is not online.")))
+    } else {cli_report(txt="No errors detected in the NCBI downloads.",rule=FALSE,alert="success")
 }
 # report time
-end_time-start_time
+cli_report(txt=glue::glue("Total time taken: {round(as.numeric(end_time-start_time,units='mins'),digits=2)} minutes."),rule=FALSE,alert="info")
 
 # read in the files and cat
 all.fas <- mcmapply(FUN=function(x) read.FASTA(x), list.files(here("temp/fasta-temp"),full.name=TRUE), SIMPLIFY=FALSE, USE.NAMES=FALSE, mc.cores=cores)
@@ -155,7 +157,7 @@ all.fas.cat <- do.call(c,all.fas)
 names(all.fas.cat) <- str_replace_all(names(all.fas.cat)," .*","")
 
 # write out
-writeLines("\nWriting out in FASTA format ...")
+cli_report(txt="Writing out in FASTA format ...",rule=FALSE,alert="info")
 write.FASTA(all.fas.cat,file=here("temp/mtdna-dump.fas"))
 
 # delete temp folder contents (if left from prev fail)
@@ -166,8 +168,7 @@ invisible(file.remove(list.files(here("temp/fasta-temp"),full.name=TRUE)))
 
 # turn on bold option
 if(opt$bold == "true") {
-
-writeLines("\nNow searching BOLD ...\n")
+cli_report(txt="Now searching BOLD ...",rule=FALSE,alert="info")
 
 # randomise the query
 set.seed(42)
@@ -185,12 +186,12 @@ bold.split <- split(spp.list.sam, ceiling(seq_along(spp.list.sam)/chunk.size.bol
     start_time <- Sys.time()
 bold.all <- mcmapply(FUN=function(x) bold_seqspec_timer(species=x), bold.split, SIMPLIFY=FALSE, USE.NAMES=FALSE, mc.cores=cores)
     end_time <- Sys.time()
-    end_time-start_time
+ cli_report(txt=glue::glue("Total time taken: {round(as.numeric(end_time-start_time,units='mins'),digits=2)} minutes."),rule=FALSE,alert="info")
 
 # check for errors (should be "data.frame" or "logical", not "character")
 if(length(which(sapply(bold.all,class) == "data.frame" | sapply(bold.all,class) == "logical")) == length(sapply(bold.all,class))) {
-    writeLines("\nBOLD results successfully retrieved.")
-    } else {stop(writeLines("\nBOLD search failed, try again."))}
+    cli_report(txt="BOLD results successfully retrieved.",rule=FALSE,alert="success")
+    } else {stop(cli::cli_alert_danger("BOLD search failed, try again."))}
 
 # remove the NA non-dataframes
 bold.all <- bold.all[which(sapply(bold.all, class)=="data.frame")]
@@ -225,7 +226,7 @@ write.FASTA(bold.fas, file=here("temp/mtdna-dump.fas"), append=TRUE)
 bold.red <- tibble(processidUniq=numeric())
 # length(pull(bold.red,processidUniq))
 #
-} else stop(writeLines("'-b' value must be 'true' or 'false'."))
+} else stop(cli_alert_danger("'-b' value must be 'true' or 'false'."))
 
 
 ### report a summary table
@@ -248,7 +249,7 @@ stats <- tibble(
 )
 
 # print and save
-writeLines("\nPrinting stats ...\n")
-print(stats,n=Inf)
+cli_report(txt="Printing stats ...",rule=FALSE,alert="info")
+stats %>% knitr::kable()
 write_csv(stats,file=here("reports/stats.csv"))
-writeLines("\nAll operations completed!\nPlease read previous messages in case of error.")
+cli_report(txt="All operations completed. Please read previous messages in case of error.",rule=TRUE,alert="success")

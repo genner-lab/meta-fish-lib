@@ -24,6 +24,8 @@ suppressMessages({
     library("spider")
     library("rmarkdown")
     library("knitr")
+    library("glue")
+    library("cli")
 })
 
 
@@ -47,7 +49,7 @@ entrez_search_parallel <- function(query,threads,key){
     start_time <- Sys.time()
     n.res <- suppressWarnings(mcmapply(FUN=function(x) tryCatch(entrez_search_offset(string=x,apikey=key), error=function(e) NULL), query, SIMPLIFY=FALSE, USE.NAMES=FALSE, mc.cores=threads))
     errs <- grepl("NULL", n.res)
-    if(any(errs==TRUE)) {writeLines("Problem detected, repeating search ...")}
+    if(any(errs==TRUE)) {cli::cli_alert_warning("Problem detected, repeating search ...")}
     #cat("Errors for", length(errs), "queries\n", sep = " ")###
     #print(errs)###
     i <- 1
@@ -59,7 +61,7 @@ entrez_search_parallel <- function(query,threads,key){
         #cat("Attempt", i, "\n", sep = " ")###
         #print(errs)###
     } 
-    if(any(errs==TRUE)) {writeLines("Three search attempts now made ...")}
+    if(any(errs==TRUE)) {cli::cli_alert_warning("Three search attempts now made ...")}
     if(any(errs==TRUE)) {
         #Sys.sleep(time=3)
         n.res.rep <- suppressWarnings(mcmapply(FUN=function(x) tryCatch(entrez_search_offset(string=x,apikey=key), error=function(e) NULL), query[which(errs==TRUE)], SIMPLIFY=FALSE, USE.NAMES=FALSE, mc.cores=1))
@@ -68,9 +70,9 @@ entrez_search_parallel <- function(query,threads,key){
     end_time <- Sys.time()
     errs.fin <- grepl("NULL",n.res)
     if(any(errs.fin==TRUE)) { 
-        stop(writeLines("\n<<< !!! SEARCH ABORTED !!! >>>\n<<< Try reducing query length (-q) and/or number threads (-t). >>>\n")) 
+        stop(cli::cli_alert_danger("<<< !!! SEARCH ABORTED !!! >>> Try reducing query length (-q) and/or number threads (-t).")) 
     } else {
-        writeLines(paste("Results returned for",length(which(errs.fin==FALSE)), "batches.","Search took",round(as.numeric(end_time-start_time),digits=2),"seconds.",sep=" "))
+        writeLines(glue::glue("Results returned for {length(which(errs.fin==FALSE))} batches. Search took {round(as.numeric(end_time-start_time),digits=2)} seconds."))
         return(n.res)
     }
 }
@@ -86,7 +88,7 @@ entrez_fetch_parallel <- function(search,key){
         write(n.res,file=fas.path,append=TRUE)
         }
     end_time <- Sys.time()
-    writeLines(paste("Query",search$web_history$WebEnv,"written to file.","Download took",round(as.numeric(end_time-start_time),digits=2),"seconds.",sep=" "))
+    writeLines(glue::glue("Query {search$web_history$WebEnv} written to file. Download took {round(as.numeric(end_time-start_time),digits=2)} seconds."))
 }
 
 
@@ -97,8 +99,8 @@ bold_seqspec_timer <- function(species){
     bold.res <- suppressWarnings(bold::bold_seqspec(species,format="tsv",sepfasta=FALSE,response=FALSE))
     end.time.bold <- Sys.time()
     if(class(bold.res)=="data.frame"){
-    writeLines(paste(nrow(bold.res),"records for",length(unique(pull(bold.res,species_name))),"species downloaded from BOLD.","Download took",round(as.numeric(end.time.bold-start.time.bold, units="mins"),digits=2),"minutes.",sep=" "))
-    } else {writeLines("No records found.")}
+    cli_report(txt=glue::glue("{nrow(bold.res)} records for {length(unique(pull(bold.res,species_name)))} species downloaded from BOLD. Download took {round(as.numeric(end.time.bold-start.time.bold,units='mins'),digits=2)} minutes."),rule=FALSE,alert="success")
+    } else {cli_report(txt="No records found.",rule=FALSE,alert="info")}
     return(bold.res)
 }
 
@@ -110,7 +112,6 @@ ncbi_byid_parallel <- function(accs){
     crul::set_opts(http_version=2)
     ncbi.tab <- traits::ncbi_byid(accs,verbose=FALSE)
     if(class(ncbi.tab)!="data.frame") {
-        #writeLines("Error found! Repeating ...")
         Sys.sleep(time=3)
         crul::set_opts(http_version=2)
         ncbi.tab <- traits::ncbi_byid(accs,verbose=FALSE)
@@ -118,10 +119,10 @@ ncbi_byid_parallel <- function(accs){
         ncbi.tab <- ncbi.tab
     }
     if(class(ncbi.tab)!="data.frame") {
-        stop(writeLines("Searches failed ... aborted")) 
+        stop(cli::cli_alert_danger("Searches failed ... aborted")) 
     } else {
         end_time <- Sys.time()
-        writeLines(paste0("Metadata for ",length(accs)," accessions downloaded (starting ",accs[1],"). Download took ",round(as.numeric(end_time-start_time),digits=2)," seconds."))
+        writeLines(glue::glue("Metadata for {length(accs)} accessions downloaded (starting {accs[1]}). Download took {round(as.numeric(end_time-start_time),digits=2)} seconds."))
         return(ncbi.tab)
     }
 }
@@ -318,7 +319,7 @@ raxml_ng <- function(file,verbose) {
         string.search <- paste0("raxml-ng --search --msa ",file,".ali.raxml.rba --tree pars{1} --seed 42 --redo --threads auto")#--lh-epsilon 10 
         system(command=string.search,ignore.stdout=TRUE)
         rax.tr <- ape::read.tree(file=paste0(file,".ali.raxml.rba.raxml.bestTree"))
-    } else stop(writeLines("'-v' value must be 'true' or 'false'."))
+    } else stop(cli::cli_alert_danger("'-v' value must be 'true' or 'false'."))
     return(rax.tr)
 }
 
@@ -353,5 +354,27 @@ plot_trees <- function(tr,df,prefix,version){
     dev.off()
 }
 
-# message
-writeLines("\nPackages and functions loaded")
+
+# MAKE A REPORTING FUNCTION
+cli_report <- function(txt,rule,alert) {
+    if(isTRUE(rule)) {
+        cli::cli_rule()
+            if(alert=="info") {
+                cli::cli_alert_info(txt) 
+            } else if(alert=="success") {
+                cli::cli_alert_success(txt)
+            }
+        cli::cli_rule()
+    } else if (isFALSE(rule)) {
+        cli::cli_text("")
+            if(alert=="info") {
+                cli::cli_alert_info(txt) 
+            } else if(alert=="success") {
+                cli::cli_alert_success(txt)
+            }
+        cli::cli_text("")
+    }
+}
+
+# report
+cli_report(txt="Packages and functions loaded.",rule=FALSE,alert="success")

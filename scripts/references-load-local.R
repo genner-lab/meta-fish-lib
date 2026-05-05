@@ -2,7 +2,8 @@
 # function to load up reference libraries LOCALLY
 
 start_time <- Sys.time()
-writeLines("\nLoading reference library locally...")
+
+cli_report(txt="Loading reference library locally ...",rule=FALSE,alert="info")
 # load up the species info table
 #uk.species.table <- vroom::vroom(here("assets","species-table.csv"),delim=",",num_threads=1,guess_max=99999,col_types=cols())
 uk.species.table <- readr::read_csv(here("assets","species-table.csv"),guess_max=99999,col_types=cols())
@@ -16,9 +17,9 @@ gbd <- reflib.orig %>% dplyr::select(searchDate) %>% tidyr::drop_na() %>% dplyr:
 exclusions <- readr::read_csv(here("assets","exclusions.csv"),guess_max=99999,col_types=cols())
 # taxonomic changes
 taxonomy.changes <- readr::read_csv(here("assets/taxonomy-changes.csv"),guess_max=99999,col_types=cols())
+
 # write encouraging words
 end_time <- Sys.time()
-writeLines(paste(dim(reflib.orig)[1], "reference sequences loaded in", round(end_time-start_time,digits=1), "seconds"))
-writeLines(paste0("\nGenBank version ", gbv, ", searched ",gbd))
-writeLines("\nReference library objects are now in your memory\n")
-
+cli_report(txt=glue::glue("{dim(reflib.orig)[1]} reference sequences loaded in {round(end_time-start_time,digits=1)} seconds."),rule=FALSE,alert="success")
+cli_report(txt=glue::glue("GenBank version {gbv}, searched {gbd}."),rule=FALSE,alert="info")
+cli_report(txt="Reference library objects are now in your memory.",rule=FALSE,alert="success")

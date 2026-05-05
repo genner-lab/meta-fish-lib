@@ -26,8 +26,8 @@ opt <- parse_args(OptionParser(option_list=option_list,add_help_option=FALSE))
 stats <-suppressMessages(read_csv(here("reports","stats.csv")))
 gb.version <- stats %>% filter(stat=="genbankVersion") %>% pull(n)
 
-# message 
-writeLines("\nGenerating phylogenetic trees, may take several hours ...")
+# message
+cli_report(txt="Generating phylogenetic trees, may take several hours ...",rule=FALSE,alert="info")
 
 # set cores
 cores <- opt$threads
@@ -63,6 +63,5 @@ trs.list <- mapply(function(x,y) phylogenize(dir=tmp.path, fas=x, prefix=y, verb
 mcmapply(function(x,y,z) plot_trees(tr=x, df=y, prefix=z, version=gb.version), trs.list, reflibs.haps, prefixes, SIMPLIFY=FALSE,USE.NAMES=TRUE,mc.cores=cores)
 
 end_time <- Sys.time()
-end_time-start_time
-
-writeLines("\nPhylogenetic trees have been generated, PDFs are available in 'reports/qc_GBVERSION_MONTH-YEAR'")
+cli_report(txt=glue::glue("Total time taken: {round(as.numeric(end_time-start_time,units='hours'),digits=2)} hours."),rule=FALSE,alert="info")
+cli_report(txt="Phylogenetic trees have been generated. PDFs are available in 'reports/qc_GBVERSION_MONTH-YEAR'.",rule=TRUE,alert="success")

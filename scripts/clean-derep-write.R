@@ -35,7 +35,7 @@ if(opt$derep == "true") {
     reflib.cleaned.sub.haps <- derep_filter(df=reflib.cleaned.sub, derep=TRUE, proplen=0)
 } else if (opt$derep == "false") {
     reflib.cleaned.sub.haps <- derep_filter(df=reflib.cleaned.sub, derep=FALSE, proplen=0) %>% mutate(nHaps=NA)
-} else stop(writeLines("'-d' value must be 'true' or 'false'."))
+} else stop(cli_alert_danger("'-d' value must be 'true' or 'false'."))
 
 # filter by median length
 reflib.cleaned.sub.haps.filt <- reflib.cleaned.sub.haps %>% filter(length >= (median(length)*opt$proplen))
@@ -50,4 +50,4 @@ spp.lost <- length(species_lost(df=reflib.cleaned.sub.haps,thresh=opt$proplen))
 write_references_fasta(df=reflib.cleaned.sub.haps.filt,path=here("assets/fasta"))
 
 # print info
-writeLines(paste0("\nReference library comprising ",dim(reflib.cleaned.sub.haps.filt)[1]," sequences has been written to 'assets/fasta' in FASTA and CSV formats.\nDuring length filtering at ",opt$proplen*100,"% of median sequence length, a total of ",seqs.lost," sequences and ",spp.lost," species were removed.\n"))
+cli_report(txt=glue::glue("Reference library comprising {dim(reflib.cleaned.sub.haps.filt)[1]} sequences has been written to 'assets/fasta' in FASTA and CSV formats.\nDuring length filtering at {opt$proplen*100}% of median sequence length, a total of {seqs.lost} sequences and {spp.lost} species were removed.",.trim=FALSE),rule=TRUE,alert="success")

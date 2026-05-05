@@ -36,11 +36,12 @@ reflib.cleaned <- reflib.cleaned %>%
 # alert taxonomic changes
 taxonomy.changes %>% 
     dplyr::rename(`Original name`=sciNameValid,`Amended name`=sciNameValidAmended) %>%
-    print(n=Inf)
+    knitr::kable() %>% 
+    print()
 
 # remove orig df
 rm(reflib.orig)
 rm(taxonomy.changes)
 
 # write encouraging words
-writeLines("\nReference library object 'reflib.cleaned' is cleaned and in your memory.\nBlacklisted GenBank accessions were removed.\nThe above taxonomic changes were made.\n")
+cli_report(txt=glue::glue("Reference library object 'reflib.cleaned' is cleaned and in your memory.\nBlacklisted GenBank accessions were removed. The above taxonomic changes were made.",.trim=FALSE),rule=FALSE,alert="info")

@@ -56,14 +56,14 @@ if(opt$metabarcode == "all") {
     prefixes.all <- c("coi.lerayxt.noprimers","coi.ward.noprimers","12s.miya.noprimers","12s.riaz.noprimers","12s.valentini.noprimers","12s.taberlet.noprimers","16s.berry.noprimers","cytb.minamoto.noprimers","16s.kitano.noprimers")
 } else if (all(prefixes.chosen %in% prefixes.list)) {
     prefixes.all <- paste(prefixes.chosen,"noprimers",sep=".")
-} else stop(writeLines("'-m' value must be metabarcode(s) listed in Table 1, and separated by a comma, e.g. '12s.miya,coi.ward'."))
+} else stop(cli::cli_alert_danger("'-m' value must be metabarcode(s) listed in Table 1, and separated by a comma, e.g. '12s.miya,coi.ward'."))
 
 
 # run hmmer
-writeLines("\nExtracting metabarcode fragments with HMMER (may take several minutes) ...")
+cli_report(txt="Extracting metabarcode fragments with HMMER (may take several minutes) ...",rule=FALSE,alert="info")
 # use single thread because easier on the RAM
 dat.frag.all <- lapply(prefixes.all, function(x) run_hmmer3(dir="temp", infile="mtdna-dump.fas", prefix=x, evalue="10", coords="env"))
-writeLines("\nDone")
+cli_report(txt="Done.",rule=FALSE,alert="success")
 
 # concatentate all
 dat.frag.cat <- do.call(c,dat.frag.all)
@@ -92,20 +92,21 @@ in.gb.sam <- sample(in.gb.red)
 chunk.frag <- unname(split(in.gb.sam, ceiling(seq_along(in.gb.sam)/chunk)))
 #length(chunk.frag)
 #max(sapply(chunk.frag,function(x) nchar(paste(x,collapse=","))))
-writeLines("\nRetrieving metadata from NCBI ...\n")
+cli_report(txt="Retrieving metadata from NCBI ...",rule=FALSE,alert="info")
+
     start_time <- Sys.time()
 # parallel ncbi
 ncbi.frag <- mcmapply(FUN=ncbi_byid_parallel, chunk.frag, SIMPLIFY=FALSE, USE.NAMES=FALSE, mc.cores=cores)
     end_time <- Sys.time()
-    end_time-start_time
+    cli_report(txt=glue::glue("Total time taken: {round(as.numeric(end_time-start_time,units='mins'),digits=2)} minutes."),rule=FALSE,alert="info")
 
 # check for errors (should all be "data.frame")
 if(length(sapply(ncbi.frag,class)) == length(which(sapply(ncbi.frag,class) == "data.frame"))) {
-    writeLines("\nNCBI metadata sucessfully retrieved")
-    } else {writeLines("\nNCBI search failed, try again")}
+    cli_report(txt="NCBI metadata sucessfully retrieved.",rule=FALSE,alert="success")
+    } else {stop(cli::cli_alert_danger("NCBI search failed, try again"))}
 
 # join all the data sets
-writeLines("\nNow cleaning data ...")
+cli_report(txt="Now cleaning data ...",rule=FALSE,alert="info")
 frag.df <- as_tibble(bind_rows(ncbi.frag))
 
 # from GenBank remove ncbi genome and other duplicates etc, and clean the lat/lon data
@@ -182,21 +183,21 @@ dbs.merged.all %<>% mutate(fbSpecCode=pull(fishbase.synonyms.acc,SpecCode)[match
 # drop missing taxa
 missing <- dbs.merged.all %>% filter(is.na(sciNameValid)) %>% pull(sciNameOrig) %>% unique()
 if(length(missing)>0) {
-    writeLines(paste("\nThe following taxa could not be found in the species database and have been dropped:",paste(missing,collapse=", ")))
+    cli_report(txt=glue::glue("The following taxa could not be found in the species database and have been dropped: {paste(missing,collapse=', ')}"),rule=FALSE,alert="info")
     dbs.merged.all %<>% filter(!is.na(sciNameValid))
 }
 
 # flag genus level taxa
 only.genera <- dbs.merged.all %>% filter(rank=="genus") %>% distinct(sciNameValid) %>% pull()
 if(length(only.genera)>0) {
-    writeLines(paste("\nThe following taxa were searched for at the genus level:",paste(only.genera,collapse=", ")))
+    cli_report(txt=glue::glue("The following taxa were searched for at the genus level: {paste(only.genera,collapse=', ')}"),rule=FALSE,alert="info")
 }
 
 # print all the species that had their names updated
 updated <- dbs.merged.all %>% filter(sciNameOrig != sciNameValid) %>% select(sciNameOrig,sciNameValid) %>% arrange(sciNameOrig) %>% distinct()
 if(nrow(updated)>0) {
-    writeLines("\nThe following taxa had their GenBank names updated using FishBase:")
-    print(updated,n=Inf)
+    cli_report(txt="The following taxa had their GenBank names updated using FishBase:",rule=FALSE,alert="info")
+    updated %>% knitr::kable()
 }
 
 # add taxonomy
@@ -206,8 +207,8 @@ dbs.merged.all %<>% mutate(phylum="Chordata") %>%
 # report and remove any incomplete taxonomy
 no.tax <- dbs.merged.all %>% filter(is.na(class) | is.na(order) | is.na(family)) %>% select(class,order,family,sciNameOrig,sciNameValid) %>% arrange(sciNameOrig) %>% distinct()
 if(nrow(no.tax)>0) {
-    writeLines("\nThe following taxa could not be assigned taxonomy. Consider adding these to the species table if you want to keep them.")
-    print(no.tax,n=Inf)
+    cli_report(txt="The following taxa could not be assigned taxonomy. Consider adding these to the species table if you want to keep them.",rule=FALSE,alert="info")
+    no.tax %>% knitr::kable()
 }
 
 # clean up nucs
@@ -230,11 +231,7 @@ dbs.merged.final <- left_join(dbs.merged.info,dbs.merged.seqs,by="dbid") %>%
     arrange(class,order,family,genus,sciNameValid) %>% 
     filter(!is.na(nucleotides))
 
-# take a look 
-#writeLines("\nReference library fields:")
-#glimpse(dbs.merged.final)
-
 # write out a gzipped file (orig is too big for github)
-writeLines("\nWriting out reference library to 'assets/reference-library-master.csv.gz' ...")
+cli_report(txt="Writing out reference library to 'assets/reference-library-master.csv.gz' ...",rule=FALSE,alert="info")
 write_csv(dbs.merged.final, file=gzfile(here("assets/reference-library-master.csv.gz")), na="")
-writeLines("\nAll operations completed!\nPlease read previous messages in case of error")
+cli_report(txt="All operations completed. Please read previous messages in case of error.",rule=TRUE,alert="success")
