@@ -217,8 +217,8 @@ echo 'ENTREZ_KEY=<YOUR-NCBI-KEY>' > .Renviron
 Rscript -e "renv::restore()"
 cp assets/species-table-testing.csv assets/species-table.csv
 scripts/check-genbank.R
-scripts/sequences-download.R -q 1000 -t 2 -e false -b false
-scripts/references-assemble.R -t 2 -m all
+scripts/sequences-download.R -q 2000 -t 1 -e false -b false
+scripts/references-assemble.R -t 1 -m all
 scripts/qc.R -t 2 -v false
 make -f scripts/Makefile
 scripts/clean-derep-write.R -m 12s.miya -d true -p 0.5
