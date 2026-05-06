@@ -19,7 +19,6 @@ suppressMessages({
     library("traits")
     library("rfishbase")
     library("ape")
-    library("ips")
     library("phangorn")
     library("spider")
     library("rmarkdown")
