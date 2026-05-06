@@ -1,17 +1,17 @@
 #!/usr/bin/env Rscript
 
-# https://rstudio.github.io/renv/index.html
-# initialise renv, install packages, update, snapshot to lock file
-# renv::init()
-# renv::install(packages=c("",""))
-# renv::update()
-# renv::snapshot()
-
+# load libs
 suppressMessages({
     library("here")
     library("parallel")
     library("optparse")
-    library("tidyverse")
+    library("tidyr")
+    library("tidyselect")
+    library("readr")
+    library("stringr")
+    library("tibble")
+    library("dplyr")
+    library("purrr")
     library("magrittr")
     library("lubridate")
     library("rentrez")
@@ -81,7 +81,7 @@ entrez_search_parallel <- function(query,threads,key){
 # FUNCTION TO RUN PARALLEL ENTREZ FETCH 
 entrez_fetch_parallel <- function(search,key){
     start_time <- Sys.time()
-    fas.path <- here("temp/fasta-temp",paste0(search$web_history$WebEnv,".fas"))
+    fas.path <- here::here("temp/fasta-temp",paste0(search$web_history$WebEnv,".fas"))
     Sys.sleep(time=runif(n=1,min=0,max=2))
         for(i in seq(0,search$count,as.integer(9999))){
         n.res <- entrez_fetch(db="nuccore",web_history=search$web_history,retstart=i,retmax=as.integer(9999),rettype="fasta",api_key=key)
@@ -225,15 +225,15 @@ run_hmmer3 <- function(dir, infile, hmm, prefix, evalue, coords){#
     system(command=string.hmmer, ignore.stdout=TRUE)
     hmm.tbl <- readr::read_table(file=paste0(dir, "/", prefix, ".hmmer.tbl"), col_names=FALSE, progress=FALSE, comment="#", col_types=cols(), guess_max=100000)
     names(hmm.tbl) <- c("targetName","acc","queryName","bits","eValue","bias","hmmStart","hmmEnd","strand","aliStart","aliEnd","envStart","envEnd","sqLen","descriptionTarget")
-    hmm.tbl %<>% filter(strand=="+") %>% distinct(targetName, .keep_all=TRUE) %>% mutate(coords=paste(envStart,envEnd,sep=":"))
-    mtdna <- read.FASTA(file=paste0(dir,"/",infile))
+    hmm.tbl %<>% dplyr::filter(strand=="+") %>% dplyr::distinct(targetName, .keep_all=TRUE) %>% dplyr::mutate(coords=paste(envStart,envEnd,sep=":"))
+    mtdna <- ape::read.FASTA(file=paste0(dir,"/",infile))
     mtdna.sub <- as.character(mtdna[match(hmm.tbl$targetName,names(mtdna))])
     if(coords=="env"){
-    mtdna.sub.coords <- as.DNAbin(mapply(function(x,y,z) x[y:z], mtdna.sub, hmm.tbl$envStart, hmm.tbl$envEnd, SIMPLIFY=FALSE, USE.NAMES=TRUE))
+    mtdna.sub.coords <- ape::as.DNAbin(mapply(function(x,y,z) x[y:z], mtdna.sub, hmm.tbl$envStart, hmm.tbl$envEnd, SIMPLIFY=FALSE, USE.NAMES=TRUE))
     } else if(coords=="ali"){
-    mtdna.sub.coords <- as.DNAbin(mapply(function(x,y,z) x[y:z], mtdna.sub, hmm.tbl$aliStart, hmm.tbl$aliEnd, SIMPLIFY=FALSE, USE.NAMES=TRUE))
+    mtdna.sub.coords <- ape::as.DNAbin(mapply(function(x,y,z) x[y:z], mtdna.sub, hmm.tbl$aliStart, hmm.tbl$aliEnd, SIMPLIFY=FALSE, USE.NAMES=TRUE))
     } else {
-    stop("Please provide 'env' or 'ali' as arguments to coords")
+    stop(cli::cli_alert_danger("Please provide 'env' or 'ali' as arguments to coords"))
     }
     return(mtdna.sub.coords)
 }
@@ -241,8 +241,8 @@ run_hmmer3 <- function(dir, infile, hmm, prefix, evalue, coords){#
 
 # FUN TO SUBSET A REFERENCE LIB FOR EACH MARKER
 subset_nucs <- function(pref,df){
-    df %<>% rename(nucleotidesFrag=!!as.name(paste0("nucleotidesFrag.",pref)), lengthFrag=!!as.name(paste0("lengthFrag.",pref)))
-    df %<>% filter(!is.na(nucleotidesFrag))
+    df %<>% dplyr::rename(nucleotidesFrag=!!as.name(paste0("nucleotidesFrag.",pref)), lengthFrag=!!as.name(paste0("lengthFrag.",pref)))
+    df %<>% dplyr::filter(!is.na(nucleotidesFrag))
     return(df)
 }
 
@@ -251,8 +251,8 @@ subset_nucs <- function(pref,df){
 # species_lost(df=reflib,thresh=0.5)
 # threshold is a proportion of the mean sequence length
 species_lost <- function(df,thresh){
-    removed <- df %>% filter(length < (median(length)*thresh)) %>% select(sciNameValid)
-    kept <- df %>% filter(length >= (median(length)*thresh)) %>% select(sciNameValid)
+    removed <- df %>% dplyr::filter(length < (median(length)*thresh)) %>% dplyr::select(sciNameValid)
+    kept <- df %>% dplyr::filter(length >= (median(length)*thresh)) %>% dplyr::select(sciNameValid)
     tot <- setdiff(removed$sciNameValid, kept$sciNameValid)
     return(tot)
 }
@@ -262,7 +262,7 @@ species_lost <- function(df,thresh){
 # sequences_removed(df=reflib,thresh=0.5)
 # threshold is a proportion of the mean sequence length
 sequences_removed <- function(df,thresh){
-    removed <- df %>% filter(length < (median(length)*thresh)) %>% select(dbid)
+    removed <- df %>% dplyr::filter(length < (median(length)*thresh)) %>% dplyr::select(dbid)
     n.removed <- length(removed$dbid)
     return(n.removed)
 }
@@ -274,7 +274,7 @@ sequences_removed <- function(df,thresh){
 # add a number of each haplotype
 hap_collapse_df <- function(df,lengthcol,nuccol,cores){
     odf <- df[order(df[[lengthcol]],decreasing=TRUE),]
-    reps <- mcmapply(FUN=function(x) which(str_detect(string=odf[[nuccol]], pattern=x) == TRUE)[1], odf[[nuccol]], SIMPLIFY=TRUE, USE.NAMES=FALSE, mc.cores=cores)
+    reps <- mcmapply(FUN=function(x) which(stringr::str_detect(string=odf[[nuccol]], pattern=x) == TRUE)[1], odf[[nuccol]], SIMPLIFY=TRUE, USE.NAMES=FALSE, mc.cores=cores)
     ind <- unique(reps)
     dat <- odf[ind,]
     dat[["nHaps"]] <- as.numeric(table(reps))
@@ -286,17 +286,17 @@ hap_collapse_df <- function(df,lengthcol,nuccol,cores){
 # works on a dataframe
 # get_sames(df=mydataframe,ids="dbid",nucs="nucleotidesFrag",sppVec="sciNameValid",query=mydataframe$nucleotidesFrag[[1]])
 get_sames <- function(df,ids,nucs,sppVec,query){
-    per.ind <- df[[sppVec]][str_detect(df[[nucs]], query)]
+    per.ind <- df[[sppVec]][stringr::str_detect(df[[nucs]], query)]
     return(per.ind)
 }
 
 
 # FUN TO ANNOTATE A REFERENCE LIBRARY TABLE WITH NUMBER HAPLOTYPES PER SPECIES
 haps2fas <- function(df){
-    df <- bind_rows(mcmapply(FUN=function(x) hap_collapse_df(df=x,lengthcol="lengthFrag",nuccol="nucleotidesFrag",cores=1), split(df,pull(df,sciNameValid)), SIMPLIFY=FALSE,mc.cores=1))
-    sames <- mclapply(FUN=function(x) get_sames(df=df,ids="dbid",nucs="nucleotidesFrag",sppVec="sciNameValid",query=x), pull(df,nucleotidesFrag), mc.cores=1)
-    df %<>% mutate(nMatches=sapply(sames, function(x) length(unique(x))), matchTax=sapply(sames, function(x) paste(unique(x),collapse=" | ")))
-    df %<>% mutate(noms=paste(dbid,str_replace_all(sciNameValid," |:|'","_"),nHaps,sep="|")) %>% arrange(class,order,family,genus,sciNameValid,lengthFrag,dbid)
+    df <- dplyr::bind_rows(mcmapply(FUN=function(x) hap_collapse_df(df=x,lengthcol="lengthFrag",nuccol="nucleotidesFrag",cores=1), split(df,dplyr::pull(df,sciNameValid)), SIMPLIFY=FALSE,mc.cores=1))
+    sames <- mclapply(FUN=function(x) get_sames(df=df,ids="dbid",nucs="nucleotidesFrag",sppVec="sciNameValid",query=x), dplyr::pull(df,nucleotidesFrag), mc.cores=1)
+    df %<>% dplyr::mutate(nMatches=sapply(sames, function(x) length(unique(x))), matchTax=sapply(sames, function(x) paste(unique(x),collapse=" | ")))
+    df %<>% dplyr::mutate(noms=paste(dbid,stringr::str_replace_all(sciNameValid," |:|'","_"),nHaps,sep="|")) %>% dplyr::arrange(class,order,family,genus,sciNameValid,lengthFrag,dbid)
     return(df)
 }
 
@@ -326,7 +326,7 @@ raxml_ng <- function(file,verbose) {
 
 # FUN TO ALIGN SEQS AND MAKE A PHYLOGENETIC TREE
 phylogenize <- function(dir,fas,prefix,verbose){
-    file.fas <- here("temp",dir,paste0(prefix,".fas"))
+    file.fas <- here::here("temp",dir,paste0(prefix,".fas"))
     ape::write.FASTA(fas,file=file.fas)
     tr <- raxml_ng(file=file.fas,verbose=verbose)
     return(tr)
@@ -336,7 +336,7 @@ phylogenize <- function(dir,fas,prefix,verbose){
 # FUN TO PLOT AND ANNOTATE PHYLOGENETIC TREES
 plot_trees <- function(tr,df,prefix,version){
     tr <- ape::ladderize(phangorn::midpoint(tr))
-    sppv <- pull(df,sciNameValid)[match(str_split_fixed(tr$tip.label,"\\|",3)[,1],pull(df,dbid))]
+    sppv <- dplyr::pull(df,sciNameValid)[match(stringr::str_split_fixed(tr$tip.label,"\\|",3)[,1],dplyr::pull(df,dbid))]
     monov <- spider::monophyly(tr,sppVector=sppv)
     allmono <- monov[match(sppv, unique(sppv))]
     cols <- rep("gray20",length(tr$tip.label))
@@ -346,10 +346,10 @@ plot_trees <- function(tr,df,prefix,version){
     if(!dir.exists(here(tmp.path))){
         dir.create(here(tmp.path))
         }
-    dfs <- df %>% summarise(nSeqs=sum(nHaps),nHaps=length(nHaps),nSpp=length(unique(sciNameValid)))
-    tit <- paste0(str_replace_all(prefix,"\\.noprimers",""),"\n(n=",pull(dfs,nSeqs),", n haplotypes=",pull(dfs,nHaps),", n spp.=",pull(dfs,nSpp),")\nlabel format = 'dbid|Genus species|n haplotypes'\npink = non-monophyletic species\ngreen = shared haplotypes\nscroll down for tree ...")
+    dfs <- df %>% dplyr::summarise(nSeqs=sum(nHaps),nHaps=length(nHaps),nSpp=length(unique(sciNameValid)))
+    tit <- paste0(stringr::str_replace_all(prefix,"\\.noprimers",""),"\n(n=",dplyr::pull(dfs,nSeqs),", n haplotypes=",dplyr::pull(dfs,nHaps),", n spp.=",dplyr::pull(dfs,nSpp),")\nlabel format = 'dbid|Genus species|n haplotypes'\npink = non-monophyletic species\ngreen = shared haplotypes\nscroll down for tree ...")
     pdf(file=paste0(tmp.path,"/RAxML_bestTree.",prefix,".pdf"), width=15, height=length(tr$tip.label)/10)
-    plot.phylo(tr, tip.col=cols, cex=0.5, font=1, label.offset=0.01, no.margin=TRUE)
+    ape::plot.phylo(tr, tip.col=cols, cex=0.5, font=1, label.offset=0.01, no.margin=TRUE)
     title(tit, line=-10)
     dev.off()
 }

@@ -8,8 +8,8 @@ source(here::here("scripts","references-load-local.R"))
 source(here::here("scripts","references-clean.R"))
 
 # make outdir
-if(!dir.exists(here("assets/fasta"))){
-    dir.create(here("assets/fasta"))
+if(!dir.exists(here::here("assets/fasta"))){
+    dir.create(here::here("assets/fasta"))
 }
 
 # get args
@@ -19,7 +19,7 @@ option_list <- list(
     make_option(c("-p","--proplen"), type="numeric")
     )
 # set args
-opt <- parse_args(OptionParser(option_list=option_list,add_help_option=FALSE))
+opt <- optparse::parse_args(optparse::OptionParser(option_list=option_list,add_help_option=FALSE))
 
 # dummy args
 #opt <- NULL
@@ -34,11 +34,11 @@ reflib.cleaned.sub <- subset_references(df=reflib.cleaned,metabarcode=opt$metaba
 if(opt$derep == "true") {
     reflib.cleaned.sub.haps <- derep_filter(df=reflib.cleaned.sub, derep=TRUE, proplen=0)
 } else if (opt$derep == "false") {
-    reflib.cleaned.sub.haps <- derep_filter(df=reflib.cleaned.sub, derep=FALSE, proplen=0) %>% mutate(nHaps=NA)
+    reflib.cleaned.sub.haps <- derep_filter(df=reflib.cleaned.sub, derep=FALSE, proplen=0) %>% dplyr::mutate(nHaps=NA)
 } else stop(cli_alert_danger("'-d' value must be 'true' or 'false'."))
 
 # filter by median length
-reflib.cleaned.sub.haps.filt <- reflib.cleaned.sub.haps %>% filter(length >= (median(length)*opt$proplen))
+reflib.cleaned.sub.haps.filt <- reflib.cleaned.sub.haps %>% dplyr::filter(length >= (median(length)*opt$proplen))
 
 # get seqs/spp lost
 seqs.lost <- sequences_removed(df=reflib.cleaned.sub.haps,thresh=opt$proplen)
@@ -47,7 +47,7 @@ spp.lost <- length(species_lost(df=reflib.cleaned.sub.haps,thresh=opt$proplen))
 #print(spp.lost)
 
 # write out
-write_references_fasta(df=reflib.cleaned.sub.haps.filt,path=here("assets/fasta"))
+write_references_fasta(df=reflib.cleaned.sub.haps.filt,path=here::here("assets/fasta"))
 
 # print info
 cli_report(txt=glue::glue("Reference library comprising {dim(reflib.cleaned.sub.haps.filt)[1]} sequences has been written to 'assets/fasta' in FASTA and CSV formats.\nDuring length filtering at {opt$proplen*100}% of median sequence length, a total of {seqs.lost} sequences and {spp.lost} species were removed.",.trim=FALSE),rule=TRUE,alert="success")

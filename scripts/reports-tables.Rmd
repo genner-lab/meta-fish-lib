@@ -30,64 +30,64 @@ source(here::here("scripts","load-libs.R"))
 
 ```{r load_data, include=FALSE}
 # load up the data
-source(here("scripts","references-load-local.R"))
-source(here("scripts","references-clean.R"))
+source(here::here("scripts","references-load-local.R"))
+source(here::here("scripts","references-clean.R"))
 ```
 
 
 ```{r activities, include=FALSE}
 # get dates and genbank version
-gb.version <- reflib.cleaned %>% select(genbankVersion) %>% drop_na() %>% distinct(genbankVersion) %>% pull(genbankVersion)
-gb.date <- reflib.cleaned %>% select(searchDate) %>% drop_na() %>% distinct(searchDate) %>% pull(searchDate)
-gb.acc <- reflib.cleaned %>% distinct(dbid) %>% count() %>% pull(n)
-gb.spp <- reflib.cleaned %>% distinct(sciNameValid) %>% count() %>% pull(n)
+gb.version <- reflib.cleaned %>% dplyr::select(genbankVersion) %>% tidyr::drop_na() %>% dplyr::distinct(genbankVersion) %>% dplyr::pull(genbankVersion)
+gb.date <- reflib.cleaned %>% dplyr::select(searchDate) %>% tidyr::drop_na() %>% dplyr::distinct(searchDate) %>% dplyr::pull(searchDate)
+gb.acc <- reflib.cleaned %>% dplyr::distinct(dbid) %>% dplyr::count() %>% dplyr::pull(n)
+gb.spp <- reflib.cleaned %>% dplyr::distinct(sciNameValid) %>% dplyr::count() %>% dplyr::pull(n)
 ```
 
 
 ```{r species, include=FALSE}
 # remove synonyms
 uk.species.table.val <- uk.species.table %>% 
-    select(validName,class,order,family,genus,commonName,commonSpecies) %>% 
-    distinct() %>% 
-    filter(validName!="Pungitius laevis",validName!="Cottus perifretum",validName!="Atherina presbyter") %>%
-    rename(sciNameValid=validName)
+    dplyr::select(validName,class,order,family,genus,commonName,commonSpecies) %>% 
+    dplyr::distinct() %>% 
+    dplyr::filter(validName!="Pungitius laevis",validName!="Cottus perifretum",validName!="Atherina presbyter") %>%
+    dplyr::rename(sciNameValid=validName)
 # calculate totals for each group
-uk.syns <- uk.species.table %>% distinct(speciesName) %>% count() %>% pull(n)
-uk.all <- uk.species.table.val %>% count() %>% pull(n)
-uk.common <- uk.species.table.val %>% filter(commonSpecies==TRUE) %>% count() %>% pull(n)
+uk.syns <- uk.species.table %>% dplyr::distinct(speciesName) %>% dplyr::count() %>% dplyr::pull(n)
+uk.all <- uk.species.table.val %>% dplyr::count() %>% dplyr::pull(n)
+uk.common <- uk.species.table.val %>% dplyr::filter(commonSpecies==TRUE) %>% dplyr::count() %>% dplyr::pull(n)
 ```
 
 
 ```{r merge_df, include=FALSE}
 # count sequences per species-marker
 reflib.by.marker <- reflib.cleaned %>% 
-    select(sciNameValid,starts_with("nucleotidesFrag")) %>%
-    full_join(uk.species.table.val,by="sciNameValid") %>%
-    pivot_longer(cols=!c(class,order,family,genus,commonName,commonSpecies,sciNameValid),names_to="marker",values_to="nucleotides") %>% 
-    mutate(hasSeq=if_else(is.na(nucleotides),0,1)) %>% 
-    group_by(class,order,family,genus,commonName,commonSpecies,sciNameValid,marker) %>%
-    summarise(genbankCount=sum(hasSeq),.groups="drop") %>%
-    mutate(marker=str_replace_all(marker,"nucleotidesFrag.",""), marker=str_replace_all(marker,".noprimers",""))
+    dplyr::select(sciNameValid,starts_with("nucleotidesFrag")) %>%
+    dplyr::full_join(uk.species.table.val,by="sciNameValid") %>%
+    tidyr::pivot_longer(cols=!c(class,order,family,genus,commonName,commonSpecies,sciNameValid),names_to="marker",values_to="nucleotides") %>% 
+    dplyr::mutate(hasSeq=dplyr::if_else(is.na(nucleotides),0,1)) %>% 
+    dplyr::group_by(class,order,family,genus,commonName,commonSpecies,sciNameValid,marker) %>%
+    dplyr::summarise(genbankCount=sum(hasSeq),.groups="drop") %>%
+    dplyr::mutate(marker=stringr::str_replace_all(marker,"nucleotidesFrag.",""), marker=stringr::str_replace_all(marker,".noprimers",""))
 ```
 
 
 ```{r get_haps, include=FALSE}
 # get the prefixes 
-prefixes <- reflib.cleaned %>% select(starts_with("nucleotidesFrag")) %>% names() %>% str_replace_all("nucleotidesFrag\\.","")
+prefixes <- reflib.cleaned %>% dplyr::select(tidyselect::starts_with("nucleotidesFrag")) %>% names() %>% stringr::str_replace_all("nucleotidesFrag\\.","")
 # subset each marker
 reflibs.sub <- mcmapply(function(x) subset_nucs(pref=x,df=reflib.cleaned), prefixes, SIMPLIFY=FALSE,USE.NAMES=TRUE,mc.cores=2)
 # collapse dataframe by haps-per-species, annotate with number haps
 reflibs.haps <- mcmapply(function(x) haps2fas(df=x), reflibs.sub, SIMPLIFY=FALSE,USE.NAMES=TRUE,mc.cores=2)
 # summarise
-haps.table <- mapply(FUN=function(x,y) x %>% select(sciNameValid) %>% count(sciNameValid) %>% mutate(marker=y), reflibs.haps, names(reflibs.haps), SIMPLIFY=FALSE) %>% purrr::reduce(rbind) %>% mutate(marker=str_replace_all(marker,".noprimers",""))
+haps.table <- mapply(FUN=function(x,y) x %>% dplyr::select(sciNameValid) %>% dplyr::count(sciNameValid) %>% dplyr::mutate(marker=y), reflibs.haps, names(reflibs.haps), SIMPLIFY=FALSE) %>% purrr::reduce(rbind) %>% dplyr::mutate(marker=stringr::str_replace_all(marker,".noprimers",""))
 ```
 
 
 ```{r summary_tab, include=FALSE}
 # reformat
 marker.table <- reflib.by.marker %>% 
-    group_by(marker) %>% 
-    summarise(
+    dplyr::group_by(marker) %>% 
+    dplyr::summarise(
             `Total`=sum(genbankCount),
             `Cov. (all)`=length(which(genbankCount>0))/length(genbankCount),
             `Cov. (common)`=length(which(genbankCount[which(commonSpecies==TRUE)]>0))/length(genbankCount[which(commonSpecies==TRUE)]),
@@ -104,33 +104,33 @@ marker.table <- reflib.by.marker %>%
 #            `Singletons`=length(which(genbankCount==1))/length(which(genbankCount>0))
 #            )
 # format haplotype table
-haps.format <- haps.table %>% group_by(marker) %>% summarise(`Haps (mean)`=mean(n),`Haps (median)`=median(n),.groups="drop")
+haps.format <- haps.table %>% dplyr::group_by(marker) %>% dplyr::summarise(`Haps (mean)`=mean(n),`Haps (median)`=median(n),.groups="drop")
 # join and format
-marker.table.pretty <- marker.table %>% left_join(haps.format) %>% separate(marker,into=c("Locus","Fragment"))
+marker.table.pretty <- marker.table %>% dplyr::left_join(haps.format) %>% tidyr::separate(marker,into=c("Locus","Fragment"))
 ```
 
 
 ```{r versions, include=FALSE}
 # rename new local version
-reflib.new <- reflib.cleaned %>% select(dbid,genbankVersion,searchDate,sciNameValid,starts_with("nucleotidesFrag"))
+reflib.new <- reflib.cleaned %>% dplyr::select(dbid,genbankVersion,searchDate,sciNameValid,tidyselect::starts_with("nucleotidesFrag"))
 # load remote old version
-source(here("scripts","references-load-remote.R"))
-source(here("scripts","references-clean.R"))
+source(here::here("scripts","references-load-remote.R"))
+source(here::here("scripts","references-clean.R"))
 # rename old remote version and get genbank accessions
-reflib.old <- reflib.cleaned %>% select(dbid,genbankVersion,searchDate,sciNameValid,starts_with("nucleotidesFrag"))
-gb.version.old <- reflib.old %>% select(genbankVersion) %>% drop_na() %>% distinct(genbankVersion) %>% pull(genbankVersion)
-gb.date.old <- reflib.old %>% select(searchDate) %>% drop_na() %>% distinct(searchDate) %>% pull(searchDate)
+reflib.old <- reflib.cleaned %>% dplyr::select(dbid,genbankVersion,searchDate,sciNameValid,tidyselect::starts_with("nucleotidesFrag"))
+gb.version.old <- reflib.old %>% dplyr::select(genbankVersion) %>% tidyr::drop_na() %>% dplyr::distinct(genbankVersion) %>% dplyr::pull(genbankVersion)
+gb.date.old <- reflib.old %>% dplyr::select(searchDate) %>% tidyr::drop_na() %>% dplyr::distinct(searchDate) %>% dplyr::pull(searchDate)
 # in old, not in new
 #reflib.old %>% filter(!dbid %in% pull(reflib.new,dbid)) %>% select(dbid,sciNameValid) %>% print(n=Inf)
 # fin ids in new, not in old and clean up
 reflib.new.by.marker <- reflib.new %>% 
-    filter(!dbid %in% pull(reflib.old,dbid)) %>% 
-    select(-dbid,-genbankVersion,-searchDate) %>% 
-    pivot_longer(cols=!c(sciNameValid),names_to="marker",values_to="nucleotides") %>% 
-    mutate(hasSeq=if_else(is.na(nucleotides),0,1)) %>% 
-    group_by(sciNameValid,marker) %>%
-    summarise(genbankCount=sum(hasSeq),.groups="drop") %>%
-    mutate(marker=str_replace_all(marker,"nucleotidesFrag.",""), marker=str_replace_all(marker,".noprimers",""))
+    dplyr::filter(!dbid %in% pull(reflib.old,dbid)) %>% 
+    dplyr::select(-dbid,-genbankVersion,-searchDate) %>% 
+    tidyr::pivot_longer(cols=!c(sciNameValid),names_to="marker",values_to="nucleotides") %>% 
+    dplyr::mutate(hasSeq=dplyr::if_else(is.na(nucleotides),0,1)) %>% 
+    dplyr::group_by(sciNameValid,marker) %>%
+    dplyr::summarise(genbankCount=sum(hasSeq),.groups="drop") %>%
+    dplyr::mutate(marker=stringr::str_replace_all(marker,"nucleotidesFrag.",""), marker=stringr::str_replace_all(marker,".noprimers",""))
 ```
 
 
@@ -145,8 +145,8 @@ The total number of accepted UK species is estimated to be around `r uk.all`, wi
 options(knitr.kable.NA="",digits=2)
 # print the summary table
 marker.table.pretty %>%
-    mutate(Locus=str_to_upper(Locus),Fragment=str_to_title(Fragment)) %>%
-    kable()
+    dplyr::mutate(Locus=stringr::str_to_upper(Locus),Fragment=stringr::str_to_title(Fragment)) %>%
+    knitr::kable()
 ```
 
 
@@ -156,18 +156,18 @@ marker.table.pretty %>%
 options(knitr.kable.NA="")
 # print the common species table
 reflib.by.marker %>%
-    mutate(locus=str_to_upper(str_split_fixed(marker,"\\.",2)[,1])) %>% 
-    mutate(fragment=str_to_title(str_split_fixed(marker,"\\.",2)[,2])) %>%
-    mutate(marker=paste0(locus," (",fragment,")")) %>%
-    select(-locus,-fragment) %>%
-    pivot_wider(names_from=marker,values_from=genbankCount,values_fill=0) %>%
-    arrange(class,order,family,sciNameValid) %>%
-    filter(commonSpecies==TRUE) %>%
-    select(-class,-order,-genus,-commonSpecies) %>%
-    relocate(commonName,.after=sciNameValid) %>%
-    mutate(sciNameValid=str_replace_all(sciNameValid, pattern="$|^", replacement="*")) %>%
-    rename(Family=family, `Scientific Name`=sciNameValid, `Common Name`=commonName) %>%
-    kable()
+    dplyr::mutate(locus=stringr::str_to_upper(stringr::str_split_fixed(marker,"\\.",2)[,1])) %>% 
+    dplyr::mutate(fragment=stringr::str_to_title(stringr::str_split_fixed(marker,"\\.",2)[,2])) %>%
+    dplyr::mutate(marker=paste0(locus," (",fragment,")")) %>%
+    dplyr::select(-locus,-fragment) %>%
+    tidyr::pivot_wider(names_from=marker,values_from=genbankCount,values_fill=0) %>%
+    dplyr::arrange(class,order,family,sciNameValid) %>%
+    dplyr::filter(commonSpecies==TRUE) %>%
+    dplyr::select(-class,-order,-genus,-commonSpecies) %>%
+    dplyr::relocate(commonName,.after=sciNameValid) %>%
+    dplyr::mutate(sciNameValid=stringr::str_replace_all(sciNameValid, pattern="$|^", replacement="*")) %>%
+    dplyr::rename(Family=family, `Scientific Name`=sciNameValid, `Common Name`=commonName) %>%
+    knitr::kable()
 ```
 
 
@@ -177,13 +177,13 @@ reflib.by.marker %>%
 options(knitr.kable.NA="")
 # print the common species table
 reflib.new.by.marker %>%
-    mutate(locus=str_to_upper(str_split_fixed(marker,"\\.",2)[,1])) %>% 
-    mutate(fragment=str_to_title(str_split_fixed(marker,"\\.",2)[,2])) %>%
-    mutate(marker=paste0(locus," (",fragment,")")) %>%
-    select(-locus,-fragment) %>%
-    pivot_wider(names_from=marker,values_from=genbankCount,values_fill=0) %>%
-    arrange(sciNameValid) %>%
-    mutate(sciNameValid=str_replace_all(sciNameValid, pattern="$|^", replacement="*")) %>%
-    rename(`Scientific Name`=sciNameValid) %>%
-    kable()
+    dplyr::mutate(locus=stringr::str_to_upper(stringr::str_split_fixed(marker,"\\.",2)[,1])) %>% 
+    dplyr::mutate(fragment=stringr::str_to_title(stringr::str_split_fixed(marker,"\\.",2)[,2])) %>%
+    dplyr::mutate(marker=paste0(locus," (",fragment,")")) %>%
+    dplyr::select(-locus,-fragment) %>%
+    tidyr::pivot_wider(names_from=marker,values_from=genbankCount,values_fill=0) %>%
+    dplyr::arrange(sciNameValid) %>%
+    dplyr::mutate(sciNameValid=stringr::str_replace_all(sciNameValid, pattern="$|^", replacement="*")) %>%
+    dplyr::rename(`Scientific Name`=sciNameValid) %>%
+    knitr::kable()
 ```

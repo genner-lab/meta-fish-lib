@@ -15,8 +15,8 @@ reflib.cleaned <- reflib.orig %>%
 # reassign taxonomy for some ambiguous or recently changed species
 reflib.cleaned <- reflib.cleaned %>% 
     dplyr::left_join(taxonomy.changes,by="sciNameValid") %>%
-    mutate(sciNameValid=if_else(is.na(sciNameValidAmended),sciNameValid,sciNameValidAmended)) %>%
-    select(-sciNameValidAmended)
+    dplyr::mutate(sciNameValid=dplyr::if_else(is.na(sciNameValidAmended),sciNameValid,sciNameValidAmended)) %>%
+    dplyr::select(-sciNameValidAmended)
     #filter(sciNameValid=="Pungitius laevis" | sciNameValid=="Cottus perifretum" | sciNameValid=="Atherina presbyter")
 
 # remove unverified sequences

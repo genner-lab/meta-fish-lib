@@ -7,12 +7,12 @@
 capture.output(source(here::here("scripts","load-libs.R")),file="/dev/null")
 
 # load REMOTE reference library copy and print
-capture.output(source(here("scripts","references-load-remote.R")),file="/dev/null")
+capture.output(source(here::here("scripts","references-load-remote.R")),file="/dev/null")
 cli_report(txt=glue::glue("Remote (GitHub) reference library is at GenBank version {gbv} (accessed {gbd})."),rule=FALSE,alert="info")
 
 
 # load LOCAL reference library copy and print
-capture.output(source(here("scripts","references-load-local.R")),file="/dev/null")
+capture.output(source(here::here("scripts","references-load-local.R")),file="/dev/null")
 cli_report(txt=glue::glue("Local reference library is at GenBank version {gbv} (accessed {gbd})."),rule=FALSE,alert="info")
 
 

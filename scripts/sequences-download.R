@@ -9,7 +9,7 @@ source(here::here("scripts/load-libs.R"))
 # load up your personal NCBI API key to get 10 requests per sec. This needs to be generated from your account at https://www.ncbi.nlm.nih.gov/
 # DO NOT PUT THIS KEY ON GITHUB
 # if you don't have one, ncbi will rate-limit your access to 3 requests per sec, and errors may occur.
-source(here("assets/ncbi-key.R"))
+source(here::here("assets/ncbi-key.R"))
 
 # get args
 option_list <- list( 
@@ -20,7 +20,7 @@ option_list <- list(
     )
 
 # set args
-opt <- parse_args(OptionParser(option_list=option_list,add_help_option=FALSE))
+opt <- optparse::parse_args(optparse::OptionParser(option_list=option_list,add_help_option=FALSE))
 
 # opts if running line-by-line
 #opt <- NULL
@@ -30,7 +30,7 @@ opt <- parse_args(OptionParser(option_list=option_list,add_help_option=FALSE))
 #opt$bold <- "false"
 
 # load up the species table
-species.table <- read_csv(file=here("assets/species-table.csv"),show_col_types=FALSE)
+species.table <- readr::read_csv(file=here::here("assets/species-table.csv"),show_col_types=FALSE)
 #
 #species.table %<>% slice(1:20)#############################
 # report
@@ -53,7 +53,7 @@ if(opt$exhaustive == "true") {
 } else stop(cli::cli_alert_danger("'-e' value must be 'true' or 'false'."))
 
 # make query
-spp.list <- unique(c(pull(species.table,speciesName),pull(species.table,validName)))
+spp.list <- unique(c(dplyr::pull(species.table,speciesName),dplyr::pull(species.table,validName)))
 query <- unlist(mapply(function(x) paste0("(",spp.list,"[ORGN] AND ",x," AND ",range,"[SLEN])"), gene.syns, SIMPLIFY=FALSE, USE.NAMES=FALSE))
 
 # randomise the query
@@ -127,11 +127,11 @@ if(search.flat %>% purrr::map(~{unname(.x$count)}) %>% purrr::flatten_int() %>% 
     }
 
 # delete temp dir contents (if left from prev fail)
-invisible(file.remove(list.files(here("temp/fasta-temp"),full.name=TRUE)))
+invisible(file.remove(list.files(here::here("temp/fasta-temp"),full.name=TRUE)))
 
 # recreate dir if needed
-if(!dir.exists(here("temp/fasta-temp"))){
-    dir.create(here("temp/fasta-temp"))
+if(!dir.exists(here::here("temp/fasta-temp"))){
+    dir.create(here::here("temp/fasta-temp"))
 }
 
 # download
@@ -141,8 +141,8 @@ start_time <- Sys.time()
 end_time <- Sys.time()
 
 # check number downloaded correctly
-if(length(list.files(here("temp","fasta-temp"))) != length(search.full)) {
-    dl.diff <- length(search.full) - length(list.files(here("temp","fasta-temp")))
+if(length(list.files(here::here("temp","fasta-temp"))) != length(search.full)) {
+    dl.diff <- length(search.full) - length(list.files(here::here("temp","fasta-temp")))
     stop(cli::cli_alert_danger(glue::glue("{dl.diff} download batches failed out of total {length(search.full)}. Try again with fewer cores or when the USA is not online.")))
     } else {cli_report(txt="No errors detected in the NCBI downloads.",rule=FALSE,alert="success")
 }
@@ -150,18 +150,18 @@ if(length(list.files(here("temp","fasta-temp"))) != length(search.full)) {
 cli_report(txt=glue::glue("Total time taken: {round(as.numeric(end_time-start_time,units='mins'),digits=2)} minutes."),rule=FALSE,alert="info")
 
 # read in the files and cat
-all.fas <- mcmapply(FUN=function(x) read.FASTA(x), list.files(here("temp/fasta-temp"),full.name=TRUE), SIMPLIFY=FALSE, USE.NAMES=FALSE, mc.cores=cores)
+all.fas <- mcmapply(FUN=function(x) ape::read.FASTA(x), list.files(here::here("temp/fasta-temp"),full.name=TRUE), SIMPLIFY=FALSE, USE.NAMES=FALSE, mc.cores=cores)
 all.fas.cat <- do.call(c,all.fas)
 
 # edit names
-names(all.fas.cat) <- str_replace_all(names(all.fas.cat)," .*","")
+names(all.fas.cat) <- stringr::str_replace_all(names(all.fas.cat)," .*","")
 
 # write out
 cli_report(txt="Writing out in FASTA format ...",rule=FALSE,alert="info")
-write.FASTA(all.fas.cat,file=here("temp/mtdna-dump.fas"))
+ape::write.FASTA(all.fas.cat,file=here::here("temp/mtdna-dump.fas"))
 
 # delete temp folder contents (if left from prev fail)
-invisible(file.remove(list.files(here("temp/fasta-temp"),full.name=TRUE)))
+invisible(file.remove(list.files(here::here("temp/fasta-temp"),full.name=TRUE)))
 
 
 ### Now repeat the same for the BOLD database
@@ -197,44 +197,44 @@ if(length(which(sapply(bold.all,class) == "data.frame" | sapply(bold.all,class) 
 bold.all <- bold.all[which(sapply(bold.all, class)=="data.frame")]
 
 # tidy it up and join it together, remove duplicate records
-bold.red <- lapply(lapply(bold.all, as_tibble), function(x) mutate_all(x,as.character))
-bold.red <- bind_rows(bold.red)
+bold.red <- lapply(lapply(bold.all, tibble::as_tibble), function(x) dplyr::mutate_all(x,as.character))
+bold.red <- dplyr::bind_rows(bold.red)
 bold.red %<>% 
-    mutate(nucleotides=str_replace_all(nucleotides,"-",""), nucleotides=str_replace_all(nucleotides,"N",""), num_bases=nchar(nucleotides)) %>% 
-    filter(num_bases > 0) %>%
-    filter(institution_storing!="Mined from GenBank, NCBI") %>% 
-    mutate(processidUniq=paste(processid,markercode,sep=".")) %>% 
-    distinct(processidUniq, .keep_all=TRUE)
+    dplyr::mutate(nucleotides=stringr::str_replace_all(nucleotides,"-",""), nucleotides=stringr::str_replace_all(nucleotides,"N",""), num_bases=nchar(nucleotides)) %>% 
+    dplyr::filter(num_bases > 0) %>%
+    dplyr::filter(institution_storing!="Mined from GenBank, NCBI") %>% 
+    dplyr::mutate(processidUniq=paste(processid,markercode,sep=".")) %>% 
+    dplyr::distinct(processidUniq, .keep_all=TRUE)
 
 # write temp copy of the bold dump
-write_csv(bold.red,file=here("temp/bold-dump.csv"))
+readr::write_csv(bold.red,file=here::here("temp/bold-dump.csv"))
 
 # create a fasta file of BOLD
 bold.fas <- tab2fas(df=bold.red,seqcol="nucleotides",namecol="processidUniq")
 
 # add it to the GenBank file already created
-write.FASTA(bold.fas, file=here("temp/mtdna-dump.fas"), append=TRUE)
+ape::write.FASTA(bold.fas, file=here::here("temp/mtdna-dump.fas"), append=TRUE)
 
 
 # close bold option
 } else if (opt$bold == "false") {
 #    rm bold table
-    if (file.exists(here("temp/bold-dump.csv"))) {
-         invisible(file.remove(here("temp/bold-dump.csv")))
+    if (file.exists(here::here("temp/bold-dump.csv"))) {
+         invisible(file.remove(here::here("temp/bold-dump.csv")))
     }
 # dummy for stats
-bold.red <- tibble(processidUniq=numeric())
+bold.red <- tibble::tibble(processidUniq=numeric())
 # length(pull(bold.red,processidUniq))
 #
 } else stop(cli_alert_danger("'-b' value must be 'true' or 'false'."))
 
 
 ### report a summary table
-stats <- tibble(
+stats <- tibble::tibble(
     stat=c("speciesTotal","speciesValid","speciesSynonyms","genbankVersion","date","uniqueQueries","maxBatchLength","numberBatches","cores","batchesPerCore","maxRecordsByBatch","totalRecordsGenbank","totalRecordsBold"),
-    n=c(species.table %>% distinct(speciesName) %>% nrow(),#speciesTotal
-        species.table %>% filter(status == "accepted name") %>% distinct(speciesName) %>% nrow(),#speciesValid
-        species.table %>% filter(status != "accepted name") %>% distinct(speciesName) %>% nrow(),#speciesSynonyms
+    n=c(species.table %>% dplyr::distinct(speciesName) %>% nrow(),#speciesTotal
+        species.table %>% dplyr::filter(status == "accepted name") %>% dplyr::distinct(speciesName) %>% nrow(),#speciesValid
+        species.table %>% dplyr::filter(status != "accepted name") %>% dplyr::distinct(speciesName) %>% nrow(),#speciesSynonyms
         gb.version,#genbankVersion
         format(Sys.time(), '%d %b %Y'),#date
         length(query),#uniqueQueries
@@ -244,12 +244,12 @@ stats <- tibble(
         length(queries.chunked),#batchesPerCore
         search.flat %>% purrr::map(~{unname(.x$count)}) %>% purrr::flatten_int() %>% max(),#maxRecordsByBatch
         search.flat %>% purrr::map(~{unname(.x$count)}) %>% purrr::flatten_int() %>% sum(),#totalRecordsGenbank
-        length(pull(bold.red,processidUniq))#totalRecordsBold
+        length(dplyr::pull(bold.red,processidUniq))#totalRecordsBold
         )
 )
 
 # print and save
 cli_report(txt="Printing stats ...",rule=FALSE,alert="info")
 stats %>% knitr::kable()
-write_csv(stats,file=here("reports/stats.csv"))
+readr::write_csv(stats,file=here::here("reports/stats.csv"))
 cli_report(txt="All operations completed. Please read previous messages in case of error.",rule=TRUE,alert="success")

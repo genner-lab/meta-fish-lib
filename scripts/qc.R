@@ -16,15 +16,15 @@ option_list <- list(
     )
 
 # set args
-opt <- parse_args(OptionParser(option_list=option_list,add_help_option=FALSE))
+opt <- optparse::parse_args(optparse::OptionParser(option_list=option_list,add_help_option=FALSE))
 
 #opt <- NULL
 #opt$threads <- 1
 #opt$verbose <- "true"
 
 # load stats
-stats <-suppressMessages(read_csv(here("reports","stats.csv")))
-gb.version <- stats %>% filter(stat=="genbankVersion") %>% pull(n)
+stats <-suppressMessages(readr::read_csv(here("reports","stats.csv")))
+gb.version <- stats %>% dplyr::filter(stat=="genbankVersion") %>% dplyr::pull(n)
 
 # message
 cli_report(txt="Generating phylogenetic trees, may take several hours ...",rule=FALSE,alert="info")
@@ -36,7 +36,7 @@ cores <- opt$threads
 reflib <- reflib.cleaned
 
 # get the prefixes 
-prefixes <- reflib.cleaned %>% select(starts_with("nucleotidesFrag")) %>% names() %>% str_replace_all("nucleotidesFrag\\.","")
+prefixes <- reflib.cleaned %>% dplyr::select(tidyselect::starts_with("nucleotidesFrag")) %>% names() %>% stringr::str_replace_all("nucleotidesFrag\\.","")
 
 # subset each marker
 reflibs.sub <- mcmapply(function(x) subset_nucs(pref=x,df=reflib), prefixes, SIMPLIFY=FALSE,USE.NAMES=TRUE,mc.cores=cores)
@@ -45,15 +45,15 @@ reflibs.sub <- mcmapply(function(x) subset_nucs(pref=x,df=reflib), prefixes, SIM
 reflibs.haps <- mcmapply(function(x) haps2fas(df=x), reflibs.sub, SIMPLIFY=FALSE,USE.NAMES=TRUE,mc.cores=cores)
 
 # write out
-reflibs.haps %>% bind_rows() %>% write_csv(here("temp/reference-library-master-haps.csv.gz"))
+reflibs.haps %>% dplyr::bind_rows() %>% readr::write_csv(here::here("temp/reference-library-master-haps.csv.gz"))
 
 # convert to fasta
 reflibs.fas <- mcmapply(function(x) tab2fas(df=x,seqcol="nucleotidesFrag",namecol="noms"), reflibs.haps, SIMPLIFY=FALSE,USE.NAMES=TRUE,mc.cores=cores)
 
 # make temp output dir
 tmp.path <- paste0("qc_v",gb.version,"_",paste(month(ymd(Sys.Date()),label=TRUE),year(ymd(Sys.Date())),sep="-"))
-if(!dir.exists(here("temp",tmp.path))){
-    dir.create(here("temp",tmp.path))
+if(!dir.exists(here::here("temp",tmp.path))){
+    dir.create(here::here("temp",tmp.path))
 }
 
 # run phylo

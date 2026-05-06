@@ -18,7 +18,7 @@ option_list <- list(
     )
 
 # set args
-opt <- parse_args(OptionParser(option_list=option_list,add_help_option=FALSE))
+opt <- optparse::parse_args(optparse::OptionParser(option_list=option_list,add_help_option=FALSE))
 
 # opts if running line-by-line
 #opt <- NULL
@@ -33,12 +33,12 @@ reflib.sub <- subset_nucs(pref=glue::glue("{opt$metabarcode}.noprimers"),df=refl
 
 # write query
 reflib.sub |> 
-    filter(dbid==opt$query) |> 
+    dplyr::filter(dbid==opt$query) |> 
     tab2fas(seqcol="nucleotidesFrag",namecol="dbid") |>
     ape::write.FASTA(here(glue::glue("temp/{opt$directory}/{opt$metabarcode}.query.{opt$query}.fasta")))
 
 # IF clause if blast db is already there
-if(!file.exists(here(glue::glue("temp/{opt$directory}/{opt$metabarcode}.fasta")))) {
+if(!file.exists(here::here(glue::glue("temp/{opt$directory}/{opt$metabarcode}.fasta")))) {
     # writeLines
     writeLines("\nMaking BLAST database ...\n")
 
@@ -46,7 +46,7 @@ if(!file.exists(here(glue::glue("temp/{opt$directory}/{opt$metabarcode}.fasta"))
     metabarcode.fas <- tab2fas(df=reflib.sub,seqcol="nucleotidesFrag",namecol="dbid")
 
     # write out
-    metabarcode.fas |> ape::write.FASTA(file=here(glue::glue("temp/{opt$directory}/{opt$metabarcode}.fasta")))
+    metabarcode.fas |> ape::write.FASTA(file=here::here(glue::glue("temp/{opt$directory}/{opt$metabarcode}.fasta")))
 
     # make blast db
     makeblastdb.string <- glue::glue("makeblastdb -in temp/{opt$directory}/{opt$metabarcode}.fasta -dbtype nucl -blastdb_version 5")
@@ -72,26 +72,26 @@ blast.cols <- c(
 )
 
 # load results
-blast.results <- read_tsv(here(glue::glue("temp/{opt$directory}/{opt$metabarcode}.query.{opt$query}.fasta.out")), col_names=blast.cols, show_col_types = FALSE) |> 
-    rename(query=asv,dbid=blastDbid) |>
-    mutate(query=as.character(query),dbid=as.character(dbid))
+blast.results <- readr::read_tsv(here::here(glue::glue("temp/{opt$directory}/{opt$metabarcode}.query.{opt$query}.fasta.out")), col_names=blast.cols, show_col_types = FALSE) |> 
+    dplyr::rename(query=asv,dbid=blastDbid) |>
+    dplyr::mutate(query=as.character(query),dbid=as.character(dbid))
 
 # annotate results
-blast.results.annot <- blast.results |> left_join(
-        reflib.sub |> select(dbid,sciNameValid) |> mutate(dbid=as.character(dbid))
+blast.results.annot <- blast.results |> dplyr::left_join(
+        reflib.sub |> dplyr::select(dbid,sciNameValid) |> dplyr::mutate(dbid=as.character(dbid))
     , by = join_by(dbid)) |>
-    relocate(sciNameValid,.after=dbid) |>
-    mutate(query=if_else(query==dbid,TRUE,FALSE)) |>
-    arrange(desc(query),desc(blastBitscore),sciNameValid)
+    dplyr::relocate(sciNameValid,.after=dbid) |>
+    dplyr::mutate(query=dplyr::if_else(query==dbid,TRUE,FALSE)) |>
+    dplyr::arrange(desc(query),desc(blastBitscore),sciNameValid)
 
 # write out full
-blast.results.annot |> write_csv(here(glue::glue("temp/{opt$directory}/{opt$metabarcode}.query.{opt$query}.fasta.out.csv")))
+blast.results.annot |> readr::write_csv(here::here(glue::glue("temp/{opt$directory}/{opt$metabarcode}.query.{opt$query}.fasta.out.csv")))
 
  writeLines("\nPrinting BLAST result ...\n")
 
 # print just target spp
-target.spp <- blast.results.annot |> filter(query==TRUE) |> pull(sciNameValid)
+target.spp <- blast.results.annot |> dplyr::filter(query==TRUE) |> dplyr::pull(sciNameValid)
 blast.results.annot |> 
-    filter(sciNameValid==target.spp) |>
-    arrange(desc(blastBitscore)) |>
+    dplyr::filter(sciNameValid==target.spp) |>
+    dplyr::arrange(desc(blastBitscore)) |>
     print(n=Inf)
