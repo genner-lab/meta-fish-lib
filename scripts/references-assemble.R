@@ -81,7 +81,7 @@ in.gb <- dat.frag.names[!dat.frag.names %in% bold.red$processidUniq]
 
 # now for the same sequences, get the tabular data from NCBI using 'ncbi_byid' 
 # chunk 200 should result in string of around 2200 chars
-chunk <- 200
+chunk <- 100
 # clean up long genome records with accs > 11 chars 
 in.gb.red <- in.gb[nchar(in.gb)<=11]
 # randomise accessions
